@@ -16,13 +16,24 @@ using System.Windows.Shapes;
 namespace Stegano.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для ShowView.xaml
+    /// Логика взаимодействия для HideColorView.xaml
     /// </summary>
-    public partial class ShowView : UserControl
+    public partial class HideColorView : UserControl
     {
-        public ShowView()
+        public HideColorView()
         {
             InitializeComponent();
+        }
+
+        private void HidenTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var binding = ((TextBox)sender).GetBindingExpression(TextBox.TextProperty);
+            binding.UpdateSource();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

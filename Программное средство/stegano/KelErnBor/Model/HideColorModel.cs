@@ -11,13 +11,13 @@ using Stegano.Algorithm;
 
 namespace Stegano.Model
 {
-    class HideModel
+    class HideColorModel
     {
        
         private Document wordDoc;
         private Random rand;
         private string pathToModifiedFile;
-        public HideModel(string pathToFile)
+        public HideColorModel(string pathToFile)
         {
             pathToModifiedFile = pathToFile;
             wordDoc = new Document(pathToFile);

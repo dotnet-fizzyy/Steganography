@@ -158,7 +158,7 @@ namespace Stegano.ViewModel
                 string foundedBitsInDoc = await codeModel.FindInformation(ZeroBitSpacing, SoloBitSpacing);
 
                 foundedBitsInDoc = AdditionalBitsCheckBox.IsChecked
-                    ? ShowModel.RemoveAdditBits(foundedBitsInDoc)
+                    ? ShowColorModel.RemoveAdditBits(foundedBitsInDoc)
                     : foundedBitsInDoc;
 
                 SearchedText = Converter.BinaryToString(foundedBitsInDoc);

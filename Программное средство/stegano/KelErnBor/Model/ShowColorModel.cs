@@ -9,11 +9,11 @@ using Stegano.Algorithm;
 
 namespace Stegano.Model
 {
-    class ShowModel
+    class ShowColorModel
     {
         private Document wordDoc;
 
-        public ShowModel(string pathToFile)
+        public ShowColorModel(string pathToFile)
         {
             wordDoc = new Document(pathToFile);
         }

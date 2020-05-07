@@ -8,7 +8,7 @@ using Microsoft.Win32;
 
 namespace Stegano.ViewModel
 {
-    public class ShowViewModel:ViewModelBase
+    public class ShowColorViewModel:ViewModelBase
     {
         #region Properties
 
@@ -95,7 +95,7 @@ namespace Stegano.ViewModel
 
         #region Constructor and Initializers
 
-        public ShowViewModel()
+        public ShowColorViewModel()
         {
             DecodeUIInit();
 
@@ -151,11 +151,11 @@ namespace Stegano.ViewModel
 
                 CryptedText = "";
                 SearchedText = "";
-                ShowModel codeModel = new ShowModel(PathToDoc);
+                ShowColorModel codeModel = new ShowColorModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(SmartHidingCheckBox.IsChecked);
 
                 foundedBitsInDoc = AdditionalBitsCheckBox.IsChecked
-                    ? ShowModel.RemoveAdditBits(foundedBitsInDoc)
+                    ? ShowColorModel.RemoveAdditBits(foundedBitsInDoc)
                     : foundedBitsInDoc;
 
                 SearchedText = Converter.BinaryToString(foundedBitsInDoc);

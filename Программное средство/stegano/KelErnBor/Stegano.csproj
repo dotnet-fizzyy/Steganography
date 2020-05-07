@@ -82,14 +82,15 @@
     <Compile Include="Model\AproshModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />
     <Compile Include="Model\ShowAproshModel.cs" />
-    <Compile Include="Model\ShowModel.cs" />
+    <Compile Include="Model\ShowColorModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\AproshViewModel.cs" />
-    <Compile Include="ViewModel\HideViewModel.cs" />
+    <Compile Include="ViewModel\HideColorViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Settings\AppearanceViewModel.cs" />
     <Compile Include="ViewModel\ShowAproshViewModel.cs" />
-    <Compile Include="ViewModel\ShowViewModel.cs" />
+    <Compile Include="ViewModel\ShowColorViewModel.cs" />
+    <Compile Include="ViewModel\ShowWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Pages\AproshView.xaml.cs">
       <DependentUpon>AproshView.xaml</DependentUpon>
@@ -106,14 +107,18 @@
     <Compile Include="View\Pages\ShowAproshView.xaml.cs">
       <DependentUpon>ShowAproshView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\ShowView.xaml.cs">
-      <DependentUpon>ShowView.xaml</DependentUpon>
+    <Compile Include="View\Pages\ShowColorView.xaml.cs">
+      <DependentUpon>ShowColorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShowWindow.xaml.cs">
+      <DependentUpon>ShowWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Pages\AproshView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\HideView.xaml">
+    <Page Include="View\Pages\HideColorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,9 +132,9 @@
     </Compile>
     <Compile Include="Algorithm\Converter.cs" />
     <Compile Include="Algorithm\DocumentHelper.cs" />
-    <Compile Include="Model\HideModel.cs" />
-    <Compile Include="View\Pages\HideView.xaml.cs">
-      <DependentUpon>HideView.xaml</DependentUpon>
+    <Compile Include="Model\HideColorModel.cs" />
+    <Compile Include="View\Pages\HideColorView.xaml.cs">
+      <DependentUpon>HideColorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -151,9 +156,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\ShowView.xaml">
+    <Page Include="View\Pages\ShowColorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ShowWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

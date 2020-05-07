@@ -11,7 +11,7 @@ using Microsoft.Win32;
 
 namespace Stegano.ViewModel
 {
-    public class HideViewModel:ViewModelBase
+    public class HideColorViewModel:ViewModelBase
     {
         #region Properties
 
@@ -132,7 +132,7 @@ namespace Stegano.ViewModel
 
         #region Constructor and Initializers
 
-        public HideViewModel()
+        public HideColorViewModel()
         {
             UIInit();
 
@@ -179,7 +179,7 @@ namespace Stegano.ViewModel
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                CountLettersIsCanHide = HideModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
+                CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
                 maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
                 if (Int32.Parse(countLettersIsCanHide) > 0)
                 {
@@ -218,10 +218,10 @@ namespace Stegano.ViewModel
                     : Converter.StringToBinary(TextForHide);
 
                 textForHide = (AdditionalBitsCheckBox.IsChecked)
-                    ? HideModel.AddAdditionalBits(textForHide)
+                    ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
-                HideModel codeModel = new HideModel(pathToNewFile);
+                HideColorModel codeModel = new HideColorModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
 
                 if (isSuccesful)

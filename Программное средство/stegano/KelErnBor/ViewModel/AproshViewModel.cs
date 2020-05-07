@@ -186,7 +186,7 @@ namespace Stegano.ViewModel
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                CountLettersIsCanHide = HideModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
+                CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
                 maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
                 if (Int32.Parse(countLettersIsCanHide) > 0)
                 {
@@ -218,7 +218,7 @@ namespace Stegano.ViewModel
                     : Converter.StringToBinary(TextForHide);
 
                 textForHide = (AdditionalBitsCheckBox.IsChecked)
-                    ? HideModel.AddAdditionalBits(textForHide)
+                    ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
                 AproshModel codeModel = new AproshModel(pathToNewFile);

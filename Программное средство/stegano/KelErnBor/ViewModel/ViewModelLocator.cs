@@ -29,8 +29,9 @@ namespace Stegano.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<HideViewModel>();
-            SimpleIoc.Default.Register<ShowViewModel>();
+            SimpleIoc.Default.Register<ShowWindowViewModel>();
+            SimpleIoc.Default.Register<HideColorViewModel>();
+            SimpleIoc.Default.Register<ShowColorViewModel>();
             SimpleIoc.Default.Register<AproshViewModel>();
             SimpleIoc.Default.Register<ShowAproshViewModel>();
             SimpleIoc.Default.Register<AppearanceViewModel>();
@@ -43,20 +44,27 @@ namespace Stegano.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-
-        public HideViewModel Hide
+        public ShowWindowViewModel ShowWindow
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<HideViewModel>();
+                return ServiceLocator.Current.GetInstance<ShowWindowViewModel>();
             }
         }
 
-        public ShowViewModel Show
+        public HideColorViewModel Hide
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ShowViewModel>();
+                return ServiceLocator.Current.GetInstance<HideColorViewModel>();
+            }
+        }
+
+        public ShowColorViewModel Show
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ShowColorViewModel>();
             }
         }
 
