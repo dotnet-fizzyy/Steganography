@@ -13,7 +13,7 @@ namespace SteganoGraphyXML
         private const string SourcePath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\LB-4.docx";
         private const string DestinationPath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\Aspose.docx";
         private const string XMLPath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\test2.xml";
-        private const int BlockSize = 3;
+        private const int BlockSize = 10;
 
         static void Main(string[] args)
         {
@@ -32,31 +32,24 @@ namespace SteganoGraphyXML
             byte[] encryptedTextInBytes = RSAEncode.Encryption(plainText, RSA.ExportParameters(false), false);
 
             string encryptedText = Convert.ToBase64String(encryptedTextInBytes);
-            var decryptedBytes = Convert.FromBase64String(encryptedText);
+            Console.WriteLine("Encrypted string: " + encryptedText);
 
-            for (int i = 0; i < encryptedTextInBytes.Length; i++)
-            {
-                if (encryptedTextInBytes[i] != decryptedBytes[i]) Console.WriteLine(i + " - no");
-            }
-
-            byte[] decryptedText = RSAEncode.Decryption(decryptedBytes, RSA.ExportParameters(true), false);
-            string originalInfo = Encoding.UTF8.GetString(decryptedText);
-
-            double amountOfBlocks = Math.Round((double)sourceInfo.Length / BlockSize);
+            double amountOfBlocks = Math.Ceiling(Convert.ToDouble(encryptedText.Length) / Convert.ToDouble(BlockSize));
             int counter = 0;
             List<int> repeatedParagraphs = new List<int>(); 
 
             for (int i = 0; i < amountOfBlocks; i++)
             {
                 int randomParagraph = 0;
-                while (!repeatedParagraphs.Contains(randomParagraph))
+                do
                 {
                     randomParagraph = rand.Next(0, nodes.Count);
-                    repeatedParagraphs.Add(randomParagraph);
                 }
+                while (repeatedParagraphs.Contains(randomParagraph));
+                repeatedParagraphs.Add(randomParagraph);
 
-                int shouldTake = i == amountOfBlocks - 1 ? sourceInfo.Length - counter : BlockSize;
-                string part = sourceInfo.Substring(counter, shouldTake);
+                int shouldTake = i == amountOfBlocks - 1 ? encryptedText.Length - counter : BlockSize;
+                string part = encryptedText.Substring(counter, shouldTake);
 
                 var node = doc.GetChildNodes(NodeType.Run, true)[randomParagraph];
                 DocumentBuilder documentBuilder = new DocumentBuilder(doc);
@@ -81,14 +74,21 @@ namespace SteganoGraphyXML
             {
                 stringBuilder.Append(message);
             }
-            Console.WriteLine("Source message: " + stringBuilder.ToString());
+
+            var decMessage = stringBuilder.ToString();
+            var decryptedBytes = Convert.FromBase64String(decMessage);
+
+            byte[] decryptedText = RSAEncode.Decryption(decryptedBytes, RSA.ExportParameters(true), false);
+            string originalInfo = Encoding.UTF8.GetString(decryptedText);
+
+            Console.WriteLine("RSA decrypt message: " + originalInfo);
         }
 
         private static IEnumerable<XmlNode> FindNodes(XmlDocument doc, string attributeName)
         {
             var items = doc.GetElementsByTagName("w:rPr").Cast<XmlNode>().ToList();
             var childNodes = items.Select(node => node.ChildNodes.Cast<XmlNode>().FirstOrDefault(elem => elem.Name == "w:rFonts")).Where(node => node != null);
-            var nodes = childNodes.Where(item => item.Attributes[attributeName] != null && item.Attributes[attributeName].Value.Contains("secret")).OrderBy(attr => attr.Attributes[attributeName].Value);
+            var nodes = childNodes.Where(item => item.Attributes[attributeName] != null && item.Attributes[attributeName].Value.Contains("secret")).OrderBy(attr => int.Parse(attr.Attributes[attributeName].Value.Remove(0, 6)));
 
             return nodes;
         }
