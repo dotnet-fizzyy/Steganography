@@ -21,7 +21,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Button Command="{Binding OpenShowWindowCommand}" Grid.Row="0">
+        <Button Click="Close" Grid.Row="0">
             Перейти к извдечению информации 
         </Button>
         <mui:ModernTab Grid.Row="1" Layout="Tab" SelectedSource="View/Pages/HideColorView.xaml" Margin="10,30,10,10">

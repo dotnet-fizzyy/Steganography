@@ -23,7 +23,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Button Command="{Binding OpenMainWindowCommand}" Grid.Row="0">Перейти к осождению информации</Button>
+        <Button Click="Close" Grid.Row="0">Перейти к осождению информации</Button>
         <!-- TODO: set @SelectedSource -->
         <mui:ModernTab Grid.Row="1" Layout="Tab" SelectedSource="View/Pages/ShowColorView.xaml" Margin="10,30,10,10">
             <mui:ModernTab.Links>

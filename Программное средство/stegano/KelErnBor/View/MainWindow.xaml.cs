@@ -9,5 +9,12 @@ namespace Stegano.View
         {
             InitializeComponent();
         }
+
+        private void Close(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ShowWindow showWindow = new ShowWindow(){Margin = this.Margin};
+            showWindow.Show();
+            this.Close();
+        }
     }
 }

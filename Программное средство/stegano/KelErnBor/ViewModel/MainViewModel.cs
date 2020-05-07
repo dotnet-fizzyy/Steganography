@@ -11,20 +11,6 @@ namespace Stegano.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public RelayCommand OpenShowWindowCommand { get; private set; }
-        public MainViewModel()
-        {
-            OpenShowWindowCommand = new RelayCommand(OpenShowWindow);
-        }
-
-        public void Close()
-        {
-            this.Close();
-        }
-        private void OpenShowWindow()
-        {
-            ShowWindow showWindow = new ShowWindow();
-            showWindow.Show();
-        }
+        
     }
 }
