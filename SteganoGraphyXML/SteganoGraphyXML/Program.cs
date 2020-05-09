@@ -1,6 +1,7 @@
 ﻿using Aspose.Words;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,7 +14,8 @@ namespace SteganoGraphyXML
         private const string SourcePath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\LB-4.docx";
         private const string DestinationPath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\Aspose.docx";
         private const string XMLPath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\test2.xml";
-        private const int BlockSize = 10;
+        private static int BlockSize = 10;
+        private static bool shouldEncrypt;
 
         static void Main(string[] args)
         {
@@ -24,19 +26,27 @@ namespace SteganoGraphyXML
 
             Console.Write("Enter info: ");
             string sourceInfo = Console.ReadLine();
+            Console.Write("Encrypt ?: ");
+            shouldEncrypt = bool.Parse(Console.ReadLine());
+
+            string sha = SHA512(sourceInfo);
 
             //RSA crypt
+            string encryptedText = sourceInfo;
             UnicodeEncoding byteConverter = new UnicodeEncoding();
-            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
-            byte[] plainText = Convert.FromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes(sourceInfo)));
-            byte[] encryptedTextInBytes = RSAEncode.Encryption(plainText, RSA.ExportParameters(false), false);
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
+            if (shouldEncrypt)
+            {
+                byte[] plainText = Convert.FromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes(sourceInfo)));
+                byte[] encryptedTextInBytes = RSAEncode.Encryption(plainText, RSA.ExportParameters(false), false);
 
-            string encryptedText = Convert.ToBase64String(encryptedTextInBytes);
+                encryptedText = Convert.ToBase64String(encryptedTextInBytes);
+            }
             Console.WriteLine("Encrypted string: " + encryptedText);
 
-            double amountOfBlocks = Math.Ceiling(Convert.ToDouble(encryptedText.Length) / Convert.ToDouble(BlockSize));
+            int amountOfBlocks = (int)Math.Ceiling(Convert.ToDouble(encryptedText.Length) / Convert.ToDouble(BlockSize));
             int counter = 0;
-            List<int> repeatedParagraphs = new List<int>(); 
+            List<int> repeatedParagraphs = new List<int>();
 
             for (int i = 0; i < amountOfBlocks; i++)
             {
@@ -56,6 +66,11 @@ namespace SteganoGraphyXML
                 documentBuilder.MoveTo(node);
                 ((Run)documentBuilder.CurrentNode).Font.NameBi = part;
                 ((Run)documentBuilder.CurrentNode).Font.NameFarEast = "secret" + i;
+                if (i == 0)
+                {
+                    ((Run)documentBuilder.CurrentNode).Font.NameOther = shouldEncrypt.ToString();
+                }
+                ((Run)documentBuilder.CurrentNode).Font.Color = ColorTranslator.FromHtml("#ed0459");
                 counter += BlockSize;
             }
 
@@ -76,10 +91,14 @@ namespace SteganoGraphyXML
             }
 
             var decMessage = stringBuilder.ToString();
-            var decryptedBytes = Convert.FromBase64String(decMessage);
+            string originalInfo = decMessage;
+            if (shouldEncrypt)
+            {
+                var decryptedBytes = Convert.FromBase64String(decMessage);
 
-            byte[] decryptedText = RSAEncode.Decryption(decryptedBytes, RSA.ExportParameters(true), false);
-            string originalInfo = Encoding.UTF8.GetString(decryptedText);
+                byte[] decryptedText = RSAEncode.Decryption(decryptedBytes, RSA.ExportParameters(true), false);
+                originalInfo = Encoding.UTF8.GetString(decryptedText);
+            }
 
             Console.WriteLine("RSA decrypt message: " + originalInfo);
         }
@@ -90,7 +109,44 @@ namespace SteganoGraphyXML
             var childNodes = items.Select(node => node.ChildNodes.Cast<XmlNode>().FirstOrDefault(elem => elem.Name == "w:rFonts")).Where(node => node != null);
             var nodes = childNodes.Where(item => item.Attributes[attributeName] != null && item.Attributes[attributeName].Value.Contains("secret")).OrderBy(attr => int.Parse(attr.Attributes[attributeName].Value.Remove(0, 6)));
 
+           var isEncrypted = nodes.FirstOrDefault(node => bool.TryParse(node.Attributes["w:h-ansi"]?.Value, out shouldEncrypt));
+           
             return nodes;
+        }
+
+        public static string SHA512(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+            using (var hash = System.Security.Cryptography.SHA512.Create())
+            {
+                var hashedInputBytes = hash.ComputeHash(bytes);
+
+                // Convert to text
+                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte 
+                var hashedInputStringBuilder = new StringBuilder(128);
+                foreach (var b in hashedInputBytes)
+                    hashedInputStringBuilder.Append(b.ToString("X2"));
+                return hashedInputStringBuilder.ToString();
+            }
+        }
+
+        private static void BlockMapper(double amountOfParagraphs, double amountOfBlocks)
+        {
+            if (!shouldEncrypt)
+            {
+                if (amountOfParagraphs < 10)
+                {
+                    BlockSize = 20;
+                }
+                else if (amountOfParagraphs > 10 || amountOfParagraphs < 100)
+                {
+                    BlockSize = 15;
+                }
+                else
+                {
+                    BlockSize = 10;
+                }
+            }
         }
     }
 }
