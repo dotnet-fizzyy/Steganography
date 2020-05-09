@@ -17,9 +17,12 @@ namespace SteganoGraphyXML
         private static int BlockSize = 10;
         private static bool shouldEncrypt;
 
+
+        private const string TestSourcePath = @"D:\Универ\3 Курс\2 семестр\Курсач ЗИ\testDoc.docx";
+
         static void Main(string[] args)
         {
-            Document doc = new Document(SourcePath);
+            Document doc = new Document(TestSourcePath);
             var nodes = doc.GetChildNodes(NodeType.Run, true);
 
             Random rand = new Random();
@@ -30,11 +33,12 @@ namespace SteganoGraphyXML
             shouldEncrypt = bool.Parse(Console.ReadLine());
 
             string sha = SHA512(sourceInfo);
+            var canEncrypt = BlockMapper(nodes.Count, sourceInfo.Length);
 
             //RSA crypt
             string encryptedText = sourceInfo;
             UnicodeEncoding byteConverter = new UnicodeEncoding();
-            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(1024);
             if (shouldEncrypt)
             {
                 byte[] plainText = Convert.FromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes(sourceInfo)));
@@ -130,21 +134,49 @@ namespace SteganoGraphyXML
             }
         }
 
-        private static void BlockMapper(double amountOfParagraphs, double amountOfBlocks)
+        private static bool BlockMapper(double amountOfParagraphs, int textLength)
         {
             if (!shouldEncrypt)
             {
                 if (amountOfParagraphs < 10)
                 {
                     BlockSize = 20;
+                    if (textLength > amountOfParagraphs * BlockSize) return false;
+
+                    return true;
                 }
                 else if (amountOfParagraphs > 10 || amountOfParagraphs < 100)
                 {
                     BlockSize = 15;
+                    if (textLength > amountOfParagraphs * BlockSize) return false;
+
+                    return true;
                 }
                 else
                 {
                     BlockSize = 10;
+                    if (textLength > amountOfParagraphs * BlockSize) return false;
+
+                    return true;
+                }
+            }
+            else
+            {
+                if (textLength >= 100 || amountOfParagraphs < 10) return false;
+
+                if (amountOfParagraphs > 10 || amountOfParagraphs < 100)
+                {
+                    BlockSize = 15;
+                    if (textLength > amountOfParagraphs * BlockSize) return false;
+
+                    return true;
+                }
+                else
+                {
+                    BlockSize = 10;
+                    if (textLength > amountOfParagraphs * BlockSize) return false;
+
+                    return true;
                 }
             }
         }
