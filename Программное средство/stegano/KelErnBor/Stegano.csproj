@@ -77,6 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithm\AttributeHiding.cs" />
     <Compile Include="Algorithm\Decoder.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
     <Compile Include="Model\AproshModel.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Pages\AproshView.xaml.cs">
       <DependentUpon>AproshView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\AttributeHiding.xaml.cs">
+      <DependentUpon>AttributeHiding.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -115,6 +119,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Pages\AproshView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\AttributeHiding.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

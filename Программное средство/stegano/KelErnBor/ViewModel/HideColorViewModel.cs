@@ -89,6 +89,7 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string sourceString = string.Empty;
 
         public CheckBoxModel RandomCheckBox { get; set; }
 
@@ -99,6 +100,8 @@ namespace Stegano.ViewModel
         public CheckBoxModel VisibleColorCheckBox { get; set; }
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
+
+        public CheckBoxModel AttributeHidingCheckBox { get; set; }
 
         private bool isHideInformationButtonEnabled;
         public bool IsHideInformationButtonEnabled
@@ -166,6 +169,7 @@ namespace Stegano.ViewModel
             AdditionalBitsCheckBox = new CheckBoxModel();
             RandomCheckBox = new CheckBoxModel();
             SmartHidingCheckBox = new CheckBoxModel();
+            AttributeHidingCheckBox = new CheckBoxModel();
         }
 
         #endregion
@@ -191,6 +195,7 @@ namespace Stegano.ViewModel
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
                     SmartHidingCheckBox.IsEnabled = true;
+                    AttributeHidingCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -200,10 +205,11 @@ namespace Stegano.ViewModel
         }
 
         private async void HideInformation()
-        {
-                     
+        {       
             if (textForHide.Length > 0)
             {
+                sourceString = textForHide;
+
                 if (SmartHidingCheckBox.IsChecked)
                 {
                     ShowMetroMessageBox("Предупреждение","При выбранном умном скрытии автоматически будет включена псевдорандомизация, \n\tа визуальное выделение отключено!\n");
@@ -221,8 +227,17 @@ namespace Stegano.ViewModel
                     ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
-                HideColorModel codeModel = new HideColorModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
+                if (AttributeHidingCheckBox.IsChecked)
+                {
+                    AttributeHiding attributeHiding = new AttributeHiding(pathToNewFile, RSACheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
+                    isSuccesful = attributeHiding.HideInfoInAttribute(sourceString);
+                }
+
+                if (!AttributeHidingCheckBox.IsChecked)
+                {
+                    HideColorModel codeModel = new HideColorModel(pathToNewFile);
+                    isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
+                }
 
                 if (isSuccesful)
                 {
