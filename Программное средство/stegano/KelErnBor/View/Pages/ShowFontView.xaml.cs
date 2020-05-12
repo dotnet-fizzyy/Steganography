@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,19 +17,23 @@ using System.Windows.Shapes;
 namespace Stegano.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для AproshView.xaml
+    /// Логика взаимодействия для ShowFontView.xaml
     /// </summary>
-    public partial class AproshView : UserControl
+    public partial class ShowFontView : UserControl
     {
-        public AproshView()
+        public ShowFontView()
         {
             InitializeComponent();
-        }
 
-        private void HidenTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var binding = ((TextBox)sender).GetBindingExpression(TextBox.TextProperty);
-            binding.UpdateSource();
+            var fontsCollection = new InstalledFontCollection();
+            var ff = fontsCollection.Families;
+
+            foreach (var item in ff)
+            {
+                oneFontName.Items.Add(item.Name);
+                zeroFontName.Items.Add(item.Name);
+            }
         }
+        
     }
 }

@@ -13,7 +13,7 @@ using Microsoft.Win32;
 
 namespace Stegano.ViewModel
 {
-    public class AproshViewModel:ViewModelBase
+    public class HideAproshViewModel:ViewModelBase
     {
         #region Properties
 
@@ -137,7 +137,7 @@ namespace Stegano.ViewModel
 
         #region Constructor and Initializers
 
-        public AproshViewModel()
+        public HideAproshViewModel()
         {
             UIInit();
 
@@ -221,7 +221,7 @@ namespace Stegano.ViewModel
                     ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
-                AproshModel codeModel = new AproshModel(pathToNewFile);
+                HideAproshModel codeModel = new HideAproshModel(pathToNewFile);
                 isSuccesful = codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
 
                 if (isSuccesful)

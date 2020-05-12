@@ -12,9 +12,11 @@
                   Width="730"
                   WindowStartupLocation="CenterScreen"
                   Style="{StaticResource BlankWindow}">
+    
     <Window.DataContext>
         <Binding Path="Main" Source="{StaticResource Locator}" />
     </Window.DataContext>
+    
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
@@ -28,8 +30,8 @@
             <mui:ModernTab.Links>
                 <!-- TODO: set @Source -->
                 <mui:Link DisplayName="Цвет" Source="View/Pages/HideColorView.xaml"/>
-                <mui:Link DisplayName="Апрош" Source="View/Pages/AproshView.xaml" />
-                <mui:Link DisplayName="Артем" Source="View/Pages/HideColorView.xaml"/>
+                <mui:Link DisplayName="Апрош" Source="View/Pages/HideAproshView.xaml" />
+                <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml"/>
                 <mui:Link DisplayName="Дима" Source="View/Pages/HideColorView.xaml"/>
                 <mui:Link DisplayName="Катя" Source="View/Pages/HideColorView.xaml"/>
                 <mui:Link DisplayName="Настройки" Source="View/Pages/SettingsView.xaml" />
