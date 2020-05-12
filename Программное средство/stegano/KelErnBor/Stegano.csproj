@@ -90,7 +90,7 @@
     <Compile Include="Model\ShowAproshModel.cs" />
     <Compile Include="Model\ShowColorModel.cs" />
     <Compile Include="Model\ShowFontModel.cs" />
-    <Compile Include="Model\TextStat.cs" />
+    <Compile Include="Algorithm\TextStat.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\HideAproshViewModel.cs" />
     <Compile Include="ViewModel\HideColorViewModel.cs" />
