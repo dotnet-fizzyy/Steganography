@@ -8,10 +8,11 @@ using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Stegano.ViewModel
 {
-    public class HideColorViewModel:ViewModelBase
+    public class AttributeHidingViewModel : ViewModelBase
     {
         #region Properties
 
@@ -30,7 +31,6 @@ namespace Stegano.ViewModel
             {
                 countLettersIsCanHide = value;
                 RaisePropertyChanged();
-
             }
         }
 
@@ -92,15 +92,18 @@ namespace Stegano.ViewModel
 
         private string sourceString = string.Empty;
 
-        public CheckBoxModel RandomCheckBox { get; set; }
 
         public CheckBoxModel RSACheckBox { get; set; }
+
+        public CheckBoxModel AESCheckBox { get; set; }
 
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel VisibleColorCheckBox { get; set; }
 
-        public CheckBoxModel SmartHidingCheckBox { get; set; }
+        public CheckBoxModel HashingSHA512CheckBox { get; set; }
+
+        public CheckBoxModel HashingMD5CheckBox { get; set; }
 
 
         private bool isHideInformationButtonEnabled;
@@ -135,7 +138,7 @@ namespace Stegano.ViewModel
 
         #region Constructor and Initializers
 
-        public HideColorViewModel()
+        public AttributeHidingViewModel()
         {
             UIInit();
 
@@ -167,8 +170,9 @@ namespace Stegano.ViewModel
             RSACheckBox = new CheckBoxModel();
             VisibleColorCheckBox = new CheckBoxModel();
             AdditionalBitsCheckBox = new CheckBoxModel();
-            RandomCheckBox = new CheckBoxModel();
-            SmartHidingCheckBox = new CheckBoxModel();
+            HashingMD5CheckBox = new CheckBoxModel();
+            HashingSHA512CheckBox = new CheckBoxModel();
+            AESCheckBox = new CheckBoxModel();
         }
 
         #endregion
@@ -189,11 +193,12 @@ namespace Stegano.ViewModel
                     IsTextForHideEnabled = true;
                     IsHideInformationButtonEnabled = true;
 
-                    RandomCheckBox.IsEnabled = true;
+                    HashingMD5CheckBox.IsEnabled = true;
                     RSACheckBox.IsEnabled = true;
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
-                    SmartHidingCheckBox.IsEnabled = true;
+                    HashingSHA512CheckBox.IsEnabled = true;
+                    AESCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -203,30 +208,43 @@ namespace Stegano.ViewModel
         }
 
         private async void HideInformation()
-        {       
+        {
             if (textForHide.Length > 0)
             {
                 sourceString = textForHide;
 
-                if (SmartHidingCheckBox.IsChecked)
-                {
-                    ShowMetroMessageBox("Предупреждение","При выбранном умном скрытии автоматически будет включена псевдорандомизация, \n\tа визуальное выделение отключено!\n");
-                    RandomCheckBox.IsChecked = true;
-                    VisibleColorCheckBox.IsChecked = false;
-                }
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
-                textForHide = (RSACheckBox.IsChecked)
-                    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
-                    : Converter.StringToBinary(TextForHide);
+                if (RSACheckBox.IsChecked)
+                {
+                    textForHide = Converter.RsaCryptor(TextForHide, pathToDirOrigFile);
+                }
+
+                if (AESCheckBox.IsChecked)
+                {
+                    AES aesEncryption = new AES();
+                    textForHide = aesEncryption.Encrypt(textForHide, pathToDirOrigFile);
+                }
 
                 textForHide = (AdditionalBitsCheckBox.IsChecked)
                     ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
-                    HideColorModel codeModel = new HideColorModel(pathToNewFile);
-                    isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
+                    AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
+                    isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, HashingSHA512CheckBox.IsChecked, RSACheckBox.IsChecked);
+
+                sourceString = string.IsNullOrEmpty(Converter.BinaryToString(textForHide)) ? textForHide : Converter.BinaryToString(textForHide);
+
+                if (HashingSHA512CheckBox.IsChecked)
+                {
+                    Hashing.SaveHash(pathToDirOrigFile, Hashing.GetSHA512Hash(sourceString));
+                }
+
+                if (HashingMD5CheckBox.IsChecked)
+                {
+                    Hashing.SaveHash(pathToDirOrigFile, Hashing.GetMd5Hash(sourceString));
+                }
 
                 if (isSuccesful)
                 {
@@ -290,10 +308,10 @@ namespace Stegano.ViewModel
             var dialog = new ModernDialog()
             {
                 Title = title,
-                Content = message                
+                Content = message
             };
 
             dialog.ShowDialog();
-        } 
+        }
     }
 }

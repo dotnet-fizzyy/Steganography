@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="Stegano.View.Pages.ShowColorView"
+﻿<UserControl x:Class="Stegano.View.Pages.ShowAttribute"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Stegano.View.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <Binding Path="Show" Source="{StaticResource Locator}" />
+        <Binding Path="ShowAttribute" Source="{StaticResource Locator}" />
     </UserControl.DataContext>
 
     <Grid Style="{StaticResource ContentRoot}">
@@ -16,6 +17,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -30,6 +32,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -50,17 +53,23 @@
                     <CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
                               IsEnabled="{Binding RsaOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RsaOpenCheckBox.IsChecked, Mode=TwoWay}"/>
 
-                    <CheckBox Grid.Column="1" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Хранилось в атрибуте"
-                              IsEnabled="{Binding AttributeHiding.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AttributeHiding.IsChecked, Mode=TwoWay}"/>
-
                     <CheckBox Grid.Column="0" Grid.Row="4" Margin="12,8,12,0" FontSize="16" Content="Использовался циклический код"
                               IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked, Mode=TwoWay}"/>
+                    
+                    <CheckBox Grid.Column="1" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался AES"
+                              IsEnabled="{Binding AesOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AesOpenCheckBox.IsChecked, Mode=TwoWay}"/>
 
-                    <CheckBox Grid.Column="1" Grid.Row="4" Margin="12,8,12,0" FontSize="16" Content="Применялось умное скрытие"
-                              IsEnabled="{Binding SmartHidingCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding SmartHidingCheckBox.IsChecked, Mode=TwoWay}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="5" Margin="12,8,12,0" FontSize="16" Content="Применялось хэширование SHA512"
+                              IsEnabled="{Binding HashingSHA512.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingSHA512.IsChecked, Mode=TwoWay}"/>
+
+
+                    <CheckBox Grid.Column="0" Grid.Row="5" Margin="12,8,12,0" FontSize="16" Content="Применялось хэширование MD5"
+                              IsEnabled="{Binding HashingMD5.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingMD5.IsChecked, Mode=TwoWay}"/>
                 </Grid>
 
-                <Button  Grid.Column="0" Grid.Row="2" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
+                <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"  Margin="8,10"  Content="Открыть файл с хэшем" Command="{Binding OpenHashDocument}"/>
+
+                <Button  Grid.Column="0" Grid.Row="4" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
 
                 <Grid Grid.Column="0" Grid.Row="3" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>

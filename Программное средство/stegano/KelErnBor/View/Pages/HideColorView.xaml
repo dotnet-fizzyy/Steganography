@@ -28,7 +28,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
@@ -79,8 +78,6 @@
                 <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding SmartHidingCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Умное скрытие информации" IsChecked="{Binding SmartHidingCheckBox.IsChecked,Mode=TwoWay}"/>
 
-                <CheckBox Grid.Column="0" Grid.Row="11" Margin="12,8,12,0" FontSize="16" Content="Сокрытие в атрибуте" IsEnabled="{Binding AttributeHidingCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AttributeHidingCheckBox.IsChecked,Mode=TwoWay}"/>
-                
                 <Button Grid.Column="0" Grid.Row="12" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
                             IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию" Click="Button_Click"/>
 
