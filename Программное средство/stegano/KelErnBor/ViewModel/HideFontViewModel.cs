@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Aspose.Words;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using Stegano.Model.Aditional_Coding;
 
 namespace Stegano.ViewModel
 {
@@ -28,6 +29,17 @@ namespace Stegano.ViewModel
             set { fullPathToOrigFile = value; RaisePropertyChanged(); }
         }
 
+        public int maxShift;
+        public int MaxShift
+        {
+            get => maxShift - Convert.ToInt32(countLettersForHide);
+            set
+            {
+                maxShift = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private string countLettersIsCanHide;
         public string CountLettersIsCanHide
         {
@@ -35,7 +47,7 @@ namespace Stegano.ViewModel
             set
             {
                 countLettersIsCanHide = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("MaxShift");
             }
         }
 
@@ -122,11 +134,12 @@ namespace Stegano.ViewModel
 
         public string OneFontName { get; set; }
         public string ZeroFontName { get; set; }
-
+        public int CurrentShift { get; set; }
         public ObservableCollection<object> FontStats { get; set; }
 
-        
-       // public Dictionary<string, int> FontStats = new Dictionary<string, int>() { { "Time454", 2}, { "Timet54", 2 }, };
+        public ObservableCollection<ICod> CodMethods { get; set; }
+
+        public ICod SelectedCodMethods { get; set; }
 
         #endregion
 
@@ -151,24 +164,32 @@ namespace Stegano.ViewModel
 
         public HideFontViewModel()
         {
-            UIInit();
             FontStats = new ObservableCollection<object>();
             openFileDialog = new OpenFileDialog();
 
+            CodMethodsInit();
             RelayInit();
+            UIInit();
         }
 
         private void RelayInit()
         {
-            OneFontName = "Arial";
-            ZeroFontName = "Cartana";
             OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
             HideInformationRelayCommand = new RelayCommand(HideInformation);
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>();
+            CodMethods.Add(new CyclicCod());
+            CodMethods.Add(new HammingCod());
+            CodMethods.Add(new HammingCodeM());
         }
 
         private void UIInit()
         {
             FullPathToOrigFile = "";
+            MaxShift = 1;
             CountLettersIsCanHide = 0.ToString();
             CountLettersForHide = 0.ToString();
 
@@ -206,7 +227,7 @@ namespace Stegano.ViewModel
                 {
                     FontStats.Add(new FontInfo(st.Key, st.Value, count));
                 }
-
+                MaxShift = count;
                 count /= 8;
                 CountLettersIsCanHide = count.ToString();
                 maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
@@ -242,6 +263,9 @@ namespace Stegano.ViewModel
                     RandomCheckBox.IsChecked = true;
                     VisibleColorCheckBox.IsChecked = false;
                 }
+
+                SelectedCodMethods?.Cod("");
+
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
@@ -255,7 +279,7 @@ namespace Stegano.ViewModel
 
                 
                 HideFontModel codeModel = new HideFontModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
+                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
 
                 if (isSuccesful)
                 {

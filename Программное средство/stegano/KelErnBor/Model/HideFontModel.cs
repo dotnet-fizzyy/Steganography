@@ -24,7 +24,7 @@ namespace Stegano.Model
             rand = new Random();
         }
 
-        public Task<bool> HideInformation(char[] messageInBits, bool isRandomHiding, bool isVisibleColor, string oneFontName, string zeroFontName)
+        public Task<bool> HideInformation(char[] messageInBits,int shiftValue, bool isRandomHiding, bool isVisibleColor, string oneFontName, string zeroFontName)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Stegano.Model
 
                 DocumentHelper.CutParagraphToRun(ref wordDoc, ref documentBuilder);
 
-                SetHiding(isRandomHiding, isVisibleColor, documentBuilder, messageInBits, oneFontName, zeroFontName);
+                SetHiding(isRandomHiding, shiftValue, isVisibleColor, documentBuilder, messageInBits, oneFontName, zeroFontName);
 
 
                 wordDoc.UpdateFields();
@@ -50,7 +50,7 @@ namespace Stegano.Model
         }
 
 
-        private void SetHiding(bool isRandom, bool isVisibleColor, DocumentBuilder documentBuilder, char[] messageInBits, string oneFontName, string zeroFontName)
+        private void SetHiding(bool isRandom, int shiftValue, bool isVisibleColor, DocumentBuilder documentBuilder, char[] messageInBits, string oneFontName, string zeroFontName)
         {
             if (isRandom)
             {
@@ -59,7 +59,7 @@ namespace Stegano.Model
                 {
                     var randomPosition = rand.Next(part * i + 1, part * (i + 1));
 
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[randomPosition]);
+                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + randomPosition]);
 
                     setNodeOption(i);
                 }
@@ -68,7 +68,7 @@ namespace Stegano.Model
             {
                 for (int i = 0; i < messageInBits.Length; i++)
                 {
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[i]);
+                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + i]);
 
                     setNodeOption(i);
                 }

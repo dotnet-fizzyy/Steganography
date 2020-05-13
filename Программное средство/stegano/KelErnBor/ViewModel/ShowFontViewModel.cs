@@ -6,6 +6,7 @@ using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using Stegano.Model.Aditional_Coding;
 
 namespace Stegano.ViewModel
 {
@@ -76,6 +77,10 @@ namespace Stegano.ViewModel
         public string OneFontName { get; set; }
         public string ZeroFontName { get; set; }
         public ObservableCollection<object> FontStats { get; set; }
+        
+        public ObservableCollection<ICod> CodMethods { get; set; }
+        
+        public ICod SelectedCodMethods { get; set; }
 
         #endregion
 
@@ -101,12 +106,20 @@ namespace Stegano.ViewModel
 
         public ShowFontViewModel()
         {
-            DecodeUIInit();
             FontStats = new ObservableCollection<object>();
-
             openFileDialog = new OpenFileDialog();
 
             RelayInit();
+            DecodeUIInit();
+            CodMethodsInit();
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>();
+            CodMethods.Add(new CyclicCod());
+            CodMethods.Add(new HammingCod());
+            CodMethods.Add(new HammingCodeM());
         }
 
         private void RelayInit()
@@ -161,6 +174,8 @@ namespace Stegano.ViewModel
                     ShowMetroMessageBox("Информация", "Загрузите файл для извлечения");
                     return;
                 }
+
+                SelectedCodMethods?.Cod("");
 
                 CryptedText = "";
                 SearchedText = "";

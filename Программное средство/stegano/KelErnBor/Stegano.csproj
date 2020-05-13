@@ -83,6 +83,10 @@
     <Compile Include="Algorithm\AttributeHiding.cs" />
     <Compile Include="Algorithm\Decoder.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
+    <Compile Include="Model\Aditional Coding\CyclicCod.cs" />
+    <Compile Include="Model\Aditional Coding\HammingCod.cs" />
+    <Compile Include="Model\Aditional Coding\HammingCodeM.cs" />
+    <Compile Include="Model\Aditional Coding\ICod.cs" />
     <Compile Include="Model\FontInfo.cs" />
     <Compile Include="Model\HideAproshModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />
