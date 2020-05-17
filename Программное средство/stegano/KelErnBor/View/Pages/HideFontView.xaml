@@ -109,7 +109,7 @@
                     <ComboBox Grid.Column="3" Grid.Row="12" Name="zeroFontName" SelectedIndex="0" SelectedValue="{Binding ZeroFontName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
-                <ComboBox Margin="8,0,8,0" Grid.Row="14" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethods, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                <ComboBox Margin="8,0,8,0" Grid.Row="14" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
                 <Button Grid.Column="0" Grid.Row="15" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
                             IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>

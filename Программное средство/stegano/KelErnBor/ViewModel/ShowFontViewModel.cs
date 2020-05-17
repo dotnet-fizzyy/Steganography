@@ -80,7 +80,7 @@ namespace Stegano.ViewModel
         
         public ObservableCollection<ICod> CodMethods { get; set; }
         
-        public ICod SelectedCodMethods { get; set; }
+        public ICod SelectedCodMethod { get; set; }
 
         #endregion
 
@@ -118,8 +118,8 @@ namespace Stegano.ViewModel
         {
             CodMethods = new ObservableCollection<ICod>();
             CodMethods.Add(new CyclicCod());
-            CodMethods.Add(new HammingCod());
-            CodMethods.Add(new HammingCodeM());
+            CodMethods.Add(new HammingCod(16,false));
+            CodMethods.Add(new HammingCod(16,true));
         }
 
         private void RelayInit()
@@ -175,16 +175,12 @@ namespace Stegano.ViewModel
                     return;
                 }
 
-                SelectedCodMethods?.Cod("");
-
                 CryptedText = "";
                 SearchedText = "";
                 ShowFontModel codeModel = new ShowFontModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
 
-                foundedBitsInDoc = AdditionalBitsCheckBox.IsChecked
-                    ? ShowFontModel.RemoveAdditBits(foundedBitsInDoc)
-                    : foundedBitsInDoc;
+                foundedBitsInDoc = SelectedCodMethod?.DeCoding(foundedBitsInDoc) ?? foundedBitsInDoc;
 
                 SearchedText = Converter.BinaryToString(foundedBitsInDoc);
 

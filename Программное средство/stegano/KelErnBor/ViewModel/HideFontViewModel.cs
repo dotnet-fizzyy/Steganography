@@ -47,7 +47,7 @@ namespace Stegano.ViewModel
             set
             {
                 countLettersIsCanHide = value;
-                RaisePropertyChanged("MaxShift");
+                RaisePropertyChanged();
             }
         }
 
@@ -139,7 +139,7 @@ namespace Stegano.ViewModel
 
         public ObservableCollection<ICod> CodMethods { get; set; }
 
-        public ICod SelectedCodMethods { get; set; }
+        public ICod SelectedCodMethod { get; set; }
 
         #endregion
 
@@ -182,8 +182,8 @@ namespace Stegano.ViewModel
         {
             CodMethods = new ObservableCollection<ICod>();
             CodMethods.Add(new CyclicCod());
-            CodMethods.Add(new HammingCod());
-            CodMethods.Add(new HammingCodeM());
+            CodMethods.Add(new HammingCod(16,false));
+            CodMethods.Add(new HammingCod(16,true));
         }
 
         private void UIInit()
@@ -264,20 +264,18 @@ namespace Stegano.ViewModel
                     VisibleColorCheckBox.IsChecked = false;
                 }
 
-                SelectedCodMethods?.Cod("");
 
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
-
-                textForHide = (RSACheckBox.IsChecked)
-                    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
-                    : Converter.StringToBinary(TextForHide);
-
-                textForHide = (AdditionalBitsCheckBox.IsChecked)
-                    ? HideFontModel.AddAdditionalBits(textForHide)
-                    : textForHide;
-
                 
+                ShowMetroMessageBox(textForHide, Converter.StringToBinary(TextForHide));
+
+                //textForHide = (RSACheckBox.IsChecked)
+                //    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
+                //    : Converter.StringToBinary(TextForHide);
+
+                textForHide = SelectedCodMethod?.Coding(Converter.StringToBinary(TextForHide)) ?? Converter.StringToBinary(TextForHide);
+
                 HideFontModel codeModel = new HideFontModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
 

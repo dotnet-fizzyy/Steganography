@@ -72,7 +72,7 @@
 
                 </Grid>
                 
-                <ComboBox Margin="8,0,8,0" Grid.Row="2" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethods, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                <ComboBox Margin="8,0,8,0" Grid.Row="2" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
                 <Button  Grid.Column="0" Grid.Row="3" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
                 

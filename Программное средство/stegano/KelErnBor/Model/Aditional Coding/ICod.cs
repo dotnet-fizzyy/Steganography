@@ -8,7 +8,7 @@ namespace Stegano.Model.Aditional_Coding
 {
     public interface ICod
     {
-        string Cod(string input);
-        string DeCod(string input);
+        string Coding(string messageBin);
+        string DeCoding(string messageBin);
     }
 }

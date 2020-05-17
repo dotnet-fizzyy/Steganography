@@ -9,13 +9,13 @@ namespace Stegano.Model.Aditional_Coding
 {
     public class CyclicCod : ICod
     {
-        public string Cod(string input)
+        public string Coding(string input)
         {
             ShowMetroMessageBox("CyclicCod", "CyclicCod");
             return "";
         }
 
-        public string DeCod(string input)
+        public string DeCoding(string input)
         {
             ShowMetroMessageBox("CyclicCod", "CyclicCod");
             return "";
