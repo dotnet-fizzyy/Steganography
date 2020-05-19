@@ -59,6 +59,8 @@ namespace Stegano.ViewModel
 
         public CheckBoxModel AesOpenCheckBox { get; set; }
 
+        public CheckBoxModel TwoFishCheckBox { get; set; }
+
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
@@ -139,6 +141,7 @@ namespace Stegano.ViewModel
             HashingSHA512 = new CheckBoxModel(true, false);
             HashingMD5 = new CheckBoxModel(true, false);
             AesOpenCheckBox = new CheckBoxModel(true, false);
+            TwoFishCheckBox = new CheckBoxModel(true, false);
         }
         #endregion
 
@@ -229,6 +232,23 @@ namespace Stegano.ViewModel
 
                     AES aesDecryption = new AES();
                     SearchedText = aesDecryption.Decrypt(SearchedText, RsaFile);
+                    if (string.IsNullOrEmpty(SearchedText))
+                    {
+                        ShowMetroMessageBox("Информация", "Ключ не подходит.");
+                        return;
+                    }
+                }
+
+                if (TwoFishCheckBox.IsChecked)
+                {
+                    if (string.IsNullOrEmpty(RsaFile))
+                    {
+                        ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
+                        return;
+                    }
+
+                    TwoFish twoFishDecryption = new TwoFish();
+                    SearchedText = twoFishDecryption.Decrypt(SearchedText, RsaFile);
                     if (string.IsNullOrEmpty(SearchedText))
                     {
                         ShowMetroMessageBox("Информация", "Ключ не подходит.");

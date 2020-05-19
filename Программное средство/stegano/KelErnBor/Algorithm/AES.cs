@@ -19,7 +19,7 @@ namespace Stegano.Algorithm
         {
             cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.BlockSize = 128;
-            cryptoProvider.KeySize = 128;
+            cryptoProvider.KeySize = 256;
             cryptoProvider.Mode = CipherMode.CBC;
             cryptoProvider.Padding = PaddingMode.PKCS7;
         }

@@ -85,6 +85,7 @@
     <Compile Include="Algorithm\Decoder.cs" />
     <Compile Include="Algorithm\Hashing.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
+    <Compile Include="Algorithm\TwoFish.cs" />
     <Compile Include="Model\AproshModel.cs" />
     <Compile Include="Model\AttributeHidingModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />

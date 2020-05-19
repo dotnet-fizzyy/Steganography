@@ -59,6 +59,9 @@
                     <CheckBox Grid.Column="1" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался AES"
                               IsEnabled="{Binding AesOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AesOpenCheckBox.IsChecked, Mode=TwoWay}"/>
 
+                    <CheckBox Grid.Column="1" Grid.Row="4" Margin="12,8,12,0" FontSize="16" Content="Использовался TwoFish"
+                              IsEnabled="{Binding TwoFishCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding TwoFishCheckBox.IsChecked, Mode=TwoWay}"/>
+
                     <CheckBox Grid.Column="1" Grid.Row="5" Margin="12,8,12,0" FontSize="16" Content="Применялось хэширование SHA512"
                               IsEnabled="{Binding HashingSHA512.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingSHA512.IsChecked, Mode=TwoWay}"/>
 

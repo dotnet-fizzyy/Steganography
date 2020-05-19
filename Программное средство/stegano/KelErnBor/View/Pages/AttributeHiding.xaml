@@ -72,9 +72,9 @@
 
                 <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding AESCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AESCheckBox.IsChecked,Mode=TwoWay}"
                                Content="Дополнительное криптопреобразование по алгоритму AES"/>
-                
-                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
-                              Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding TwoFishCheckBox.IsEnabled, Mode=TwoWay}" 
+                              Content="Дополнительное криптопреобразование по алгоритму TwoFish" IsChecked="{Binding TwoFishCheckBox.IsChecked,Mode=TwoWay}"/>
 
                 <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>

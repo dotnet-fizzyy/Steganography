@@ -97,6 +97,8 @@ namespace Stegano.ViewModel
 
         public CheckBoxModel AESCheckBox { get; set; }
 
+        public CheckBoxModel TwoFishCheckBox { get; set; }
+
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel VisibleColorCheckBox { get; set; }
@@ -173,6 +175,7 @@ namespace Stegano.ViewModel
             HashingMD5CheckBox = new CheckBoxModel();
             HashingSHA512CheckBox = new CheckBoxModel();
             AESCheckBox = new CheckBoxModel();
+            TwoFishCheckBox = new CheckBoxModel();
         }
 
         #endregion
@@ -199,6 +202,7 @@ namespace Stegano.ViewModel
                     VisibleColorCheckBox.IsEnabled = true;
                     HashingSHA512CheckBox.IsEnabled = true;
                     AESCheckBox.IsEnabled = true;
+                    TwoFishCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -225,6 +229,12 @@ namespace Stegano.ViewModel
                 {
                     AES aesEncryption = new AES();
                     textForHide = aesEncryption.Encrypt(textForHide, pathToDirOrigFile);
+                }
+
+                if (TwoFishCheckBox.IsChecked)
+                {
+                    TwoFish twoFishEncryption = new TwoFish();
+                    textForHide = twoFishEncryption.Encrypt(textForHide, pathToDirOrigFile);
                 }
 
                 textForHide = (AdditionalBitsCheckBox.IsChecked)
