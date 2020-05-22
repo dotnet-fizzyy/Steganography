@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Aspose.Words;
 using Aspose.Words.Replacing;
 using Aspose.Words.Saving;
@@ -11,13 +13,13 @@ using Stegano.Algorithm;
 
 namespace Stegano.Model
 {
-    class HideFontModel
+    class HideUnderlineModel
     {
 
         private Document wordDoc;
         private Random rand;
         private string pathToModifiedFile;
-        public HideFontModel(string pathToFile)
+        public HideUnderlineModel(string pathToFile)
         {
             pathToModifiedFile = pathToFile;
             wordDoc = new Document(pathToFile);
@@ -43,7 +45,7 @@ namespace Stegano.Model
 
                 return Task.FromResult(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Task.FromResult(false);
             }
@@ -76,7 +78,7 @@ namespace Stegano.Model
 
             void setNodeOption(int i)
             {
-                
+
                 if (isVisibleColor)
                 {
                     ((Run)documentBuilder.CurrentNode).Font.Color = messageInBits[i] == '1'
@@ -84,18 +86,26 @@ namespace Stegano.Model
                         : ColorTranslator.FromHtml("#ed0459");
                 }
 
-                ((Run)documentBuilder.CurrentNode).Font.Name = messageInBits[i] == '1'
-                        ? oneFontName
-                        : zeroFontName;
+                ((Run)documentBuilder.CurrentNode).Font.UnderlineColor = Color.White;
+                ((Run)documentBuilder.CurrentNode).Font.Underline = messageInBits[i] == '1'
+                        ? Underline.DotDotDashHeavy
+                        : Underline.WavyHeavy;
 
             }
+            //MessageBox.Show("aa");
+            //MessageBox.Show(Convert.ToString(Converter.StringToBinary("90")));
+
         }
 
+        public static string HideUnderlineElGamal(string value)
+        {
+            return ShifrElGamal.CoderElGamal(value);
+        }
 
-       
+        
         public static string AddAdditionalBits(string messageInBits)
         {
-
+           
             StringBuilder sb = new StringBuilder();
             //string additionalBits = "110";
             for (int i = 0; i < messageInBits.Length; i += 4)

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="Stegano.View.Pages.HideUnderlineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="600">
+    <UserControl.DataContext>
+        <Binding Path="HideKatya" Source="{StaticResource Locator}" />
+    </UserControl.DataContext>
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="16.8"/>
+                    <RowDefinition Height="Auto" MinHeight="44"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0.4" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
+
+                <Label Grid.Column="0" Margin="8,34,0,22" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}" Grid.RowSpan="3"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Margin="8,0.6,0,0" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}"/>
+
+                <DataGrid  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding FontStats ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,22.6,0,0" Grid.RowSpan="2"/>
+
+                <Label Grid.Column="0" Grid.Row="3" Margin="8,23,0,27.4" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}" Grid.RowSpan="3"/>
+
+                <TextBox  Grid.Column="0" Grid.Row="5" Margin="8,0.2,8,53.4" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
+                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged" Grid.RowSpan="2">
+                </TextBox>
+
+                
+                <Grid Grid.Column="0" Grid.Row="6" Margin="0,10.6,0,0.4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном RSA):"/>
+
+                    <Label   Grid.Column="1" Grid.Row="0"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
+
+
+                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном RSA):"/>
+
+                    <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
+
+
+                </Grid>
+
+                <CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,7.6,12,30.2" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдослучайным образом" Grid.RowSpan="2"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8.4,12,0.2" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
+                               Content="Дополнительное криптопреобразование по алгоритму RSA"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,7.8,12,0.6" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
+                              Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="10,29.6,14,9" FontSize="16" IsEnabled="{Binding ShifrElGamalCheckBox.IsEnabled, Mode=TwoWay}" 
+                              Content="Шифрование Эль-Гамаля" IsChecked="{Binding ShifrElGamalCheckBox.IsChecked,Mode=TwoWay}" Grid.RowSpan="2"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,7.4,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                           Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}" Grid.RowSpan="2"/>
+
+
+
+                <Grid Grid.Column="0" Margin="8,8,8,7.6" Grid.Row="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="108"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+
+                <Button Grid.Column="0" Grid.Row="13" Margin="10,28.4,6,-19.6" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                            IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

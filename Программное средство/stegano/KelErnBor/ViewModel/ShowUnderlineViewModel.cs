@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace Stegano.ViewModel
 {
-    public class ShowFontViewModel : ViewModelBase
+    public class ShowUnderlineViewModel : ViewModelBase
     {
         #region Properties
 
@@ -51,6 +51,9 @@ namespace Stegano.ViewModel
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
+
+
+        public CheckBoxModel ShifrElGamalCheckBox { get; set; }
 
         private string searchedText;
         public string SearchedText
@@ -94,13 +97,13 @@ namespace Stegano.ViewModel
 
         private string pathToDirOrigFile;
         private string filenameOrigFile;
-        
+
         private int maxLettersIsCanHide;
         #endregion
 
         #region Constructor and Initializers
 
-        public ShowFontViewModel()
+        public ShowUnderlineViewModel()
         {
             DecodeUIInit();
             FontStats = new ObservableCollection<object>();
@@ -124,6 +127,9 @@ namespace Stegano.ViewModel
             rsaOpenCheckBox = new CheckBoxModel(true, false);
             AdditionalBitsCheckBox = new CheckBoxModel(true, false);
             SmartHidingCheckBox = new CheckBoxModel(true, false);
+
+            ShifrElGamalCheckBox = new CheckBoxModel(true, false);
+
         }
         #endregion
 
@@ -165,16 +171,24 @@ namespace Stegano.ViewModel
 
                 CryptedText = "";
                 SearchedText = "";
-                ShowFontModel codeModel = new ShowFontModel(PathToDoc);
-                string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
+                ShowUnderlineModel codeModel = new ShowUnderlineModel(PathToDoc);
+                string foundedBitsInDoc = await codeModel.FindInformation();
 
                 foundedBitsInDoc = AdditionalBitsCheckBox.IsChecked
-                    ? ShowFontModel.RemoveAdditBits(foundedBitsInDoc)
+                    ? ShowUnderlineModel.RemoveAdditBits(foundedBitsInDoc)
                     : foundedBitsInDoc;
 
-                MessageBox.Show(Convert.ToString(foundedBitsInDoc.Length));
+                
+
+                foundedBitsInDoc = ShifrElGamalCheckBox.IsChecked
+                   ? ShowUnderlineModel.ShowUnderlineElGamal(foundedBitsInDoc)
+                   : foundedBitsInDoc;
+
 
                 SearchedText = Converter.BinaryToString(foundedBitsInDoc);
+
+               // MessageBox.Show(Convert.ToString(foundedBitsInDoc.Length));
+                //MessageBox.Show(Convert.ToString(SearchedText.Length));
 
                 if (RsaOpenCheckBox.IsChecked)
                 {
@@ -194,7 +208,7 @@ namespace Stegano.ViewModel
                 }
 
 
-
+                
                 if (SearchedText.Length > 0)
                 {
                     ShowMetroMessageBox("Информация", "Извлечение информации из файла " + openFileDialog.SafeFileName + " прошло успешно.");

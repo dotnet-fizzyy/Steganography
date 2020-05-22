@@ -34,7 +34,7 @@
                 <!--Для Артема-->
                 <mui:Link DisplayName="(Дима)" Source="View/Pages/ShowColorView.xaml" />
                 <!--Для Димы-->
-                <mui:Link DisplayName="(Катя)" Source="View/Pages/ShowColorView.xaml" />
+                <mui:Link DisplayName="Подчеркивание" Source="View/Pages/ShowUnderlineView.xaml" />
                 <!--Для Кати-->
                 <mui:Link DisplayName="Настройки" Source="View/Pages/SettingsView.xaml" />
             </mui:ModernTab.Links>

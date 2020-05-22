@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -83,23 +84,28 @@
     <Compile Include="Algorithm\AttributeHiding.cs" />
     <Compile Include="Algorithm\Decoder.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
+    <Compile Include="Algorithm\ShifrElGamal.cs" />
     <Compile Include="Model\FontInfo.cs" />
     <Compile Include="Model\HideAproshModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />
     <Compile Include="Model\HideFontModel.cs" />
+    <Compile Include="Model\HideUnderlineModel.cs" />
     <Compile Include="Model\ShowAproshModel.cs" />
     <Compile Include="Model\ShowColorModel.cs" />
     <Compile Include="Model\ShowFontModel.cs" />
+    <Compile Include="Model\ShowUnderlineModel.cs" />
     <Compile Include="Model\TextStat.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\HideAproshViewModel.cs" />
     <Compile Include="ViewModel\HideColorViewModel.cs" />
     <Compile Include="ViewModel\HideFontViewModel.cs" />
+    <Compile Include="ViewModel\HideUnderlineViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Settings\AppearanceViewModel.cs" />
     <Compile Include="ViewModel\ShowAproshViewModel.cs" />
     <Compile Include="ViewModel\ShowColorViewModel.cs" />
     <Compile Include="ViewModel\ShowFontViewModel.cs" />
+    <Compile Include="ViewModel\ShowUnderlineViewModel.cs" />
     <Compile Include="ViewModel\ShowWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Pages\HideAproshView.xaml.cs">
@@ -110,6 +116,9 @@
     </Compile>
     <Compile Include="View\Pages\HideFontView.xaml.cs">
       <DependentUpon>HideFontView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\HideUnderlineView.xaml.cs">
+      <DependentUpon>HideUnderlineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -128,6 +137,9 @@
     </Compile>
     <Compile Include="View\Pages\ShowFontView.xaml.cs">
       <DependentUpon>ShowFontView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ShowUnderlineView.xaml.cs">
+      <DependentUpon>ShowUnderlineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
@@ -167,6 +179,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\HideUnderlineView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +204,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Pages\ShowFontView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ShowUnderlineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
