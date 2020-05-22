@@ -33,7 +33,6 @@ namespace Stegano.ViewModel
             SimpleIoc.Default.Register<HideColorViewModel>();
             SimpleIoc.Default.Register<ShowColorViewModel>();
             SimpleIoc.Default.Register<ShowAttributeViewModel>();
-            SimpleIoc.Default.Register<AproshViewModel>();
             SimpleIoc.Default.Register<HideAproshViewModel>();
             SimpleIoc.Default.Register<ShowAproshViewModel>();
             SimpleIoc.Default.Register<HideFontViewModel>();
@@ -81,7 +80,6 @@ namespace Stegano.ViewModel
             }
         }
 
-        public AproshViewModel Aprosh
         public HideFontViewModel HideFont
         {
             get
