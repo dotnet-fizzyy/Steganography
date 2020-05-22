@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using FirstFloor.ModernUI.Windows.Controls;
 using GalaSoft.MvvmLight;
@@ -10,10 +8,17 @@ using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
+using Aspose.Words.Lists;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Aspose.Words;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+using Stegano.Model.Aditional_Coding;
 
 namespace Stegano.ViewModel
 {
-    public class AproshViewModel:ViewModelBase
+    public class HideFontViewModel : ViewModelBase
     {
         #region Properties
 
@@ -22,6 +27,17 @@ namespace Stegano.ViewModel
         {
             get { return "Путь к файлу: " + fullPathToOrigFile; }
             set { fullPathToOrigFile = value; RaisePropertyChanged(); }
+        }
+
+        public int maxShift;
+        public int MaxShift
+        {
+            get => maxShift - Convert.ToInt32(countLettersForHide);
+            set
+            {
+                maxShift = value;
+                RaisePropertyChanged();
+            }
         }
 
         private string countLettersIsCanHide;
@@ -91,8 +107,7 @@ namespace Stegano.ViewModel
             }
         }
 
-        public string ZeroBitSpacing { get; set; }
-        public string SoloBitSpacing { get; set; }
+        private string sourceString = string.Empty;
 
         public CheckBoxModel RandomCheckBox { get; set; }
 
@@ -102,7 +117,9 @@ namespace Stegano.ViewModel
 
         public CheckBoxModel VisibleColorCheckBox { get; set; }
 
+        public CheckBoxModel SmartHidingCheckBox { get; set; }
 
+        public CheckBoxModel AttributeHidingCheckBox { get; set; }
 
         private bool isHideInformationButtonEnabled;
         public bool IsHideInformationButtonEnabled
@@ -115,8 +132,23 @@ namespace Stegano.ViewModel
             }
         }
 
+        public string OneFontName { get; set; }
+        public string ZeroFontName { get; set; }
+        public int CurrentShift { get; set; }
+        public ObservableCollection<object> FontStats { get; set; }
+
+        public ObservableCollection<ICod> CodMethods { get; set; }
+
+        public ICod SelectedCodMethod { get; set; }
+
         #endregion
 
+        #region RelayCommands
+
+        public RelayCommand OpenDocumentRelayCommand { get; private set; }
+        public RelayCommand HideInformationRelayCommand { get; private set; }
+
+        #endregion
 
         #region VARS
 
@@ -128,22 +160,16 @@ namespace Stegano.ViewModel
         private int maxLettersIsCanHide;
         #endregion
 
-        #region RelayCommands
-
-        public RelayCommand OpenDocumentRelayCommand { get; private set; }
-        public RelayCommand HideInformationRelayCommand { get; private set; }
-
-        #endregion
-
         #region Constructor and Initializers
 
-        public AproshViewModel()
+        public HideFontViewModel()
         {
-            UIInit();
-
+            FontStats = new ObservableCollection<object>();
             openFileDialog = new OpenFileDialog();
 
+            CodMethodsInit();
             RelayInit();
+            UIInit();
         }
 
         private void RelayInit()
@@ -151,11 +177,19 @@ namespace Stegano.ViewModel
             OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
             HideInformationRelayCommand = new RelayCommand(HideInformation);
         }
-        
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>();
+            CodMethods.Add(new CyclicCod());
+            CodMethods.Add(new HammingCod(16,false));
+            CodMethods.Add(new HammingCod(16,true));
+        }
 
         private void UIInit()
         {
             FullPathToOrigFile = "";
+            MaxShift = 1;
             CountLettersIsCanHide = 0.ToString();
             CountLettersForHide = 0.ToString();
 
@@ -168,17 +202,17 @@ namespace Stegano.ViewModel
             IsHideInformationButtonEnabled = false;
 
             RSACheckBox = new CheckBoxModel();
+            VisibleColorCheckBox = new CheckBoxModel();
             AdditionalBitsCheckBox = new CheckBoxModel();
             RandomCheckBox = new CheckBoxModel();
-            VisibleColorCheckBox = new CheckBoxModel();
+            SmartHidingCheckBox = new CheckBoxModel();
+            AttributeHidingCheckBox = new CheckBoxModel();
         }
-
 
         #endregion
 
-
-        #region RelayCommands
-        private void OpenDocument()
+        #region RelayMethods
+        private async void OpenDocument()
         {
             if (OpenFileDialog(openFileDialog) != null)
             {
@@ -186,8 +220,18 @@ namespace Stegano.ViewModel
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
+                FontStats.Clear();
+                int count = TextStat.HowMuchLettersICanHide(fullPathToOrigFile);
+                var stats = await TextStat.GetFontStat(fullPathToOrigFile);
+                foreach (var st in stats)
+                {
+                    FontStats.Add(new FontInfo(st.Key, st.Value, count));
+                }
+                MaxShift = count;
+                count /= 8;
+                CountLettersIsCanHide = count.ToString();
                 maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
+
                 if (Int32.Parse(countLettersIsCanHide) > 0)
                 {
                     IsTextForHideEnabled = true;
@@ -197,6 +241,8 @@ namespace Stegano.ViewModel
                     RSACheckBox.IsEnabled = true;
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
+                    SmartHidingCheckBox.IsEnabled = true;
+                    AttributeHidingCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -205,24 +251,33 @@ namespace Stegano.ViewModel
             }
         }
 
-        private void HideInformation()
+        private async void HideInformation()
         {
             if (textForHide.Length > 0)
             {
-                
+                sourceString = textForHide;
+
+                if (SmartHidingCheckBox.IsChecked)
+                {
+                    ShowMetroMessageBox("Предупреждение", "При выбранном умном скрытии автоматически будет включена псевдорандомизация, \n\tа визуальное выделение отключено!\n");
+                    RandomCheckBox.IsChecked = true;
+                    VisibleColorCheckBox.IsChecked = false;
+                }
+
+
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
+                
+                ShowMetroMessageBox(textForHide, Converter.StringToBinary(TextForHide));
 
-                textForHide = (RSACheckBox.IsChecked)
-                    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
-                    : Converter.StringToBinary(TextForHide);
+                //textForHide = (RSACheckBox.IsChecked)
+                //    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
+                //    : Converter.StringToBinary(TextForHide);
 
-                textForHide = (AdditionalBitsCheckBox.IsChecked)
-                    ? HideColorModel.AddAdditionalBits(textForHide)
-                    : textForHide;
+                textForHide = SelectedCodMethod?.Coding(Converter.StringToBinary(TextForHide)) ?? Converter.StringToBinary(TextForHide);
 
-                AproshModel codeModel = new AproshModel(pathToNewFile);
-                isSuccesful = codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
+                HideFontModel codeModel = new HideFontModel(pathToNewFile);
+                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
 
                 if (isSuccesful)
                 {
@@ -244,7 +299,9 @@ namespace Stegano.ViewModel
             //TextForHide = String.Empty;
         }
 
+
         #endregion
+
 
         private void TextForHideChanged(string text)
         {
@@ -260,7 +317,7 @@ namespace Stegano.ViewModel
         {
             try
             {
-                openFileDialog.Filter = "Файлы Microsoft Word|*.doс;*.doсx; | Все файлы|*.*";
+                openFileDialog.Filter = "Файлы Microsoft Word|*.doc;*.docx; | Все файлы|*.*";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
 
@@ -268,12 +325,12 @@ namespace Stegano.ViewModel
                 {
                     return openFileDialog;
                 }
-                
+
                 return null;
             }
             catch (Exception exception)
             {
-                ShowMetroMessageBox("Ошибка", exception.Message);
+                ShowMetroMessageBox("Error", exception.Message);
             }
 
             return null;

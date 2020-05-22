@@ -18,9 +18,9 @@ namespace Stegano.View.Pages
     /// <summary>
     /// Логика взаимодействия для AproshView.xaml
     /// </summary>
-    public partial class AproshView : UserControl
+    public partial class HideAproshView : UserControl
     {
-        public AproshView()
+        public HideAproshView()
         {
             InitializeComponent();
         }

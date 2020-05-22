@@ -10,13 +10,13 @@ using Stegano.Algorithm;
 
 namespace Stegano.Model
 {
-    class AproshModel
+    class HideAproshModel
     {
 
         private Document wordDoc;
         private Random rand;
         private string pathToModifiedFile;
-        public AproshModel(string pathToFile)
+        public HideAproshModel(string pathToFile)
         {
             pathToModifiedFile = pathToFile;
             wordDoc = new Document(pathToFile);
