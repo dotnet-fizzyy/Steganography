@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using Stegano.Interfaces;
 
 namespace Stegano.Algorithm
 {
@@ -13,7 +14,7 @@ namespace Stegano.Algorithm
         public string IV { get; set; }
     }
 
-    public class TwoFish
+    public class TwoFish : ICrypt
     {
         RNGCryptoServiceProvider randomSource;
 
@@ -93,6 +94,11 @@ namespace Stegano.Algorithm
             var plainText = Decrypt_CBC(encryptedText);
 
             return plainText;
+        }
+
+        public override string ToString()
+        {
+            return "TwoFish";
         }
 
         private byte[] GenerateKey()

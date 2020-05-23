@@ -5,6 +5,9 @@ using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
+using Stegano.Model.Aditional_Coding;
+using Stegano.Interfaces;
 
 namespace Stegano.ViewModel
 {
@@ -92,6 +95,15 @@ namespace Stegano.ViewModel
             }
         }
 
+        public ObservableCollection<ICod> CodMethods { get; set; }
+        public ICod SelectedCodMethod { get; set; }
+
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
+
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
+
 
         #endregion
 
@@ -123,6 +135,38 @@ namespace Stegano.ViewModel
             openFileDialog = new OpenFileDialog();
 
             RelayInit();
+            CodMethodsInit();
+            CryptMethodsInit();
+            HashMethodsInit();
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>
+            {
+                new CyclicCod(),
+                new HammingCod(16, false),
+                new HammingCod(16, true),
+            };
+        }
+
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
         }
 
         private void RelayInit()
@@ -188,7 +232,7 @@ namespace Stegano.ViewModel
                 AttributeHiding attributeHiding = new AttributeHiding(pathToDoc);
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
 
-                if (HashingSHA512.IsChecked || HashingMD5.IsChecked)
+                if (SelectedHashMethod != null)
                 {
                     if (string.IsNullOrEmpty(HashFile))
                     {
@@ -196,8 +240,7 @@ namespace Stegano.ViewModel
                         return;
                     }
 
-                    ShowAttributeModel attributeModel = new ShowAttributeModel();
-                    var isHashSame = HashingSHA512.IsChecked ? attributeModel.VerifySHA512Hash(SearchedText, HashFile) : attributeModel.VerifyMD5Hash(SearchedText, HashFile);
+                    var isHashSame = SelectedHashMethod.VerifyHash(SearchedText, HashFile);
 
                     if (!isHashSame)
                     {
@@ -206,23 +249,12 @@ namespace Stegano.ViewModel
                     }
                 }
 
-                if (RsaOpenCheckBox.IsChecked)
+                if (SelectedCodMethod != null)
                 {
-                    if (string.IsNullOrEmpty(RsaFile))
-                    {
-                        ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
-                        return;
-                    }
-
-                    SearchedText = await Converter.RsaDecryptor(SearchedText, RsaFile);
-                    if (string.IsNullOrEmpty(SearchedText))
-                    {
-                        ShowMetroMessageBox("Информация", "Ключ не подходит.");
-                        return;
-                    }
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
                 }
 
-                if (AesOpenCheckBox.IsChecked)
+                if (SelectedCryptMethod != null)
                 {
                     if (string.IsNullOrEmpty(RsaFile))
                     {
@@ -230,25 +262,8 @@ namespace Stegano.ViewModel
                         return;
                     }
 
-                    AES aesDecryption = new AES();
-                    SearchedText = aesDecryption.Decrypt(SearchedText, RsaFile);
-                    if (string.IsNullOrEmpty(SearchedText))
-                    {
-                        ShowMetroMessageBox("Информация", "Ключ не подходит.");
-                        return;
-                    }
-                }
+                    SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, RsaFile) ?? SearchedText;
 
-                if (TwoFishCheckBox.IsChecked)
-                {
-                    if (string.IsNullOrEmpty(RsaFile))
-                    {
-                        ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
-                        return;
-                    }
-
-                    TwoFish twoFishDecryption = new TwoFish();
-                    SearchedText = twoFishDecryption.Decrypt(SearchedText, RsaFile);
                     if (string.IsNullOrEmpty(SearchedText))
                     {
                         ShowMetroMessageBox("Информация", "Ключ не подходит.");

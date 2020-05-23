@@ -6,10 +6,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Stegano.Interfaces;
 
 namespace Stegano.Algorithm
 {
-    public class AES
+    public class AES : ICrypt
     {
         private AesCryptoServiceProvider cryptoProvider;
 
@@ -59,6 +60,11 @@ namespace Stegano.Algorithm
             string decryptedString = Encoding.Unicode.GetString(decryptedBytes);
 
             return decryptedString;
+        }
+
+        public override string ToString()
+        {
+            return "AES";
         }
     }
 

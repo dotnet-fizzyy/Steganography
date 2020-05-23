@@ -87,8 +87,13 @@
     <Compile Include="Algorithm\AttributeHiding.cs" />
     <Compile Include="Algorithm\Decoder.cs" />
     <Compile Include="Algorithm\Hashing.cs" />
+    <Compile Include="Algorithm\MD5.cs" />
+    <Compile Include="Algorithm\RSA.cs" />
+    <Compile Include="Algorithm\SHA512.cs" />
+    <Compile Include="Interfaces\ICrypt.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
     <Compile Include="Algorithm\TwoFish.cs" />
+    <Compile Include="Interfaces\IHash.cs" />
     <Compile Include="Model\AttributeHidingModel.cs" />
     <Compile Include="Model\Aditional Coding\CyclicCod.cs" />
     <Compile Include="Model\Aditional Coding\HammingCod.cs" />
@@ -99,7 +104,6 @@
     <Compile Include="Model\CheckBoxModel.cs" />
     <Compile Include="Model\HideFontModel.cs" />
     <Compile Include="Model\ShowAproshModel.cs" />
-    <Compile Include="Model\ShowAttributeModel.cs" />
     <Compile Include="Model\ShowColorModel.cs" />
     <Compile Include="Model\ShowFontModel.cs" />
     <Compile Include="Algorithm\TextStat.cs" />

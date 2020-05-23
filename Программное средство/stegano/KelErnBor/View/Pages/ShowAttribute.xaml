@@ -50,12 +50,20 @@
 
                     <Label Grid.Row="2"  Margin="208,8,8,8" FontSize="15" Content="{Binding RsaFile}" Grid.ColumnSpan="2"/>
 
-                    <CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
+                    <Label Grid.Column="0" Grid.Row="3" Margin="8,10,0,0" FontSize="16" Content="Криптопреобразование: "/>
+                    <ComboBox Margin="208,10.4,8,42" Grid.Column="0" Grid.Row="3" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+
+                    <Label Grid.Column="0" Grid.Row="4" Margin="8,10,0,0" FontSize="16" Content="Кодирование: "/>
+                    <ComboBox Margin="208,10.4,8,9.8" Grid.Row="4" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
+
+                    <Label Grid.Column="0" Grid.Row="5" Margin="8,0,0,3" FontSize="16" Content="Хэширование: "/>
+                    <ComboBox Margin="208,0.2,8,0.2" Grid.Row="5" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+                    <!--<CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
                               IsEnabled="{Binding RsaOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RsaOpenCheckBox.IsChecked, Mode=TwoWay}"/>
 
                     <CheckBox Grid.Column="0" Grid.Row="4" Margin="12,8,12,0" FontSize="16" Content="Использовался циклический код"
                               IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked, Mode=TwoWay}"/>
-                    
+
                     <CheckBox Grid.Column="1" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался AES"
                               IsEnabled="{Binding AesOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AesOpenCheckBox.IsChecked, Mode=TwoWay}"/>
 
@@ -67,7 +75,7 @@
 
 
                     <CheckBox Grid.Column="0" Grid.Row="5" Margin="12,8,12,0" FontSize="16" Content="Применялось хэширование MD5"
-                              IsEnabled="{Binding HashingMD5.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingMD5.IsChecked, Mode=TwoWay}"/>
+                              IsEnabled="{Binding HashingMD5.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingMD5.IsChecked, Mode=TwoWay}"/>-->
                 </Grid>
 
                 <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"  Margin="8,10"  Content="Открыть файл с хэшем" Command="{Binding OpenHashDocument}"/>

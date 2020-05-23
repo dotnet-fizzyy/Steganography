@@ -11,7 +11,6 @@
     </UserControl.DataContext>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -67,24 +66,19 @@
 
                 </Grid>
 
-                <CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
-                               Content="Дополнительное криптопреобразование по алгоритму RSA"/>
+                <Label Grid.Column="0" Grid.Row="8" Margin="8,10,0,0" FontSize="15" Content="Криптопреобразование: "/>
+                <ComboBox Margin="185,10,8,0" Grid.Column="0" Grid.Row="8" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
-                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding AESCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AESCheckBox.IsChecked,Mode=TwoWay}"
-                               Content="Дополнительное криптопреобразование по алгоритму AES"/>
-
-                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding TwoFishCheckBox.IsEnabled, Mode=TwoWay}" 
-                              Content="Дополнительное криптопреобразование по алгоритму TwoFish" IsChecked="{Binding TwoFishCheckBox.IsChecked,Mode=TwoWay}"/>
-
-                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                <CheckBox  Grid.Column="0" Grid.Row="12" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="11" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding HashingSHA512CheckBox.IsEnabled, Mode=TwoWay}" 
-                           Content="Хэширование по SHA512" IsChecked="{Binding HashingSHA512CheckBox.IsChecked,Mode=TwoWay}"/>
+                <Label Grid.Column="0" Grid.Row="10" Margin="8,10,0,0" FontSize="15" Content="Кодирование: "/>
+                <ComboBox Margin="185,10,8,10" Grid.Row="10" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                
+                <Label Grid.Column="0" Grid.Row="11" Margin="8,0,0,0" FontSize="15" Content="Хэширование: "/>
+                <ComboBox Margin="185,0,8,0" Grid.Row="11" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
-                <CheckBox Grid.Column="0" Grid.Row="12" Margin="12,8,12,0" FontSize="16" Content="Хэширование по MD5" IsEnabled="{Binding HashingMD5CheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding HashingMD5CheckBox.IsChecked,Mode=TwoWay}"/>
-
-                <Button Grid.Column="0" Grid.Row="13" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                <Button Grid.Column="0" Grid.Row="13" Margin="4,10,12,-36.2" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
                             IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию" Click="Button_Click"/>
 
             </Grid>

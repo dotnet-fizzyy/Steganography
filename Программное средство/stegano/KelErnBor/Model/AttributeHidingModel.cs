@@ -21,7 +21,7 @@ namespace Stegano.Model
             rand = new Random();
         }
 
-        public Task<bool> HideInformation(char[] messageInBits, bool isVisibleColor, bool isHashing, bool isEncrypted)
+        public Task<bool> HideInformation(char[] messageInBits, bool isVisibleColor, bool isEncoded, bool isEncrypted)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Stegano.Model
                 wordDoc.UpdateFields();
                 wordDoc.UpdatePageLayout();
 
-                SetHiding(wordDoc, isVisibleColor, messageInBits, isEncrypted);
+                SetHiding(wordDoc, isVisibleColor, messageInBits, isEncoded, isEncrypted);
 
                 wordDoc.Save(pathToModifiedFile);
 
@@ -47,9 +47,9 @@ namespace Stegano.Model
         }
 
 
-        private void SetHiding(Document doc, bool isVisibleColor, char[] messageInBits, bool isEncrypted)
+        private void SetHiding(Document doc, bool isVisibleColor, char[] messageInBits, bool isEncoded, bool isEncrypted)
         {
-            var message = string.IsNullOrEmpty(Converter.BinaryToString(new string(messageInBits))) ? new string(messageInBits) : Converter.BinaryToString(new string(messageInBits));
+            var message = isEncoded || string.IsNullOrEmpty(Converter.BinaryToString(new string(messageInBits))) ? new string(messageInBits) : Converter.BinaryToString(new string(messageInBits));
             AttributeHiding attributeHiding = new AttributeHiding(doc, isEncrypted, isVisibleColor, pathToModifiedFile);
             attributeHiding.HideInfoInAttribute(message);
         }

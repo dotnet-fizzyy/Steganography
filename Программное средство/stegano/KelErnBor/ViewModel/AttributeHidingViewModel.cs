@@ -9,6 +9,9 @@ using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
 using System.IO;
+using System.Collections.ObjectModel;
+using Stegano.Model.Aditional_Coding;
+using Stegano.Interfaces;
 
 namespace Stegano.ViewModel
 {
@@ -126,6 +129,15 @@ namespace Stegano.ViewModel
         public RelayCommand OpenDocumentRelayCommand { get; private set; }
         public RelayCommand HideInformationRelayCommand { get; private set; }
 
+        public ObservableCollection<ICod> CodMethods { get; set; }
+        public ICod SelectedCodMethod { get; set; }
+
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
+
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
+
         #endregion
 
         #region VARS
@@ -143,10 +155,11 @@ namespace Stegano.ViewModel
         public AttributeHidingViewModel()
         {
             UIInit();
-
             openFileDialog = new OpenFileDialog();
-
             RelayInit();
+            CodMethodsInit();
+            CryptMethodsInit();
+            HashMethodsInit();
         }
 
         private void RelayInit()
@@ -176,6 +189,35 @@ namespace Stegano.ViewModel
             HashingSHA512CheckBox = new CheckBoxModel();
             AESCheckBox = new CheckBoxModel();
             TwoFishCheckBox = new CheckBoxModel();
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>
+            {
+                new CyclicCod(),
+                new HammingCod(16, false),
+                new HammingCod(16, true),
+            };
+        }
+
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
         }
 
         #endregion
@@ -220,40 +262,19 @@ namespace Stegano.ViewModel
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
-                if (RSACheckBox.IsChecked)
-                {
-                    textForHide = Converter.RsaCryptor(TextForHide, pathToDirOrigFile);
-                }
+                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
 
-                if (AESCheckBox.IsChecked)
-                {
-                    AES aesEncryption = new AES();
-                    textForHide = aesEncryption.Encrypt(textForHide, pathToDirOrigFile);
-                }
+                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
 
-                if (TwoFishCheckBox.IsChecked)
-                {
-                    TwoFish twoFishEncryption = new TwoFish();
-                    textForHide = twoFishEncryption.Encrypt(textForHide, pathToDirOrigFile);
-                }
-
-                textForHide = (AdditionalBitsCheckBox.IsChecked)
-                    ? HideColorModel.AddAdditionalBits(textForHide)
-                    : textForHide;
-
-                    AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
-                    isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, HashingSHA512CheckBox.IsChecked, RSACheckBox.IsChecked);
+                AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
+                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
 
                 sourceString = string.IsNullOrEmpty(Converter.BinaryToString(textForHide)) ? textForHide : Converter.BinaryToString(textForHide);
 
-                if (HashingSHA512CheckBox.IsChecked)
+                var hash = SelectedHashMethod?.GetHash(TextForHide) ?? TextForHide;
+                if (!string.IsNullOrWhiteSpace(hash))
                 {
-                    Hashing.SaveHash(pathToDirOrigFile, Hashing.GetSHA512Hash(sourceString));
-                }
-
-                if (HashingMD5CheckBox.IsChecked)
-                {
-                    Hashing.SaveHash(pathToDirOrigFile, Hashing.GetMd5Hash(sourceString));
+                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
 
                 if (isSuccesful)
