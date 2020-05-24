@@ -4,6 +4,6 @@
     {
         string GetHash(string input);
 
-        bool VerifyHash(string input, string hash);
+        bool VerifyHash(string input, string hashPath);
     }
 }
