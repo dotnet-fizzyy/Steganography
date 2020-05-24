@@ -16,24 +16,13 @@ using System.Windows.Shapes;
 namespace Stegano.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для AttributeHiding.xaml
+    /// Логика взаимодействия для ShowAttribute.xaml
     /// </summary>
-    public partial class AttributeHiding : UserControl
+    public partial class ShowAttribute : UserControl
     {
-        public AttributeHiding()
+        public ShowAttribute()
         {
             InitializeComponent();
-        }
-
-        private void HidenTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var binding = ((TextBox)sender).GetBindingExpression(TextBox.TextProperty);
-            binding.UpdateSource();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

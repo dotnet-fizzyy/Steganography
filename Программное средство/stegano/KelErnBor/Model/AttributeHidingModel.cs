@@ -1,30 +1,27 @@
-﻿using System;
+﻿using Aspose.Words;
+using Stegano.Algorithm;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Aspose.Words;
-using Aspose.Words.Replacing;
-using Aspose.Words.Saving;
-using Stegano.Algorithm;
 
 namespace Stegano.Model
 {
-    class HideFontModel
+    public class AttributeHidingModel
     {
-
         private Document wordDoc;
         private Random rand;
         private string pathToModifiedFile;
-        public HideFontModel(string pathToFile)
+        public AttributeHidingModel(string pathToFile)
         {
             pathToModifiedFile = pathToFile;
             wordDoc = new Document(pathToFile);
             rand = new Random();
         }
 
-        public Task<bool> HideInformation(char[] messageInBits,int shiftValue, bool isRandomHiding, bool isVisibleColor, string oneFontName, string zeroFontName)
+        public Task<bool> HideInformation(char[] messageInBits, bool isVisibleColor, bool isEncoded, bool isEncrypted)
         {
             try
             {
@@ -33,66 +30,54 @@ namespace Stegano.Model
 
                 DocumentHelper.CutParagraphToRun(ref wordDoc, ref documentBuilder);
 
-                SetHiding(isRandomHiding, shiftValue, isVisibleColor, documentBuilder, messageInBits, oneFontName, zeroFontName);
-
-
                 wordDoc.UpdateFields();
                 wordDoc.UpdatePageLayout();
+
+                SetHiding(wordDoc, isVisibleColor, messageInBits, isEncoded, isEncrypted);
+
                 wordDoc.Save(pathToModifiedFile);
 
 
                 return Task.FromResult(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Task.FromResult(false);
             }
         }
 
 
-        private void SetHiding(bool isRandom, int shiftValue, bool isVisibleColor, DocumentBuilder documentBuilder, char[] messageInBits, string oneFontName, string zeroFontName)
+        private void SetHiding(Document doc, bool isVisibleColor, char[] messageInBits, bool isEncoded, bool isEncrypted)
         {
-            if (isRandom)
+            var message = isEncoded || string.IsNullOrEmpty(Converter.BinaryToString(new string(messageInBits))) ? new string(messageInBits) : Converter.BinaryToString(new string(messageInBits));
+            AttributeHiding attributeHiding = new AttributeHiding(doc, isEncrypted, isVisibleColor, pathToModifiedFile);
+            attributeHiding.HideInfoInAttribute(message);
+        }
+
+        public static int HowMuchLettersICanHide(string pathToFile)
+        {
+            try
             {
-                int part = wordDoc.GetChildNodes(NodeType.Run, true).Count / messageInBits.Length;
-                for (int i = 0; i < messageInBits.Length; i++)
+                int counterLetters = 0;
+
+                Document originalDocument = new Document(pathToFile);
+                NodeCollection paragraphs = originalDocument.GetChildNodes(NodeType.Paragraph, true);
+
+
+
+                foreach (Paragraph parag in paragraphs)
                 {
-                    var randomPosition = rand.Next(part * i + 1, part * (i + 1));
-
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + randomPosition]);
-
-                    setNodeOption(i);
+                    counterLetters += parag.Range.Text.Length;
                 }
+
+                return (counterLetters / 8) > 0 ? counterLetters / 8 : 0;
             }
-            else
+            catch
             {
-                for (int i = 0; i < messageInBits.Length; i++)
-                {
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + i]);
-
-                    setNodeOption(i);
-                }
-            }
-
-            void setNodeOption(int i)
-            {
-                
-                if (isVisibleColor)
-                {
-                    ((Run)documentBuilder.CurrentNode).Font.Color = messageInBits[i] == '1'
-                        ? ColorTranslator.FromHtml("#0459ED")
-                        : ColorTranslator.FromHtml("#ed0459");
-                }
-
-                ((Run)documentBuilder.CurrentNode).Font.Name = messageInBits[i] == '1'
-                        ? oneFontName
-                        : zeroFontName;
-
+                return 0;
             }
         }
 
-
-       
         public static string AddAdditionalBits(string messageInBits)
         {
 

@@ -32,14 +32,19 @@ namespace Stegano.ViewModel
             SimpleIoc.Default.Register<ShowWindowViewModel>();
             SimpleIoc.Default.Register<HideColorViewModel>();
             SimpleIoc.Default.Register<ShowColorViewModel>();
+            SimpleIoc.Default.Register<ShowAttributeViewModel>();
             SimpleIoc.Default.Register<HideAproshViewModel>();
             SimpleIoc.Default.Register<ShowAproshViewModel>();
             SimpleIoc.Default.Register<HideFontViewModel>();
             SimpleIoc.Default.Register<ShowFontViewModel>();
             SimpleIoc.Default.Register<AppearanceViewModel>();
 
+
             SimpleIoc.Default.Register<HideUnderlineViewModel>();
             SimpleIoc.Default.Register<ShowUnderlineViewModel>();
+
+
+            SimpleIoc.Default.Register<AttributeHidingViewModel>();
 
         }
 
@@ -71,6 +76,14 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowColorViewModel>();
+            }
+        }
+
+        public ShowAttributeViewModel ShowAttribute
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ShowAttributeViewModel>();
             }
         }
 
@@ -114,6 +127,7 @@ namespace Stegano.ViewModel
             }
         }
 
+
         public HideUnderlineViewModel HideKatya
         {
             get
@@ -127,6 +141,13 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowUnderlineViewModel>();
+
+        public AttributeHidingViewModel AttributeHiding
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AttributeHidingViewModel>();
+
             }
         }
 

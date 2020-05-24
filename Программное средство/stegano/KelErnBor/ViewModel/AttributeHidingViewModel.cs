@@ -8,17 +8,14 @@ using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
 using Stegano.Model;
 using Microsoft.Win32;
-using Aspose.Words.Lists;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Aspose.Words;
+using System.IO;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 using Stegano.Model.Aditional_Coding;
+using Stegano.Interfaces;
 
 namespace Stegano.ViewModel
 {
-    public class HideFontViewModel : ViewModelBase
+    public class AttributeHidingViewModel : ViewModelBase
     {
         #region Properties
 
@@ -27,17 +24,6 @@ namespace Stegano.ViewModel
         {
             get { return "Путь к файлу: " + fullPathToOrigFile; }
             set { fullPathToOrigFile = value; RaisePropertyChanged(); }
-        }
-
-        public int maxShift;
-        public int MaxShift
-        {
-            get => maxShift - Convert.ToInt32(countLettersForHide);
-            set
-            {
-                maxShift = value;
-                RaisePropertyChanged();
-            }
         }
 
         private string countLettersIsCanHide;
@@ -109,17 +95,21 @@ namespace Stegano.ViewModel
 
         private string sourceString = string.Empty;
 
-        public CheckBoxModel RandomCheckBox { get; set; }
 
         public CheckBoxModel RSACheckBox { get; set; }
+
+        public CheckBoxModel AESCheckBox { get; set; }
+
+        public CheckBoxModel TwoFishCheckBox { get; set; }
 
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel VisibleColorCheckBox { get; set; }
 
-        public CheckBoxModel SmartHidingCheckBox { get; set; }
+        public CheckBoxModel HashingSHA512CheckBox { get; set; }
 
-        public CheckBoxModel AttributeHidingCheckBox { get; set; }
+        public CheckBoxModel HashingMD5CheckBox { get; set; }
+
 
         private bool isHideInformationButtonEnabled;
         public bool IsHideInformationButtonEnabled
@@ -132,21 +122,21 @@ namespace Stegano.ViewModel
             }
         }
 
-        public string OneFontName { get; set; }
-        public string ZeroFontName { get; set; }
-        public int CurrentShift { get; set; }
-        public ObservableCollection<object> FontStats { get; set; }
-
-        public ObservableCollection<ICod> CodMethods { get; set; }
-
-        public ICod SelectedCodMethod { get; set; }
-
         #endregion
 
         #region RelayCommands
 
         public RelayCommand OpenDocumentRelayCommand { get; private set; }
         public RelayCommand HideInformationRelayCommand { get; private set; }
+
+        public ObservableCollection<ICod> CodMethods { get; set; }
+        public ICod SelectedCodMethod { get; set; }
+
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
+
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
 
         #endregion
 
@@ -162,14 +152,14 @@ namespace Stegano.ViewModel
 
         #region Constructor and Initializers
 
-        public HideFontViewModel()
+        public AttributeHidingViewModel()
         {
-            FontStats = new ObservableCollection<object>();
-            openFileDialog = new OpenFileDialog();
-
-            CodMethodsInit();
-            RelayInit();
             UIInit();
+            openFileDialog = new OpenFileDialog();
+            RelayInit();
+            CodMethodsInit();
+            CryptMethodsInit();
+            HashMethodsInit();
         }
 
         private void RelayInit()
@@ -178,18 +168,9 @@ namespace Stegano.ViewModel
             HideInformationRelayCommand = new RelayCommand(HideInformation);
         }
 
-        private void CodMethodsInit()
-        {
-            CodMethods = new ObservableCollection<ICod>();
-            CodMethods.Add(new CyclicCod());
-            CodMethods.Add(new HammingCod(16,false));
-            CodMethods.Add(new HammingCod(16,true));
-        }
-
         private void UIInit()
         {
             FullPathToOrigFile = "";
-            MaxShift = 1;
             CountLettersIsCanHide = 0.ToString();
             CountLettersForHide = 0.ToString();
 
@@ -204,15 +185,45 @@ namespace Stegano.ViewModel
             RSACheckBox = new CheckBoxModel();
             VisibleColorCheckBox = new CheckBoxModel();
             AdditionalBitsCheckBox = new CheckBoxModel();
-            RandomCheckBox = new CheckBoxModel();
-            SmartHidingCheckBox = new CheckBoxModel();
-            AttributeHidingCheckBox = new CheckBoxModel();
+            HashingMD5CheckBox = new CheckBoxModel();
+            HashingSHA512CheckBox = new CheckBoxModel();
+            AESCheckBox = new CheckBoxModel();
+            TwoFishCheckBox = new CheckBoxModel();
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>
+            {
+                new CyclicCod(),
+                new HammingCod(16, false),
+                new HammingCod(16, true),
+            };
+        }
+
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
         }
 
         #endregion
 
         #region RelayMethods
-        private async void OpenDocument()
+        private void OpenDocument()
         {
             if (OpenFileDialog(openFileDialog) != null)
             {
@@ -220,29 +231,20 @@ namespace Stegano.ViewModel
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                FontStats.Clear();
-                int count = TextStat.HowMuchLettersICanHide(fullPathToOrigFile);
-                var stats = await TextStat.GetFontStat(fullPathToOrigFile);
-                foreach (var st in stats)
-                {
-                    FontStats.Add(new FontInfo(st.Key, st.Value, count));
-                }
-                MaxShift = count;
-                count /= 8;
-                CountLettersIsCanHide = count.ToString();
+                CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
                 maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
-
                 if (Int32.Parse(countLettersIsCanHide) > 0)
                 {
                     IsTextForHideEnabled = true;
                     IsHideInformationButtonEnabled = true;
 
-                    RandomCheckBox.IsEnabled = true;
+                    HashingMD5CheckBox.IsEnabled = true;
                     RSACheckBox.IsEnabled = true;
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
-                    SmartHidingCheckBox.IsEnabled = true;
-                    AttributeHidingCheckBox.IsEnabled = true;
+                    HashingSHA512CheckBox.IsEnabled = true;
+                    AESCheckBox.IsEnabled = true;
+                    TwoFishCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -257,27 +259,23 @@ namespace Stegano.ViewModel
             {
                 sourceString = textForHide;
 
-                if (SmartHidingCheckBox.IsChecked)
-                {
-                    ShowMetroMessageBox("Предупреждение", "При выбранном умном скрытии автоматически будет включена псевдорандомизация, \n\tа визуальное выделение отключено!\n");
-                    RandomCheckBox.IsChecked = true;
-                    VisibleColorCheckBox.IsChecked = false;
-                }
-
-
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
-                
-                ShowMetroMessageBox(textForHide, Converter.StringToBinary(TextForHide));
 
-                //textForHide = (RSACheckBox.IsChecked)
-                //    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
-                //    : Converter.StringToBinary(TextForHide);
+                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
 
-                textForHide = SelectedCodMethod?.Coding(Converter.StringToBinary(TextForHide)) ?? Converter.StringToBinary(TextForHide);
+                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
 
-                HideFontModel codeModel = new HideFontModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
+                AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
+                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
+
+                sourceString = string.IsNullOrEmpty(Converter.BinaryToString(textForHide)) ? textForHide : Converter.BinaryToString(textForHide);
+
+                var hash = SelectedHashMethod?.GetHash(TextForHide) ?? TextForHide;
+                if (!string.IsNullOrWhiteSpace(hash))
+                {
+                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
+                }
 
                 if (isSuccesful)
                 {

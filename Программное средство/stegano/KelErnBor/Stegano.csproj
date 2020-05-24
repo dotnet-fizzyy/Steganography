@@ -53,6 +53,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -81,10 +84,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithm\AES.cs" />
     <Compile Include="Algorithm\AttributeHiding.cs" />
     <Compile Include="Algorithm\Decoder.cs" />
+    <Compile Include="Algorithm\Hashing.cs" />
+    <Compile Include="Algorithm\MD5.cs" />
+    <Compile Include="Algorithm\RSA.cs" />
+    <Compile Include="Algorithm\SHA512.cs" />
+    <Compile Include="Interfaces\ICrypt.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
+
     <Compile Include="Algorithm\ShifrElGamal.cs" />
+
+    <Compile Include="Algorithm\TwoFish.cs" />
+    <Compile Include="Interfaces\IHash.cs" />
+    <Compile Include="Model\AttributeHidingModel.cs" />
+    <Compile Include="Model\Aditional Coding\CyclicCod.cs" />
+    <Compile Include="Model\Aditional Coding\HammingCod.cs" />
+    <Compile Include="Model\Aditional Coding\ICod.cs" />
+    <Compile Include="Model\Aditional Coding\Matrix.cs" />
+
     <Compile Include="Model\FontInfo.cs" />
     <Compile Include="Model\HideAproshModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />
@@ -93,16 +112,22 @@
     <Compile Include="Model\ShowAproshModel.cs" />
     <Compile Include="Model\ShowColorModel.cs" />
     <Compile Include="Model\ShowFontModel.cs" />
+
     <Compile Include="Model\ShowUnderlineModel.cs" />
     <Compile Include="Model\TextStat.cs" />
+
+    <Compile Include="Algorithm\TextStat.cs" />
+
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\HideAproshViewModel.cs" />
+    <Compile Include="ViewModel\AttributeHidingViewModel.cs" />
     <Compile Include="ViewModel\HideColorViewModel.cs" />
     <Compile Include="ViewModel\HideFontViewModel.cs" />
     <Compile Include="ViewModel\HideUnderlineViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Settings\AppearanceViewModel.cs" />
     <Compile Include="ViewModel\ShowAproshViewModel.cs" />
+    <Compile Include="ViewModel\ShowAttributeViewModel.cs" />
     <Compile Include="ViewModel\ShowColorViewModel.cs" />
     <Compile Include="ViewModel\ShowFontViewModel.cs" />
     <Compile Include="ViewModel\ShowUnderlineViewModel.cs" />
@@ -131,6 +156,9 @@
     </Compile>
     <Compile Include="View\Pages\ShowAproshView.xaml.cs">
       <DependentUpon>ShowAproshView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ShowAttribute.xaml.cs">
+      <DependentUpon>ShowAttribute.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\ShowColorView.xaml.cs">
       <DependentUpon>ShowColorView.xaml</DependentUpon>
@@ -196,6 +224,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Pages\ShowAproshView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ShowAttribute.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

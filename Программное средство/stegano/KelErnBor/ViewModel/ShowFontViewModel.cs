@@ -7,6 +7,7 @@ using Stegano.Model;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Stegano.Model.Aditional_Coding;
 
 namespace Stegano.ViewModel
 {
@@ -77,6 +78,10 @@ namespace Stegano.ViewModel
         public string OneFontName { get; set; }
         public string ZeroFontName { get; set; }
         public ObservableCollection<object> FontStats { get; set; }
+        
+        public ObservableCollection<ICod> CodMethods { get; set; }
+        
+        public ICod SelectedCodMethod { get; set; }
 
         #endregion
 
@@ -102,12 +107,20 @@ namespace Stegano.ViewModel
 
         public ShowFontViewModel()
         {
-            DecodeUIInit();
             FontStats = new ObservableCollection<object>();
-
             openFileDialog = new OpenFileDialog();
 
             RelayInit();
+            DecodeUIInit();
+            CodMethodsInit();
+        }
+
+        private void CodMethodsInit()
+        {
+            CodMethods = new ObservableCollection<ICod>();
+            CodMethods.Add(new CyclicCod());
+            CodMethods.Add(new HammingCod(16,false));
+            CodMethods.Add(new HammingCod(16,true));
         }
 
         private void RelayInit()
@@ -168,9 +181,7 @@ namespace Stegano.ViewModel
                 ShowFontModel codeModel = new ShowFontModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
 
-                foundedBitsInDoc = AdditionalBitsCheckBox.IsChecked
-                    ? ShowFontModel.RemoveAdditBits(foundedBitsInDoc)
-                    : foundedBitsInDoc;
+                foundedBitsInDoc = SelectedCodMethod?.DeCoding(foundedBitsInDoc) ?? foundedBitsInDoc;
 
                 MessageBox.Show(Convert.ToString(foundedBitsInDoc.Length));
 

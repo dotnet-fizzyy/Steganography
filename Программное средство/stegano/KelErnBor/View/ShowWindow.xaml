@@ -32,7 +32,7 @@
                 <mui:Link DisplayName="Апрош" Source="View/Pages/ShowAproshView.xaml" />
                 <mui:Link DisplayName="Шрифт" Source="View/Pages/ShowFontView.xaml" />
                 <!--Для Артема-->
-                <mui:Link DisplayName="(Дима)" Source="View/Pages/ShowColorView.xaml" />
+                <mui:Link DisplayName="Дима" Source="View/Pages/ShowAttribute.xaml" />
                 <!--Для Димы-->
                 <mui:Link DisplayName="Подчеркивание" Source="View/Pages/ShowUnderlineView.xaml" />
                 <!--Для Кати-->
