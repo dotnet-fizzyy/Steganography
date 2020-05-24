@@ -28,10 +28,12 @@ namespace Stegano.Algorithm
             }
         }
 
-        public bool VerifyHash(string input, string hash)
+        public bool VerifyHash(string input, string hashPath)
         {
             // Hash the input.
             string hashOfInput = GetHash(input);
+
+            var hash = File.ReadAllText(hashPath);
 
             // Create a StringComparer an compare the hashes.
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;

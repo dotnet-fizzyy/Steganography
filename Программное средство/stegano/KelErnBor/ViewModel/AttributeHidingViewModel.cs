@@ -269,9 +269,7 @@ namespace Stegano.ViewModel
                 AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
 
-                sourceString = string.IsNullOrEmpty(Converter.BinaryToString(textForHide)) ? textForHide : Converter.BinaryToString(textForHide);
-
-                var hash = SelectedHashMethod?.GetHash(TextForHide) ?? TextForHide;
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
