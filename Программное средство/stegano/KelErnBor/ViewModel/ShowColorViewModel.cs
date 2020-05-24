@@ -50,6 +50,8 @@ namespace Stegano.ViewModel
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
 
+        public CheckBoxModel AttributeHiding { get; set; }
+
         private string searchedText;
         public string SearchedText
         {
@@ -118,6 +120,7 @@ namespace Stegano.ViewModel
             rsaOpenCheckBox = new CheckBoxModel(true, false);
             AdditionalBitsCheckBox = new CheckBoxModel(true,false);
             SmartHidingCheckBox = new CheckBoxModel(true,false);
+            AttributeHiding = new CheckBoxModel(true, false);
         }
         #endregion
 
@@ -151,6 +154,19 @@ namespace Stegano.ViewModel
 
                 CryptedText = "";
                 SearchedText = "";
+
+                if (AttributeHiding.IsChecked)
+                {
+                    AttributeHiding attributeHiding = new AttributeHiding(pathToDoc);
+                    var restoredString = attributeHiding.GetHiddenInfoInAttribute();
+
+                    if (!RsaOpenCheckBox.IsChecked) SearchedText = restoredString;
+                    else
+                    {
+                        SearchedText = Converter.StringToBinary(restoredString);
+                    }
+                }
+
                 ShowColorModel codeModel = new ShowColorModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(SmartHidingCheckBox.IsChecked);
 

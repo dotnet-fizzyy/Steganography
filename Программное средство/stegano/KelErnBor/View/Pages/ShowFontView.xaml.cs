@@ -33,6 +33,7 @@ namespace Stegano.View.Pages
                 oneFontName.Items.Add(item.Name);
                 zeroFontName.Items.Add(item.Name);
             }
+
         }
         
     }

@@ -32,11 +32,13 @@ namespace Stegano.ViewModel
             SimpleIoc.Default.Register<ShowWindowViewModel>();
             SimpleIoc.Default.Register<HideColorViewModel>();
             SimpleIoc.Default.Register<ShowColorViewModel>();
+            SimpleIoc.Default.Register<ShowAttributeViewModel>();
             SimpleIoc.Default.Register<HideAproshViewModel>();
             SimpleIoc.Default.Register<ShowAproshViewModel>();
             SimpleIoc.Default.Register<HideFontViewModel>();
             SimpleIoc.Default.Register<ShowFontViewModel>();
             SimpleIoc.Default.Register<AppearanceViewModel>();
+            SimpleIoc.Default.Register<AttributeHidingViewModel>();
         }
 
         public MainViewModel Main
@@ -67,6 +69,14 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowColorViewModel>();
+            }
+        }
+
+        public ShowAttributeViewModel ShowAttribute
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ShowAttributeViewModel>();
             }
         }
 
@@ -107,6 +117,14 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<AppearanceViewModel>();
+            }
+        }
+
+        public AttributeHidingViewModel AttributeHiding
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AttributeHidingViewModel>();
             }
         }
 

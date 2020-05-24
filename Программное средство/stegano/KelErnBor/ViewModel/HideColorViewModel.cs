@@ -30,6 +30,7 @@ namespace Stegano.ViewModel
             {
                 countLettersIsCanHide = value;
                 RaisePropertyChanged();
+
             }
         }
 
@@ -101,7 +102,6 @@ namespace Stegano.ViewModel
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
 
-        public CheckBoxModel AttributeHidingCheckBox { get; set; }
 
         private bool isHideInformationButtonEnabled;
         public bool IsHideInformationButtonEnabled
@@ -169,7 +169,6 @@ namespace Stegano.ViewModel
             AdditionalBitsCheckBox = new CheckBoxModel();
             RandomCheckBox = new CheckBoxModel();
             SmartHidingCheckBox = new CheckBoxModel();
-            AttributeHidingCheckBox = new CheckBoxModel();
         }
 
         #endregion
@@ -195,7 +194,6 @@ namespace Stegano.ViewModel
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
                     SmartHidingCheckBox.IsEnabled = true;
-                    AttributeHidingCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -227,17 +225,8 @@ namespace Stegano.ViewModel
                     ? HideColorModel.AddAdditionalBits(textForHide)
                     : textForHide;
 
-                if (AttributeHidingCheckBox.IsChecked)
-                {
-                    AttributeHiding attributeHiding = new AttributeHiding(pathToNewFile, RSACheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
-                    isSuccesful = attributeHiding.HideInfoInAttribute(sourceString);
-                }
-
-                if (!AttributeHidingCheckBox.IsChecked)
-                {
                     HideColorModel codeModel = new HideColorModel(pathToNewFile);
                     isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
-                }
 
                 if (isSuccesful)
                 {

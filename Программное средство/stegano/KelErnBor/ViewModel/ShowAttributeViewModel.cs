@@ -7,10 +7,11 @@ using Stegano.Model;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Stegano.Model.Aditional_Coding;
+using Stegano.Interfaces;
 
 namespace Stegano.ViewModel
 {
-    public class ShowFontViewModel : ViewModelBase
+    public class ShowAttributeViewModel : ViewModelBase
     {
         #region Properties
 
@@ -37,6 +38,17 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string hashFile;
+        public string HashFile
+        {
+            get { return hashFile; }
+            set
+            {
+                hashFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private CheckBoxModel rsaOpenCheckBox;
         public CheckBoxModel RsaOpenCheckBox
         {
@@ -48,9 +60,18 @@ namespace Stegano.ViewModel
             }
         }
 
+        public CheckBoxModel AesOpenCheckBox { get; set; }
+
+        public CheckBoxModel TwoFishCheckBox { get; set; }
+
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel SmartHidingCheckBox { get; set; }
+
+        public CheckBoxModel HashingSHA512 { get; set; }
+
+        public CheckBoxModel HashingMD5 { get; set; }
+
 
         private string searchedText;
         public string SearchedText
@@ -74,13 +95,15 @@ namespace Stegano.ViewModel
             }
         }
 
-        public string OneFontName { get; set; }
-        public string ZeroFontName { get; set; }
-        public ObservableCollection<object> FontStats { get; set; }
-        
         public ObservableCollection<ICod> CodMethods { get; set; }
-        
         public ICod SelectedCodMethod { get; set; }
+
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
+
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
+
 
         #endregion
 
@@ -89,6 +112,7 @@ namespace Stegano.ViewModel
         public RelayCommand OpenPrivateKeyRelayCommand { get; private set; }
         public RelayCommand OpenDocumentRelayCommand { get; private set; }
         public RelayCommand OpenForDecodeRelayCommand { get; set; }
+        public RelayCommand OpenHashDocument { get; set; }
 
         #endregion
 
@@ -98,28 +122,51 @@ namespace Stegano.ViewModel
 
         private string pathToDirOrigFile;
         private string filenameOrigFile;
-        
+
         private int maxLettersIsCanHide;
         #endregion
 
         #region Constructor and Initializers
 
-        public ShowFontViewModel()
+        public ShowAttributeViewModel()
         {
-            FontStats = new ObservableCollection<object>();
+            DecodeUIInit();
+
             openFileDialog = new OpenFileDialog();
 
             RelayInit();
-            DecodeUIInit();
             CodMethodsInit();
+            CryptMethodsInit();
+            HashMethodsInit();
         }
 
         private void CodMethodsInit()
         {
-            CodMethods = new ObservableCollection<ICod>();
-            CodMethods.Add(new CyclicCod());
-            CodMethods.Add(new HammingCod(16,false));
-            CodMethods.Add(new HammingCod(16,true));
+            CodMethods = new ObservableCollection<ICod>
+            {
+                new CyclicCod(),
+                new HammingCod(16, false),
+                new HammingCod(16, true),
+            };
+        }
+
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
         }
 
         private void RelayInit()
@@ -127,33 +174,28 @@ namespace Stegano.ViewModel
             OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
             OpenPrivateKeyRelayCommand = new RelayCommand(OpenPrivateKeyFile);
             OpenForDecodeRelayCommand = new RelayCommand(OpenForDecode);
+            OpenHashDocument = new RelayCommand(OpenHashFile);
         }
-
-
 
         private void DecodeUIInit()
         {
             rsaOpenCheckBox = new CheckBoxModel(true, false);
             AdditionalBitsCheckBox = new CheckBoxModel(true, false);
             SmartHidingCheckBox = new CheckBoxModel(true, false);
+            HashingSHA512 = new CheckBoxModel(true, false);
+            HashingMD5 = new CheckBoxModel(true, false);
+            AesOpenCheckBox = new CheckBoxModel(true, false);
+            TwoFishCheckBox = new CheckBoxModel(true, false);
         }
         #endregion
 
         #region RelayMethods
 
-        private async void OpenDocument()
+        private void OpenDocument()
         {
             if (OpenFileDialog(openFileDialog) != null)
             {
                 PathToDoc = openFileDialog.FileName;
-
-                FontStats.Clear();
-                int count = TextStat.HowMuchLettersICanHide(PathToDoc);
-                var stats = await TextStat.GetFontStat(PathToDoc);
-                foreach (var st in stats)
-                {
-                    FontStats.Add(new FontInfo(st.Key, st.Value, count));
-                }
             }
         }
 
@@ -165,6 +207,15 @@ namespace Stegano.ViewModel
                 RsaFile = openFileDialog.FileName;
             }
         }
+
+        private void OpenHashFile()
+        {
+            if (OpenFileDialog(openFileDialog) != null)
+            {
+                HashFile = openFileDialog.FileName;
+            }
+        }
+
         private async void OpenForDecode()
         {
             try
@@ -177,14 +228,33 @@ namespace Stegano.ViewModel
 
                 CryptedText = "";
                 SearchedText = "";
-                ShowFontModel codeModel = new ShowFontModel(PathToDoc);
-                string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
 
-                foundedBitsInDoc = SelectedCodMethod?.DeCoding(foundedBitsInDoc) ?? foundedBitsInDoc;
+                AttributeHiding attributeHiding = new AttributeHiding(pathToDoc);
+                SearchedText = attributeHiding.GetHiddenInfoInAttribute();
 
-                SearchedText = Converter.BinaryToString(foundedBitsInDoc);
+                if (SelectedHashMethod != null)
+                {
+                    if (string.IsNullOrEmpty(HashFile))
+                    {
+                        ShowMetroMessageBox("Информация", "Нет файла с хэшем!");
+                        return;
+                    }
 
-                if (RsaOpenCheckBox.IsChecked)
+                    var isHashSame = SelectedHashMethod.VerifyHash(SearchedText, HashFile);
+
+                    if (!isHashSame)
+                    {
+                        ShowMetroMessageBox("Информация", "Не валидный хэш!");
+                        return;
+                    }
+                }
+
+                if (SelectedCodMethod != null)
+                {
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
+
+                if (SelectedCryptMethod != null)
                 {
                     if (string.IsNullOrEmpty(RsaFile))
                     {
@@ -192,16 +262,14 @@ namespace Stegano.ViewModel
                         return;
                     }
 
-                    CryptedText = SearchedText;
-                    SearchedText = await Converter.RsaDecryptor(SearchedText, RsaFile);
+                    SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, RsaFile) ?? SearchedText;
+
                     if (string.IsNullOrEmpty(SearchedText))
                     {
                         ShowMetroMessageBox("Информация", "Ключ не подходит.");
                         return;
                     }
                 }
-
-
 
                 if (SearchedText.Length > 0)
                 {
@@ -217,9 +285,6 @@ namespace Stegano.ViewModel
             }
         }
         #endregion
-
-
-
 
         private OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)
         {

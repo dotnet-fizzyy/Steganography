@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -17,8 +19,6 @@ namespace Stegano.Algorithm
         private readonly bool shouldHightlight;
         private readonly string pathToFile;
 
-        private const int AccessibleMessageLenghtForRSA = 100;
-
         private enum BlockSizes
         {
             SmallAmountOfParaghraphs = 10,
@@ -26,15 +26,21 @@ namespace Stegano.Algorithm
             BigAmountOfParaghraphs = 200
         }
 
-        public AttributeHiding(string pathToFile, bool shouldEncrypt, bool shouldHightlight)
+        public AttributeHiding(string pathToFile)
         {
-            document = new Document(pathToFile);
+            this.document = new Document(pathToFile);
+            this.pathToFile = pathToFile;
+        }
+
+        public AttributeHiding(Document doc, bool shouldEncrypt, bool shouldHightlight, string pathToFile)
+        {
+            document = doc;
             this.shouldEncrypt = shouldEncrypt;
             this.shouldHightlight = shouldHightlight;
             this.pathToFile = pathToFile;
         }
 
-        private bool BlockMapper(int amountOfParagraphs, int textLength)
+        private bool CompareNodesAndStringLength(int amountOfParagraphs, int textLength)
         {
             if (!shouldEncrypt)
             {
@@ -62,9 +68,14 @@ namespace Stegano.Algorithm
             }
             else
             {
-                if (textLength >= AccessibleMessageLenghtForRSA || amountOfParagraphs < (int)BlockSizes.SmallAmountOfParaghraphs) return false;
+                if (amountOfParagraphs < (int)BlockSizes.SmallAmountOfParaghraphs)
+                {
+                    blockSize = 20;
+                    if (textLength > amountOfParagraphs * blockSize) return false;
 
-                if (amountOfParagraphs > 10 || amountOfParagraphs < 100)
+                    return true;
+                }
+                else if (amountOfParagraphs > 10 || amountOfParagraphs < 100)
                 {
                     blockSize = 15;
                     if (textLength > amountOfParagraphs * blockSize) return false;
@@ -86,7 +97,11 @@ namespace Stegano.Algorithm
             DocumentBuilder documentBuilder = new DocumentBuilder(document);
             var documentNodes = document.GetChildNodes(NodeType.Run, true);
 
-            var isPossibleToHide = BlockMapper(documentNodes.Count, textForHiding.Length);
+            var isPossibleToHide = CompareNodesAndStringLength(documentNodes.Count, textForHiding.Length);
+            if (!isPossibleToHide)
+            { 
+                return false; 
+            }
 
             var rand = new Random();
 
@@ -118,17 +133,16 @@ namespace Stegano.Algorithm
 
             document.Save(pathToFile, SaveFormat.Docx);
 
-            GetHiddenInfoInAttribute();
-
             return true;
         }
 
         public string GetHiddenInfoInAttribute()
         {
-            document.Save(pathToFile, SaveFormat.WordML);
+            var fileSavePlace = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp.xml";
+            document.Save(fileSavePlace);
 
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(pathToFile);
+            xmlDocument.Load(fileSavePlace);
 
             var nodesWithMessage = FindNodes(xmlDocument, "w:fareast");
             var messages = nodesWithMessage.Select(node => node.Attributes["w:cs"]?.Value);
