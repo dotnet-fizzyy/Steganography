@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using FirstFloor.ModernUI.Windows.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
-using Stegano.Algorithm.Aditional_Coding;
 using Stegano.Model;
 using Microsoft.Win32;
-using System.IO;
-using System.Collections.ObjectModel;
-using Stegano.Interfaces;
 using Stegano.Model.ColorSteg;
+using Stegano.Model.Aprosh;
 
-namespace Stegano.ViewModel
+namespace Stegano.ViewModel.Aprosh
 {
-    public class AttributeHidingViewModel : ViewModelBase
+    public class HideAproshViewModel:ViewModelBase
     {
         #region Properties
 
@@ -94,22 +93,17 @@ namespace Stegano.ViewModel
             }
         }
 
-        private string sourceString = string.Empty;
+        public string ZeroBitSpacing { get; set; }
+        public string SoloBitSpacing { get; set; }
 
+        public CheckBoxModel RandomCheckBox { get; set; }
 
         public CheckBoxModel RSACheckBox { get; set; }
-
-        public CheckBoxModel AESCheckBox { get; set; }
-
-        public CheckBoxModel TwoFishCheckBox { get; set; }
 
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
         public CheckBoxModel VisibleColorCheckBox { get; set; }
 
-        public CheckBoxModel HashingSHA512CheckBox { get; set; }
-
-        public CheckBoxModel HashingMD5CheckBox { get; set; }
 
 
         private bool isHideInformationButtonEnabled;
@@ -125,21 +119,6 @@ namespace Stegano.ViewModel
 
         #endregion
 
-        #region RelayCommands
-
-        public RelayCommand OpenDocumentRelayCommand { get; private set; }
-        public RelayCommand HideInformationRelayCommand { get; private set; }
-
-        public ObservableCollection<ICod> CodMethods { get; set; }
-        public ICod SelectedCodMethod { get; set; }
-
-        public ObservableCollection<ICrypt> CryptMethods { get; set; }
-        public ICrypt SelectedCryptMethod { get; set; }
-
-        public ObservableCollection<IHash> HashMethods { get; set; }
-        public IHash SelectedHashMethod { get; set; }
-
-        #endregion
 
         #region VARS
 
@@ -151,16 +130,22 @@ namespace Stegano.ViewModel
         private int maxLettersIsCanHide;
         #endregion
 
+        #region RelayCommands
+
+        public RelayCommand OpenDocumentRelayCommand { get; private set; }
+        public RelayCommand HideInformationRelayCommand { get; private set; }
+
+        #endregion
+
         #region Constructor and Initializers
 
-        public AttributeHidingViewModel()
+        public HideAproshViewModel()
         {
             UIInit();
+
             openFileDialog = new OpenFileDialog();
+
             RelayInit();
-            CodMethodsInit();
-            CryptMethodsInit();
-            HashMethodsInit();
         }
 
         private void RelayInit()
@@ -168,6 +153,7 @@ namespace Stegano.ViewModel
             OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
             HideInformationRelayCommand = new RelayCommand(HideInformation);
         }
+        
 
         private void UIInit()
         {
@@ -184,46 +170,16 @@ namespace Stegano.ViewModel
             IsHideInformationButtonEnabled = false;
 
             RSACheckBox = new CheckBoxModel();
-            VisibleColorCheckBox = new CheckBoxModel();
             AdditionalBitsCheckBox = new CheckBoxModel();
-            HashingMD5CheckBox = new CheckBoxModel();
-            HashingSHA512CheckBox = new CheckBoxModel();
-            AESCheckBox = new CheckBoxModel();
-            TwoFishCheckBox = new CheckBoxModel();
+            RandomCheckBox = new CheckBoxModel();
+            VisibleColorCheckBox = new CheckBoxModel();
         }
 
-        private void CodMethodsInit()
-        {
-            CodMethods = new ObservableCollection<ICod>
-            {
-                new CyclicCod(),
-                new HammingCod(16, false),
-                new HammingCod(16, true),
-            };
-        }
-
-        private void CryptMethodsInit()
-        {
-            CryptMethods = new ObservableCollection<ICrypt>
-            {
-                new AES(),
-                new RSA(),
-                new TwoFish()
-            };
-        }
-
-        private void HashMethodsInit()
-        {
-            HashMethods = new ObservableCollection<IHash>
-            {
-                new SHA512(),
-                new MD5(),
-            };
-        }
 
         #endregion
 
-        #region RelayMethods
+
+        #region RelayCommands
         private void OpenDocument()
         {
             if (OpenFileDialog(openFileDialog) != null)
@@ -239,13 +195,10 @@ namespace Stegano.ViewModel
                     IsTextForHideEnabled = true;
                     IsHideInformationButtonEnabled = true;
 
-                    HashingMD5CheckBox.IsEnabled = true;
+                    RandomCheckBox.IsEnabled = true;
                     RSACheckBox.IsEnabled = true;
                     AdditionalBitsCheckBox.IsEnabled = true;
                     VisibleColorCheckBox.IsEnabled = true;
-                    HashingSHA512CheckBox.IsEnabled = true;
-                    AESCheckBox.IsEnabled = true;
-                    TwoFishCheckBox.IsEnabled = true;
                 }
                 else
                 {
@@ -254,27 +207,24 @@ namespace Stegano.ViewModel
             }
         }
 
-        private async void HideInformation()
+        private void HideInformation()
         {
             if (textForHide.Length > 0)
             {
-                sourceString = textForHide;
-
+                
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
-                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
+                textForHide = (RSACheckBox.IsChecked)
+                    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
+                    : Converter.StringToBinary(TextForHide);
 
-                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
+                textForHide = (AdditionalBitsCheckBox.IsChecked)
+                    ? HideColorModel.AddAdditionalBits(textForHide)
+                    : textForHide;
 
-                AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
-
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
-                if (!string.IsNullOrWhiteSpace(hash))
-                {
-                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
-                }
+                HideAproshModel codeModel = new HideAproshModel(pathToNewFile);
+                isSuccesful = codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
 
                 if (isSuccesful)
                 {
@@ -296,9 +246,7 @@ namespace Stegano.ViewModel
             //TextForHide = String.Empty;
         }
 
-
         #endregion
-
 
         private void TextForHideChanged(string text)
         {
@@ -314,7 +262,7 @@ namespace Stegano.ViewModel
         {
             try
             {
-                openFileDialog.Filter = "Файлы Microsoft Word|*.doc;*.docx; | Все файлы|*.*";
+                openFileDialog.Filter = "Файлы Microsoft Word|*.doс;*.doсx; | Все файлы|*.*";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
 
@@ -322,12 +270,12 @@ namespace Stegano.ViewModel
                 {
                     return openFileDialog;
                 }
-
+                
                 return null;
             }
             catch (Exception exception)
             {
-                ShowMetroMessageBox("Error", exception.Message);
+                ShowMetroMessageBox("Ошибка", exception.Message);
             }
 
             return null;
