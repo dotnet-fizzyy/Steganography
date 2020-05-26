@@ -66,12 +66,14 @@
 
                 </Grid>
 
-                <Label Grid.Column="0" Grid.Row="8" Margin="8,10,0,0" FontSize="15" Content="Криптопреобразование: "/>
-                <ComboBox Margin="185,10,8,0" Grid.Column="0" Grid.Row="8" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                
 
                 <CheckBox  Grid.Column="0" Grid.Row="12" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>
 
+                <Label Grid.Column="0" Grid.Row="8" Margin="8,10,0,0" FontSize="15" Content="Криптопреобразование: "/>
+                <ComboBox Margin="185,10,8,0" Grid.Column="0" Grid.Row="8" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                
                 <Label Grid.Column="0" Grid.Row="10" Margin="8,10,0,0" FontSize="15" Content="Кодирование: "/>
                 <ComboBox Margin="185,10,8,10" Grid.Row="10" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
                 
