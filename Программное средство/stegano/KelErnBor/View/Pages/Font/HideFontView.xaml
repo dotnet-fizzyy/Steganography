@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="Stegano.View.Pages.Font.HideFontView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="600">
+    <UserControl.DataContext>
+        <Binding Path="HideFont" Source="{StaticResource Locator}" />
+    </UserControl.DataContext>
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
+
+                <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Margin="8,0,0,0" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}"/>
+
+                <DataGrid  Grid.Column="0" Grid.Row="3" ItemsSource="{Binding FontStats ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Column="0" Grid.Row="4" Margin="8,0,0,0" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}"/>
+
+                <TextBox  Grid.Column="0" Grid.Row="5" Margin="8,0" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
+                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged">
+                </TextBox>
+
+                <Grid Grid.Row="6" Margin="8,8,8,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="16" TextBlock.BaselineOffset="7">Смещение от начала документа:</Label>
+                    <TextBox Grid.Row="0" Width="105" HorizontalAlignment="Left" TextAlignment="Right" FontSize="16" TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding ElementName=shiftSlider ,Path=Value ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="242,0,0,0"/>
+                    <Slider Name="shiftSlider" Grid.Row="1" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding MaxShift, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{Binding CurrentShift, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.Row="7" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном RSA):"/>
+
+                    <Label   Grid.Column="1" Grid.Row="0"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
+
+
+                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном RSA):"/>
+
+                    <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
+
+
+                </Grid>
+
+                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8,12,0" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдослучайным образом"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                           Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>
+
+                <Label Grid.Column="0" Grid.Row="10" Margin="8,10,0,0" FontSize="15" Content="Криптопреобразование: "/>
+                <ComboBox Margin="185,10,8,0" Grid.Column="0" Grid.Row="10" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+
+                <Label Grid.Column="0" Grid.Row="11" Margin="8,10,0,0" FontSize="15" Content="Кодирование: "/>
+                <ComboBox Margin="185,10,8,0" Grid.Row="11" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+
+                <Label Grid.Column="0" Grid.Row="12" Margin="8,10,0,0" FontSize="15" Content="Хэширование: "/>
+                <ComboBox Margin="185,10,8,0" Grid.Row="12" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+
+                
+                <Grid Grid.Column="0" Margin="8" Grid.Row="13">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="108"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" FontSize="15" Padding="0, 0, 0, 0">Шрифт для 1:</Label>
+                    <ComboBox Grid.Column="1" Name="oneFontName" SelectedIndex="0" SelectedValue="{Binding OneFontName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Grid.Column="2" FontSize="15" Padding="8, 0, 0, 0">Шрифт для 0:</Label>
+                    <ComboBox Grid.Column="3" Grid.Row="12" Name="zeroFontName" SelectedIndex="0" SelectedValue="{Binding ZeroFontName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <Button Grid.Column="0" Grid.Row="15" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                            IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

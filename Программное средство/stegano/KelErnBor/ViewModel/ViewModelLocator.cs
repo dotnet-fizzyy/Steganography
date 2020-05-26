@@ -15,6 +15,9 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Stegano.ViewModel.Aprosh;
+using Stegano.ViewModel.ColorSteg;
+using Stegano.ViewModel.Font;
 using Stegano.ViewModel.Settings;
 
 namespace Stegano.ViewModel
