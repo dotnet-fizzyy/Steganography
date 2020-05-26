@@ -59,7 +59,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -93,50 +92,44 @@
     <Compile Include="Algorithm\SHA512.cs" />
     <Compile Include="Interfaces\ICrypt.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
-    <Compile Include="Algorithm\ShifrElGamal.cs" />
     <Compile Include="Algorithm\TwoFish.cs" />
     <Compile Include="Interfaces\IHash.cs" />
     <Compile Include="Model\AttributeHidingModel.cs" />
-    <Compile Include="Model\Aditional Coding\CyclicCod.cs" />
-    <Compile Include="Model\Aditional Coding\HammingCod.cs" />
-    <Compile Include="Model\Aditional Coding\ICod.cs" />
-    <Compile Include="Model\Aditional Coding\Matrix.cs" />
-    <Compile Include="Model\FontInfo.cs" />
-    <Compile Include="Model\HideAproshModel.cs" />
+    <Compile Include="Algorithm\Aditional Coding\CyclicCod.cs" />
+    <Compile Include="Algorithm\Aditional Coding\HammingCod.cs" />
+    <Compile Include="Interfaces\ICod.cs" />
+    <Compile Include="Algorithm\Aditional Coding\Matrix.cs" />
+    <Compile Include="Model\Font\FontInfo.cs" />
+    <Compile Include="Model\Aprosh\HideAproshModel.cs" />
     <Compile Include="Model\CheckBoxModel.cs" />
-    <Compile Include="Model\HideFontModel.cs" />
-    <Compile Include="Model\HideUnderlineModel.cs" />
-    <Compile Include="Model\ShowAproshModel.cs" />
-    <Compile Include="Model\ShowColorModel.cs" />
-    <Compile Include="Model\ShowFontModel.cs" />
-    <Compile Include="Model\ShowUnderlineModel.cs" />
+    <Compile Include="Model\Font\HideFontModel.cs" />
+    <Compile Include="Model\Aprosh\ShowAproshModel.cs" />
+    <Compile Include="Model\ColorSteg\ShowColorModel.cs" />
+    <Compile Include="Model\Font\ShowFontModel.cs" />
     <Compile Include="Algorithm\TextStat.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModel\HideAproshViewModel.cs" />
+    <Compile Include="ViewModel\Aprosh\HideAproshViewModel.cs" />
     <Compile Include="ViewModel\AttributeHidingViewModel.cs" />
-    <Compile Include="ViewModel\HideColorViewModel.cs" />
-    <Compile Include="ViewModel\HideFontViewModel.cs" />
-    <Compile Include="ViewModel\HideUnderlineViewModel.cs" />
+    <Compile Include="ViewModel\BaseHideViewModel.cs" />
+    <Compile Include="ViewModel\BaseShowViewModel.cs" />
+    <Compile Include="ViewModel\Color\HideColorViewModel.cs" />
+    <Compile Include="ViewModel\Font\HideFontViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Settings\AppearanceViewModel.cs" />
-    <Compile Include="ViewModel\ShowAproshViewModel.cs" />
+    <Compile Include="ViewModel\Aprosh\ShowAproshViewModel.cs" />
     <Compile Include="ViewModel\ShowAttributeViewModel.cs" />
-    <Compile Include="ViewModel\ShowColorViewModel.cs" />
-    <Compile Include="ViewModel\ShowFontViewModel.cs" />
-    <Compile Include="ViewModel\ShowUnderlineViewModel.cs" />
+    <Compile Include="ViewModel\Color\ShowColorViewModel.cs" />
+    <Compile Include="ViewModel\Font\ShowFontViewModel.cs" />
     <Compile Include="ViewModel\ShowWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\Pages\HideAproshView.xaml.cs">
+    <Compile Include="View\Pages\Aprosh\HideAproshView.xaml.cs">
       <DependentUpon>HideAproshView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\AttributeHiding.xaml.cs">
       <DependentUpon>AttributeHiding.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\HideFontView.xaml.cs">
+    <Compile Include="View\Pages\Font\HideFontView.xaml.cs">
       <DependentUpon>HideFontView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\HideUnderlineView.xaml.cs">
-      <DependentUpon>HideUnderlineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -147,26 +140,23 @@
     <Compile Include="View\Pages\Settings\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\ShowAproshView.xaml.cs">
+    <Compile Include="View\Pages\Aprosh\ShowAproshView.xaml.cs">
       <DependentUpon>ShowAproshView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\ShowAttribute.xaml.cs">
       <DependentUpon>ShowAttribute.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\ShowColorView.xaml.cs">
+    <Compile Include="View\Pages\ColorSteg\ShowColorView.xaml.cs">
       <DependentUpon>ShowColorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\ShowFontView.xaml.cs">
+    <Compile Include="View\Pages\Font\ShowFontView.xaml.cs">
       <DependentUpon>ShowFontView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\ShowUnderlineView.xaml.cs">
-      <DependentUpon>ShowUnderlineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Pages\HideAproshView.xaml">
+    <Page Include="View\Pages\Aprosh\HideAproshView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\HideColorView.xaml">
+    <Page Include="View\Pages\ColorSteg\HideColorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,19 +178,15 @@
     </Compile>
     <Compile Include="Algorithm\Converter.cs" />
     <Compile Include="Algorithm\DocumentHelper.cs" />
-    <Compile Include="Model\HideColorModel.cs" />
-    <Compile Include="View\Pages\HideColorView.xaml.cs">
+    <Compile Include="Model\ColorSteg\HideColorModel.cs" />
+    <Compile Include="View\Pages\ColorSteg\HideColorView.xaml.cs">
       <DependentUpon>HideColorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Pages\HideFontView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\HideUnderlineView.xaml">
+    <Page Include="View\Pages\Font\HideFontView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -216,7 +202,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Pages\ShowAproshView.xaml">
+    <Page Include="View\Pages\Aprosh\ShowAproshView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,15 +210,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\ShowColorView.xaml">
+    <Page Include="View\Pages\ColorSteg\ShowColorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Pages\ShowFontView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\ShowUnderlineView.xaml">
+    <Page Include="View\Pages\Font\ShowFontView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

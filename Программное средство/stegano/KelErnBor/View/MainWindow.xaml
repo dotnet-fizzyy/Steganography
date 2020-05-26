@@ -4,7 +4,7 @@
         <Binding Path="Main" Source="{StaticResource Locator}" />
     </Window.DataContext>
 
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -13,20 +13,26 @@
         <Button Click="Close" Grid.Row="0">
             Перейти к извдечению информации 
         </Button>
-        <mui:ModernTab Grid.Row="1" Layout="Tab" SelectedSource="View/Pages/HideColorView.xaml" Margin="10,30,10,10">
+        <mui:ModernTab Grid.Row="1" Layout="Tab" SelectedSource="View/Pages/ColorSteg/HideColorView.xaml" Margin="10,30,10,10">
             <mui:ModernTab.Links>
                 <!-- TODO: set @Source -->
-                <mui:Link DisplayName="Цвет" Source="View/Pages/HideColorView.xaml" />
-                <mui:Link DisplayName="Апрош" Source="View/Pages/HideAproshView.xaml" />
 
-                <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml"/>
-                <!--<mui:Link DisplayName="Дима" Source="View/Pages/HideColorView.xaml"/>-->
+                <!-- <mui:Link DisplayName="Цвет" Source="View/Pages/HideColorView.xaml" />
+                <mui:Link DisplayName="Апрош" Source="View/Pages/HideAproshView.xaml" /> -->
+
+                <!-- <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml"/> -->
+                <!-- <mui:Link DisplayName="Дима" Source="View/Pages/HideColorView.xaml"/> -->
+                
+                <!-- <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml" /> -->
+
+                <mui:Link DisplayName="Цвет" Source="View/Pages/ColorSteg/HideColorView.xaml" />
+                <mui:Link DisplayName="Апрош" Source="View/Pages/Aprosh/HideAproshView.xaml" />
+                <mui:Link DisplayName="Шрифт" Source="View/Pages/Font/HideFontView.xaml" />
                 <mui:Link DisplayName="Дима" Source="View/Pages/AttributeHiding.xaml" />
                 <mui:Link DisplayName="Подчеркивание" Source="View/Pages/HideUnderlineView.xaml"/>
-<!-- =======
-                <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml" />
-                <mui:Link DisplayName="Дима" Source="View/Pages/AttributeHiding.xaml" />
-                <mui:Link DisplayName="Катя" Source="View/Pages/HideColorView.xaml" /> -->
+
+                <!-- <mui:Link DisplayName="Дима" Source="View/Pages/AttributeHiding.xaml" />
+                <mui:Link DisplayName="Катя" Source="View/Pages/HideColorView.xaml" />  -->
 
                 <mui:Link DisplayName="Настройки" Source="View/Pages/SettingsView.xaml" />
             </mui:ModernTab.Links>
