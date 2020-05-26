@@ -135,6 +135,12 @@ namespace Stegano.ViewModel
 
         public ICod SelectedCodMethod { get; set; }
 
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
+
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
+
         #endregion
 
         #region RelayCommands
@@ -163,6 +169,8 @@ namespace Stegano.ViewModel
             CodMethodsInit();
             RelayInit();
             UIInit();
+            CryptMethodsInit();
+            HashMethodsInit();
         }
         private void UIInit()
         {
@@ -195,15 +203,37 @@ namespace Stegano.ViewModel
             CodMethods.Add(new HammingCod(16, false));
             CodMethods.Add(new HammingCod(16, true));
         }
+
+
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
+        }
+
         #endregion
 
         #region Methods
-        protected string messageTransformation(string message)
+        protected string messageTransformation(string message, out string hash)
         {
-            //
-            //сюда нужно добавить шифрование и хэширование
-            //
+            message = SelectedCryptMethod?.Encrypt(message, pathToDirOrigFile) ?? message;
+
             message = SelectedCodMethod?.Coding(message) ?? message;
+
+            hash = SelectedHashMethod.GetHash(message);
 
             return message;
         }
@@ -215,12 +245,12 @@ namespace Stegano.ViewModel
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                FontStats.Clear();
+                FontStats?.Clear();
                 int count = TextStat.HowMuchLettersICanHide(fullPathToOrigFile);
                 var stats = await TextStat.GetFontStat(fullPathToOrigFile);
                 foreach (var st in stats)
                 {
-                    FontStats.Add(new FontInfo(st.Key, st.Value, count));
+                    FontStats?.Add(new FontInfo(st.Key, st.Value, count));
                 }
                 MaxShift = count;
                 count /= 8;

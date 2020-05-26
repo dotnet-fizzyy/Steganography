@@ -49,20 +49,48 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string hashFile;
+        public string HashFile
+        {
+            get { return hashFile; }
+            set
+            {
+                hashFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string cryptFile;
+        public string CryptFile
+        {
+            get { return cryptFile; }
+            set
+            {
+                cryptFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
         public ObservableCollection<object> FontStats { get; set; }
 
         public ObservableCollection<ICod> CodMethods { get; set; }
         public ICod SelectedCodMethod { get; set; }
 
+        public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        public ICrypt SelectedCryptMethod { get; set; }
 
+        public ObservableCollection<IHash> HashMethods { get; set; }
+        public IHash SelectedHashMethod { get; set; }
 
         #endregion
 
         #region RelayCommands
 
         public RelayCommand OpenDocumentRelayCommand { get; private set; }
+        public RelayCommand OpenPrivateKeyRelayCommand { get; set; }
         public RelayCommand OpenForDecodeRelayCommand { get; set; }
+        public RelayCommand OpenHashDocument { get; set; }
 
         #endregion
 
@@ -83,14 +111,22 @@ namespace Stegano.ViewModel
 
             RelayInit();
             CodMethodsInit();
+            CryptMethodsInit();
+            HashMethodsInit();
         }
 
         protected string messageTransformation(string message)
         {
+            bool? isHashValid = SelectedHashMethod?.VerifyHash(message, hashFile);
+
+            if (isHashValid != null && isHashValid == false)
+            {
+                return null;
+            }
+
             message = SelectedCodMethod?.DeCoding(message) ?? message;
-            //
-            //сюда нужно добавить шифрование и хэширование
-            //
+            message = SelectedCryptMethod?.Decrypt(message, CryptFile) ?? message;
+
             return message;
         }
 
@@ -102,9 +138,30 @@ namespace Stegano.ViewModel
             CodMethods.Add(new HammingCod(16, true));
         }
 
+        private void CryptMethodsInit()
+        {
+            CryptMethods = new ObservableCollection<ICrypt>
+            {
+                new AES(),
+                new RSA(),
+                new TwoFish()
+            };
+        }
+
+        private void HashMethodsInit()
+        {
+            HashMethods = new ObservableCollection<IHash>
+            {
+                new SHA512(),
+                new MD5(),
+            };
+        }
+
         private void RelayInit()
         {
             OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
+            OpenHashDocument = new RelayCommand(OpenHashFile);
+            OpenPrivateKeyRelayCommand = new RelayCommand(OpenPrivateKeyFile);
         }
         #endregion
 
@@ -116,12 +173,12 @@ namespace Stegano.ViewModel
             {
                 PathToDoc = openFileDialog.FileName;
 
-                FontStats.Clear();
+                FontStats?.Clear();
                 int count = TextStat.HowMuchLettersICanHide(PathToDoc);
                 var stats = await TextStat.GetFontStat(PathToDoc);
                 foreach (var st in stats)
                 {
-                    FontStats.Add(new FontInfo(st.Key, st.Value, count));
+                    FontStats?.Add(new FontInfo(st.Key, st.Value, count));
                 }
             }
         }
@@ -148,6 +205,23 @@ namespace Stegano.ViewModel
 
             return null;
         }
+
+        protected void OpenHashFile()
+        {
+            if (OpenFileDialog(openFileDialog) != null)
+            {
+                HashFile = openFileDialog.FileName;
+            }
+        }
+
+        protected void OpenPrivateKeyFile()
+        {
+            if (OpenFileDialog(openFileDialog) != null)
+            {
+                CryptFile = openFileDialog.FileName;
+            }
+        }
+
         protected void ShowMetroMessageBox(string title, string message)
         {
             var mm = new ModernDialog

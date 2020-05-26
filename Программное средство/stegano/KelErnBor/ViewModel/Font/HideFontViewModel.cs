@@ -55,7 +55,7 @@ namespace Stegano.ViewModel.Font
                 //    : Converter.StringToBinary(TextForHide);
 
                 //textForHide = SelectedCodMethod?.Coding(Converter.StringToBinary(TextForHide)) ?? Converter.StringToBinary(TextForHide);
-                textForHide = messageTransformation(Converter.StringToBinary(TextForHide));
+                textForHide = messageTransformation(Converter.StringToBinary(TextForHide), out string hash);
 
                 HideFontModel codeModel = new HideFontModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);

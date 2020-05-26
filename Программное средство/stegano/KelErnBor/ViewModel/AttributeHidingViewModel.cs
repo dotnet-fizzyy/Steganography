@@ -16,139 +16,139 @@ using Stegano.Model.ColorSteg;
 
 namespace Stegano.ViewModel
 {
-    public class AttributeHidingViewModel : ViewModelBase
+    public class AttributeHidingViewModel : BaseHideViewModel
     {
         #region Properties
 
-        private string fullPathToOrigFile;
-        public string FullPathToOrigFile
-        {
-            get { return "Путь к файлу: " + fullPathToOrigFile; }
-            set { fullPathToOrigFile = value; RaisePropertyChanged(); }
-        }
+        //private string fullPathToOrigFile;
+        //public string FullPathToOrigFile
+        //{
+        //    get { return "Путь к файлу: " + fullPathToOrigFile; }
+        //    set { fullPathToOrigFile = value; RaisePropertyChanged(); }
+        //}
 
-        private string countLettersIsCanHide;
-        public string CountLettersIsCanHide
-        {
-            get { return $"Количество символов, которые можно скрыть: {countLettersIsCanHide}"; }
-            set
-            {
-                countLettersIsCanHide = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private string countLettersIsCanHide;
+        //public string CountLettersIsCanHide
+        //{
+        //    get { return $"Количество символов, которые можно скрыть: {countLettersIsCanHide}"; }
+        //    set
+        //    {
+        //        countLettersIsCanHide = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
-        private string textForHide = "";
-        public string TextForHide
-        {
-            get { return textForHide; }
-            set
-            {
-                TextForHideChanged(value);
-                RaisePropertyChanged();
-            }
-        }
+        //private string textForHide = "";
+        //public string TextForHide
+        //{
+        //    get { return textForHide; }
+        //    set
+        //    {
+        //        TextForHideChanged(value);
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
 
-        private string countLettersForHide;
-        public string CountLettersForHide
-        {
-            get { return $"Введено символов: {countLettersForHide}"; }
-            set
-            {
-                countLettersForHide = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private string countLettersForHide;
+        //public string CountLettersForHide
+        //{
+        //    get { return $"Введено символов: {countLettersForHide}"; }
+        //    set
+        //    {
+        //        countLettersForHide = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
-        private string keyStatus;
-        public string KeyStatus
-        {
-            private get { return keyStatus; }
-            set
-            {
-                keyStatus = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private string keyStatus;
+        //public string KeyStatus
+        //{
+        //    private get { return keyStatus; }
+        //    set
+        //    {
+        //        keyStatus = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
-        private SolidColorBrush keyStatusColor;
-        public SolidColorBrush KeyStatusColor
-        {
-            get { return keyStatusColor; }
-            set
-            {
-                keyStatusColor = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private SolidColorBrush keyStatusColor;
+        //public SolidColorBrush KeyStatusColor
+        //{
+        //    get { return keyStatusColor; }
+        //    set
+        //    {
+        //        keyStatusColor = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
-        private bool isTextForHideEnabled;
-        public bool IsTextForHideEnabled
-        {
-            get { return isTextForHideEnabled; }
-            set
-            {
-                isTextForHideEnabled = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private bool isTextForHideEnabled;
+        //public bool IsTextForHideEnabled
+        //{
+        //    get { return isTextForHideEnabled; }
+        //    set
+        //    {
+        //        isTextForHideEnabled = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
         private string sourceString = string.Empty;
 
 
-        public CheckBoxModel RSACheckBox { get; set; }
+        //public CheckBoxModel RSACheckBox { get; set; }
 
-        public CheckBoxModel AESCheckBox { get; set; }
+        //public CheckBoxModel AESCheckBox { get; set; }
 
-        public CheckBoxModel TwoFishCheckBox { get; set; }
+        //public CheckBoxModel TwoFishCheckBox { get; set; }
 
-        public CheckBoxModel AdditionalBitsCheckBox { get; set; }
+        //public CheckBoxModel AdditionalBitsCheckBox { get; set; }
 
-        public CheckBoxModel VisibleColorCheckBox { get; set; }
+        //public CheckBoxModel VisibleColorCheckBox { get; set; }
 
-        public CheckBoxModel HashingSHA512CheckBox { get; set; }
+        //public CheckBoxModel HashingSHA512CheckBox { get; set; }
 
-        public CheckBoxModel HashingMD5CheckBox { get; set; }
+        //public CheckBoxModel HashingMD5CheckBox { get; set; }
 
 
-        private bool isHideInformationButtonEnabled;
-        public bool IsHideInformationButtonEnabled
-        {
-            get { return isHideInformationButtonEnabled; }
-            set
-            {
-                isHideInformationButtonEnabled = value;
-                RaisePropertyChanged();
-            }
-        }
+        //private bool isHideInformationButtonEnabled;
+        //public bool IsHideInformationButtonEnabled
+        //{
+        //    get { return isHideInformationButtonEnabled; }
+        //    set
+        //    {
+        //        isHideInformationButtonEnabled = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
         #endregion
 
         #region RelayCommands
 
-        public RelayCommand OpenDocumentRelayCommand { get; private set; }
-        public RelayCommand HideInformationRelayCommand { get; private set; }
+        //public RelayCommand OpenDocumentRelayCommand { get; private set; }
+        //public RelayCommand HideInformationRelayCommand { get; private set; }
 
-        public ObservableCollection<ICod> CodMethods { get; set; }
-        public ICod SelectedCodMethod { get; set; }
+        //public ObservableCollection<ICod> CodMethods { get; set; }
+        //public ICod SelectedCodMethod { get; set; }
 
-        public ObservableCollection<ICrypt> CryptMethods { get; set; }
-        public ICrypt SelectedCryptMethod { get; set; }
+        //public ObservableCollection<ICrypt> CryptMethods { get; set; }
+        //public ICrypt SelectedCryptMethod { get; set; }
 
-        public ObservableCollection<IHash> HashMethods { get; set; }
-        public IHash SelectedHashMethod { get; set; }
+        //public ObservableCollection<IHash> HashMethods { get; set; }
+        //public IHash SelectedHashMethod { get; set; }
 
-        #endregion
+        //#endregion
 
-        #region VARS
+        //#region VARS
 
-        private OpenFileDialog openFileDialog;
+        //private OpenFileDialog openFileDialog;
 
-        private string pathToDirOrigFile;
-        private string filenameOrigFile;
+        //private string pathToDirOrigFile;
+        //private string filenameOrigFile;
 
-        private int maxLettersIsCanHide;
+        //private int maxLettersIsCanHide;
         #endregion
 
         #region Constructor and Initializers
@@ -158,14 +158,14 @@ namespace Stegano.ViewModel
             UIInit();
             openFileDialog = new OpenFileDialog();
             RelayInit();
-            CodMethodsInit();
-            CryptMethodsInit();
-            HashMethodsInit();
+            //CodMethodsInit();
+            //CryptMethodsInit();
+            //HashMethodsInit();
         }
 
         private void RelayInit()
         {
-            OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
+            //OpenDocumentRelayCommand = new RelayCommand(OpenDocument);
             HideInformationRelayCommand = new RelayCommand(HideInformation);
         }
 
@@ -183,76 +183,76 @@ namespace Stegano.ViewModel
             IsTextForHideEnabled = false;
             IsHideInformationButtonEnabled = false;
 
-            RSACheckBox = new CheckBoxModel();
-            VisibleColorCheckBox = new CheckBoxModel();
-            AdditionalBitsCheckBox = new CheckBoxModel();
-            HashingMD5CheckBox = new CheckBoxModel();
-            HashingSHA512CheckBox = new CheckBoxModel();
-            AESCheckBox = new CheckBoxModel();
-            TwoFishCheckBox = new CheckBoxModel();
+            //RSACheckBox = new CheckBoxModel();
+            //VisibleColorCheckBox = new CheckBoxModel();
+            //AdditionalBitsCheckBox = new CheckBoxModel();
+            //HashingMD5CheckBox = new CheckBoxModel();
+            //HashingSHA512CheckBox = new CheckBoxModel();
+            //AESCheckBox = new CheckBoxModel();
+            //TwoFishCheckBox = new CheckBoxModel();
         }
 
-        private void CodMethodsInit()
-        {
-            CodMethods = new ObservableCollection<ICod>
-            {
-                new CyclicCod(),
-                new HammingCod(16, false),
-                new HammingCod(16, true),
-            };
-        }
+        //private void CodMethodsInit()
+        //{
+        //    CodMethods = new ObservableCollection<ICod>
+        //    {
+        //        new CyclicCod(),
+        //        new HammingCod(16, false),
+        //        new HammingCod(16, true),
+        //    };
+        //}
 
-        private void CryptMethodsInit()
-        {
-            CryptMethods = new ObservableCollection<ICrypt>
-            {
-                new AES(),
-                new RSA(),
-                new TwoFish()
-            };
-        }
+        //private void CryptMethodsInit()
+        //{
+        //    CryptMethods = new ObservableCollection<ICrypt>
+        //    {
+        //        new AES(),
+        //        new RSA(),
+        //        new TwoFish()
+        //    };
+        //}
 
-        private void HashMethodsInit()
-        {
-            HashMethods = new ObservableCollection<IHash>
-            {
-                new SHA512(),
-                new MD5(),
-            };
-        }
+        //private void HashMethodsInit()
+        //{
+        //    HashMethods = new ObservableCollection<IHash>
+        //    {
+        //        new SHA512(),
+        //        new MD5(),
+        //    };
+        //}
 
         #endregion
 
         #region RelayMethods
-        private void OpenDocument()
-        {
-            if (OpenFileDialog(openFileDialog) != null)
-            {
-                FullPathToOrigFile = openFileDialog.FileName;
-                filenameOrigFile = openFileDialog.SafeFileName;
-                pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
+        //private void OpenDocument()
+        //{
+        //    if (OpenFileDialog(openFileDialog) != null)
+        //    {
+        //        FullPathToOrigFile = openFileDialog.FileName;
+        //        filenameOrigFile = openFileDialog.SafeFileName;
+        //        pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
 
-                CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
-                maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
-                if (Int32.Parse(countLettersIsCanHide) > 0)
-                {
-                    IsTextForHideEnabled = true;
-                    IsHideInformationButtonEnabled = true;
+        //        CountLettersIsCanHide = HideColorModel.HowMuchLettersICanHide(fullPathToOrigFile).ToString();
+        //        maxLettersIsCanHide = Int32.Parse(countLettersIsCanHide);
+        //        if (Int32.Parse(countLettersIsCanHide) > 0)
+        //        {
+        //            IsTextForHideEnabled = true;
+        //            IsHideInformationButtonEnabled = true;
 
-                    HashingMD5CheckBox.IsEnabled = true;
-                    RSACheckBox.IsEnabled = true;
-                    AdditionalBitsCheckBox.IsEnabled = true;
-                    VisibleColorCheckBox.IsEnabled = true;
-                    HashingSHA512CheckBox.IsEnabled = true;
-                    AESCheckBox.IsEnabled = true;
-                    TwoFishCheckBox.IsEnabled = true;
-                }
-                else
-                {
-                    ShowMetroMessageBox("Ошибка", "В данном файле невозможно скрыть информацию.");
-                }
-            }
-        }
+        //            //HashingMD5CheckBox.IsEnabled = true;
+        //            //RSACheckBox.IsEnabled = true;
+        //            //AdditionalBitsCheckBox.IsEnabled = true;
+        //            //VisibleColorCheckBox.IsEnabled = true;
+        //            //HashingSHA512CheckBox.IsEnabled = true;
+        //            //AESCheckBox.IsEnabled = true;
+        //            //TwoFishCheckBox.IsEnabled = true;
+        //        }
+        //        else
+        //        {
+        //            ShowMetroMessageBox("Ошибка", "В данном файле невозможно скрыть информацию.");
+        //        }
+        //    }
+        //}
 
         private async void HideInformation()
         {
@@ -279,14 +279,14 @@ namespace Stegano.ViewModel
                 if (isSuccesful)
                 {
                     ShowMetroMessageBox("Информация", "Скрытие информации прошло успешно.\n\nПуть к измененному файлу: " + pathToNewFile);
-                    KeyStatus = (RSACheckBox.IsChecked == true) ? "сгенерирован" : "выключен RSA";
-                    KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
+                    //KeyStatus = (RSACheckBox.IsChecked == true) ? "сгенерирован" : "выключен RSA";
+                    //KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
                 }
                 else
                 {
                     ShowMetroMessageBox("Информация", "Во время выполнения произошла ошибка.");
-                    KeyStatus = (RSACheckBox.IsChecked == true) ? "ошибка генерации" : "выключен RSA";
-                    KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                    //KeyStatus = (RSACheckBox.IsChecked == true) ? "ошибка генерации" : "выключен RSA";
+                    //KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
                 }
             }
             else
@@ -300,48 +300,48 @@ namespace Stegano.ViewModel
         #endregion
 
 
-        private void TextForHideChanged(string text)
-        {
-            textForHide = text;
-            CountLettersForHide = textForHide.Length.ToString();
-            int letterWeigth = 0;
-            if (AdditionalBitsCheckBox != null)
-                letterWeigth = AdditionalBitsCheckBox.IsChecked ? Int32.Parse(countLettersForHide) * 4 : Int32.Parse(countLettersForHide);
-            CountLettersIsCanHide = (maxLettersIsCanHide - letterWeigth).ToString();
-        }
+        //private void TextForHideChanged(string text)
+        //{
+        //    textForHide = text;
+        //    CountLettersForHide = textForHide.Length.ToString();
+        //    int letterWeigth = 0;
+        //    if (AdditionalBitsCheckBox != null)
+        //        letterWeigth = AdditionalBitsCheckBox.IsChecked ? Int32.Parse(countLettersForHide) * 4 : Int32.Parse(countLettersForHide);
+        //    CountLettersIsCanHide = (maxLettersIsCanHide - letterWeigth).ToString();
+        //}
 
-        private OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)
-        {
-            try
-            {
-                openFileDialog.Filter = "Файлы Microsoft Word|*.doc;*.docx; | Все файлы|*.*";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
+        //private OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)
+        //{
+        //    try
+        //    {
+        //        openFileDialog.Filter = "Файлы Microsoft Word|*.doc;*.docx; | Все файлы|*.*";
+        //        openFileDialog.FilterIndex = 1;
+        //        openFileDialog.RestoreDirectory = true;
 
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    return openFileDialog;
-                }
+        //        if (openFileDialog.ShowDialog() == true)
+        //        {
+        //            return openFileDialog;
+        //        }
 
-                return null;
-            }
-            catch (Exception exception)
-            {
-                ShowMetroMessageBox("Error", exception.Message);
-            }
+        //        return null;
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        ShowMetroMessageBox("Error", exception.Message);
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        private void ShowMetroMessageBox(string title, string message)
-        {
-            var dialog = new ModernDialog()
-            {
-                Title = title,
-                Content = message
-            };
+        //private void ShowMetroMessageBox(string title, string message)
+        //{
+        //    var dialog = new ModernDialog()
+        //    {
+        //        Title = title,
+        //        Content = message
+        //    };
 
-            dialog.ShowDialog();
-        }
+        //    dialog.ShowDialog();
+        //}
     }
 }
