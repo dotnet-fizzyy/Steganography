@@ -97,10 +97,10 @@ namespace Stegano.Model
 
         }
 
-        public static string HideUnderlineElGamal(string value)
-        {
-            return ShifrElGamal.CoderElGamal(value);
-        }
+        //public static string HideUnderlineElGamal(string value)
+        //{
+        //    return ShifrElGamal.CoderElGamal(value);
+        //}
 
         
         public static string AddAdditionalBits(string messageInBits)

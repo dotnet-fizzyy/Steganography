@@ -20,7 +20,8 @@
                 <mui:Link DisplayName="Апрош" Source="View/Pages/HideAproshView.xaml" />
 
                 <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml"/>
-                <mui:Link DisplayName="Дима" Source="View/Pages/HideColorView.xaml"/>
+                <!--<mui:Link DisplayName="Дима" Source="View/Pages/HideColorView.xaml"/>-->
+                <mui:Link DisplayName="Дима" Source="View/Pages/AttributeHiding.xaml" />
                 <mui:Link DisplayName="Подчеркивание" Source="View/Pages/HideUnderlineView.xaml"/>
 <!-- =======
                 <mui:Link DisplayName="Шрифт" Source="View/Pages/HideFontView.xaml" />

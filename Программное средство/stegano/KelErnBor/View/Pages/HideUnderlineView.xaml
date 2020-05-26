@@ -27,27 +27,27 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" MinHeight="16.8"/>
+                    <RowDefinition Height="Auto" MinHeight="24.8"/>
+                    <RowDefinition Height="Auto" MinHeight="24.8"/>
                     <RowDefinition Height="Auto" MinHeight="44"/>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0.4" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
+                <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0.8" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
 
-                <Label Grid.Column="0" Margin="8,34,0,22" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}" Grid.RowSpan="3"/>
+                <Label Grid.Column="0" Margin="8,34,0,21.8" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}" Grid.RowSpan="3"/>
 
-                <Label Grid.Column="0" Grid.Row="2" Margin="8,0.6,0,0" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}"/>
+                <Label Grid.Column="0" Grid.Row="2" Margin="5,7.6,3,5.4" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}" Grid.RowSpan="2"/>
 
-                <DataGrid  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding FontStats ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,22.6,0,0" Grid.RowSpan="2"/>
+                <DataGrid  Grid.Column="0" Grid.Row="2" ItemsSource="{Binding FontStats ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,22.8,0,17.6" Grid.RowSpan="3"/>
 
-                <Label Grid.Column="0" Grid.Row="3" Margin="8,23,0,27.4" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}" Grid.RowSpan="3"/>
+                <Label Grid.Column="0" Grid.Row="2" Margin="5,29.8,3,13.4" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}" Grid.RowSpan="3"/>
 
-                <TextBox  Grid.Column="0" Grid.Row="5" Margin="8,0.2,8,53.4" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
-                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged" Grid.RowSpan="2">
+                <TextBox  Grid.Column="0" Grid.Row="4" Margin="0,9.8,16,74.2" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
+                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged" Grid.RowSpan="3">
                 </TextBox>
 
-                
-                <Grid Grid.Column="0" Grid.Row="6" Margin="0,10.6,0,0.4">
+
+                <Grid Grid.Column="0" Grid.Row="6" Margin="0,10.2,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -66,26 +66,35 @@
 
                     <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
 
+                    <Label Grid.Column="0" Grid.Row="1" Margin="10,52.6,-0.8,-42.8" FontSize="15" Content="Криптопреобразование: " Grid.ColumnSpan="2"/>
+                    <ComboBox Margin="185,54.6,8.4,-44.8" Grid.Column="0" Grid.Row="1" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+
+                    <Label Grid.Column="0" Grid.Row="1" Margin="9,27.6,0.2,-27.8" FontSize="15" Content="Хэширование: " Grid.ColumnSpan="2"/>
+                    <ComboBox Margin="185,25.6,8.4,-16.8" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"/>
+
 
                 </Grid>
+                <Label Grid.Column="0" Grid.Row="11" Margin="10,39.2,-2,21.2" FontSize="15" Content="Кодирование: " Grid.RowSpan="2"/>
+                <ComboBox Margin="185,36.4,233,12.2" Grid.Row="11" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,7.6,12,30.2" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдослучайным образом" Grid.RowSpan="2"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8.4,12,0.2" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
+                <CheckBox  Grid.Column="0" Grid.Row="13" Margin="11,8.2,13,14.6" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдослучайным образом"/>
+
+                <CheckBox  Grid.Column="0" Grid.Row="13" Margin="11,22.6,13,-16.8" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
                                Content="Дополнительное криптопреобразование по алгоритму RSA"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,7.8,12,0.6" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
+                <CheckBox  Grid.Column="0" Grid.Row="13" Margin="10,37.6,14,-44.8" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
                               Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="10,29.6,14,9" FontSize="16" IsEnabled="{Binding ShifrElGamalCheckBox.IsEnabled, Mode=TwoWay}" 
+                <CheckBox  Grid.Column="0" Grid.Row="12" Margin="8,16.6,16,37" FontSize="16" IsEnabled="{Binding ShifrElGamalCheckBox.IsEnabled, Mode=TwoWay}" 
                               Content="Шифрование Эль-Гамаля" IsChecked="{Binding ShifrElGamalCheckBox.IsChecked,Mode=TwoWay}" Grid.RowSpan="2"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,7.4,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                <CheckBox  Grid.Column="0" Grid.Row="12" Margin="76,26.4,-52,22" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}" Grid.RowSpan="2"/>
 
 
 
-                <Grid Grid.Column="0" Margin="8,8,8,7.6" Grid.Row="12">
+                <Grid Grid.Column="0" Margin="8,7.8" Grid.Row="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -94,7 +103,7 @@
                     </Grid.ColumnDefinitions>
                 </Grid>
 
-                <Button Grid.Column="0" Grid.Row="13" Margin="10,28.4,6,-19.6" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                <Button Grid.Column="0" Grid.Row="13" Margin="13,33.8,3,-25" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
                             IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>
 
             </Grid>

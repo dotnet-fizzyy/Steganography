@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Stegano.Model.Aditional_Coding;
 using Stegano.Interfaces;
+using System.Windows;
 
 namespace Stegano.ViewModel
 {
@@ -230,7 +231,11 @@ namespace Stegano.ViewModel
                 SearchedText = "";
 
                 AttributeHiding attributeHiding = new AttributeHiding(pathToDoc);
+
+               
+
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
+                
 
                 if (SelectedHashMethod != null)
                 {

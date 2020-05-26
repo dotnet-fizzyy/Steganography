@@ -141,6 +141,8 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowUnderlineViewModel>();
+            }
+        }
 
         public AttributeHidingViewModel AttributeHiding
         {

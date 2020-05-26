@@ -14,19 +14,19 @@ namespace Stegano.Model
     class ShowUnderlineModel
     {
         private Document wordDoc;
-
+        private const string FileName = "privateKey.txt";
         public ShowUnderlineModel(string pathToFile)
         {
             wordDoc = new Document(pathToFile);
         }
 
-        public static string ShowUnderlineElGamal(string value)
-        {
+        //public static string ShowUnderlineElGamal(string value)
+        //{
             
             
-            return  ShifrElGamal.DecoderElGamal(value);
+        //    return  ShifrElGamal.EncryptMethod(value, FileName);
            
-        }
+        //}
         public static string RemoveAdditBits(string value)
         {
             StringBuilder sb = new StringBuilder();
