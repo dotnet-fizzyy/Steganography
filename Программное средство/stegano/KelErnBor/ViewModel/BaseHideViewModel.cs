@@ -199,7 +199,7 @@ namespace Stegano.ViewModel
         private void CodMethodsInit()
         {
             CodMethods = new ObservableCollection<ICod>();
-            CodMethods.Add(new CyclicCod());
+            CodMethods.Add(new CyclicCod(11,"10011"));
             CodMethods.Add(new HammingCod(16, false));
             CodMethods.Add(new HammingCod(16, true));
         }

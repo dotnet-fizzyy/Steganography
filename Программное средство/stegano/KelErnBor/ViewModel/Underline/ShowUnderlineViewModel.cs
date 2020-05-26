@@ -165,7 +165,7 @@ namespace Stegano.ViewModel.Underline
         {
             CodMethods = new ObservableCollection<ICod>
             {
-                new CyclicCod(),
+                new CyclicCod(4,"1011"),
                 new HammingCod(16, false),
                 new HammingCod(16, true),
             };

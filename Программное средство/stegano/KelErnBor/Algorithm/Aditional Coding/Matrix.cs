@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,13 @@ namespace Stegano.Algorithm.Aditional_Coding
         int r;
         int R;
         bool isMdf;
-        public int N => isMdf ? k + R : k + r; 
+        string infWord;
+        string generatPolinom;
+        string codWord;
+        string[] canonicalMatrix;
+        private string[] checkMatrix;
 
+        public int N => isMdf ? k + R : k + r;
         public int K { get => k; private set => k = value; }
 
         public Matrix(int k, bool isMdf)
@@ -33,6 +39,187 @@ namespace Stegano.Algorithm.Aditional_Coding
 
         }
 
+        public Matrix(int k, string generatPolinom)
+        {
+            this.isMdf = false;
+            this.K = k;
+            this.r = generatPolinom.Length - 1;
+            this.generatPolinom = generatPolinom;
+        }
+
+        public string BitStrToPolinom(string bit)
+        {
+            string polinom = "";
+            int position;
+            for (int i = 0; i < bit.Length; i++)
+            {
+                position = bit.Length - 1 - i;
+                if (bit[i] == '1')
+                {
+                    polinom += "x" + position;
+                    if (i != bit.Length - 1)
+                        polinom += " + ";
+                }
+
+            }
+            return polinom;
+        }
+        private string LeftShift(string bit, int count)
+        {
+            return bit + new string('0', count);
+        }
+
+        private string RightShift(string bit, int count)
+        {
+            return new string('0', count) + bit.Substring(0, bit.Length - count);
+        }
+
+        private string PolinomDivision(string dividend, string divider)
+        {
+            if (dividend.Length - dividend.IndexOf('1') < divider.Length || !dividend.Contains('1'))
+            {
+                while (dividend.Length >= divider.Length)
+                    dividend = dividend.Substring(1, dividend.Length - 1);
+                return dividend;
+            }
+            else
+                return PolinomDivision(SumBinStrings(dividend, CorrectBinValue(divider, dividend.IndexOf('1'), dividend.Length - dividend.IndexOf('1') - divider.Length)), divider);
+        }
+        private string SumBinStrings(string firstStr, string SecondStr)
+        {
+            string result = "";
+            for (int i = 0; i < firstStr.Length; i++)
+            {
+                if (firstStr[i] == SecondStr[i])
+                    result += "0";
+                else
+                    result += "1";
+            }
+            return result;
+        }
+        public string FindeSindrom(string yn)
+        {
+            return PolinomDivision(yn, generatPolinom);
+        }
+        private void ShowMetroMessageBox(string title, string message)
+        {
+            var dialog = new ModernDialog()
+            {
+                Title = title,
+                Content = message
+            };
+
+            dialog.ShowDialog();
+        }
+        public string CorrectValue(string strVal, string sindrom)
+        {
+            ShowMetroMessageBox(strVal, sindrom);
+            if (sindrom.Count(c => c == '1') == 0)
+            {
+                return strVal;
+            }
+            else
+            {
+                if (checkMatrix is null)
+                {
+                    GeneratMatrix();
+                    CheckMatrix();
+
+                }
+
+                string E = new string('0',K);
+                for (int i = 0; i < K; i++)
+                    if (checkMatrix[i] == sindrom)
+                    {
+                        char[] ar = E.ToCharArray();
+                        ar[i] = '1';
+
+                        E = new string(ar);
+
+                        return SumBinStrings(strVal, E);
+                    }
+
+                return strVal;
+            }
+        }
+
+        public void GeneratMatrix()
+        {
+            int k = K;
+            int n = N;
+            string lineValue = generatPolinom + new string('0', k - 1);
+            string[] matrix = new string[k];
+
+            for (int i = 0; i < k; i++)
+                matrix[i] = RightShift(lineValue, i);
+
+            Console.WriteLine("\nGENERATE MATRIX:\n");
+            foreach (string i in matrix)
+            {
+                Console.WriteLine(i);
+            }
+
+            //canonical form
+            for (int i = 0; i < k; i++)
+            {
+                string str = matrix[i].Remove(i, 1);
+                str = str.Insert(i, "0");
+
+                while (str.IndexOf('1') < k || !str.Contains('1'))
+                {
+                    str = SumBinStrings(str, matrix.First(st => st.IndexOf('1') == str.IndexOf('1')));
+                }
+
+                str = str.Remove(i, 1);
+                matrix[i] = str.Insert(i, "1");
+
+            }
+
+            canonicalMatrix = matrix;
+            Console.WriteLine("\nGENERATE MATRIX CANONICAL:\n");
+            foreach (string i in matrix)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        public void CheckMatrix()
+        {
+            int k = K;
+            int n = N;
+            int r = n - k;
+            string[] matrix = new string[n];
+
+            for (int i = 0; i < k; i++)
+            {
+                for (int j = k; j < n; j++)
+                    matrix[i] += "" + canonicalMatrix[i][j];
+            }
+
+            for (int i = 0; i < r; i++)
+            {
+                matrix[k + i] = new string('0', i) + '1' + new string('0', r - i - 1);
+            }
+
+            Console.WriteLine("\nCHECK MATRIX:\n");
+            foreach (var str in matrix)
+                Console.WriteLine(str);
+            checkMatrix = matrix;
+        }
+        public string GeneratPolinom { get => generatPolinom; set => generatPolinom = value; }
+        public string CodWord => infWord + PolinomDivision(LeftShift(infWord, generatPolinom.Length - 1), generatPolinom);
+        public string InfWord { get => infWord; set => infWord = value; }
+
+        private string CorrectBinValue(string str, int l, int r)
+        {
+            int i = 0;
+            while (i++ < l)
+                str = str.Insert(0, "0");
+            i = 0;
+            while (i++ < r)
+                str += "0";
+            return str;
+        }
         private int[][] generateMatrix_P()
         {
             int[][] matrixP = new int[r][];
@@ -153,69 +340,6 @@ namespace Stegano.Algorithm.Aditional_Coding
             return matrix_H;
         }
 
-        public static void PrintMatrix(int[][] matrix)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                    Console.Write(matrix[i][j] + " ");
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
-        public static void PrintMatrix(int[][] matrix, int sP, int Ep)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    if (j >= sP && j <= Ep)
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(matrix[i][j] + " ");
-
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
-        public static void PrintMatrix(int[] matrix, int sP, int Ep)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                if (i >= sP && i <= Ep)
-                    Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(matrix[i] + " ");
-
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            Console.WriteLine("\n");
-        }
-
-        public static void PrintMatrix(int[] matrix, int sP1, int Ep1, int sP2, int Ep2)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                if (i >= sP1 && i <= Ep1 || i >= sP2 && i <= Ep2)
-                    Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(matrix[i] + " ");
-
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            Console.WriteLine("\n");
-        }
-
-        public static void PrintMatrix(int[] matrix)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                Console.Write(matrix[i] + " ");
-            }
-            Console.WriteLine("\n");
-
-        }
         public static int[] MultiplyMatrixAndVector(int[][] mA, int[] vB)
         {
             int[] newVector = new int[mA.Length];
