@@ -211,7 +211,8 @@ namespace Stegano.ViewModel
             {
                 new AES(),
                 new RSA(),
-                new TwoFish()
+                new TwoFish(),
+                new ShifrElGamal(),
             };
         }
 
@@ -233,7 +234,7 @@ namespace Stegano.ViewModel
 
             message = SelectedCodMethod?.Coding(message) ?? message;
 
-            hash = SelectedHashMethod.GetHash(message);
+            hash = SelectedHashMethod?.GetHash(message);
 
             return message;
         }
@@ -281,6 +282,7 @@ namespace Stegano.ViewModel
             letterWeigth = SelectedCodMethod != null ? Int32.Parse(countLettersForHide) * 4 : Int32.Parse(countLettersForHide);
             CountLettersIsCanHide = (maxLettersIsCanHide - letterWeigth).ToString();
         }
+
         protected OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)
         {
             try

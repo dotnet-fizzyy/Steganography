@@ -20,7 +20,7 @@
                 <mui:Link DisplayName="Апрош" Source="View/Pages/Aprosh/HideAproshView.xaml" />
                 <mui:Link DisplayName="Шрифт" Source="View/Pages/Font/HideFontView.xaml" />
                 <mui:Link DisplayName="Дима" Source="View/Pages/AttributeHiding.xaml" />
-                <mui:Link DisplayName="Катя" Source="View/Pages/HideColorView.xaml" />
+                <mui:Link DisplayName="Подчеркивание" Source="View/Pages/Underline/HideUnderlineView.xaml" />
                 <mui:Link DisplayName="Настройки" Source="View/Pages/SettingsView.xaml" />
             </mui:ModernTab.Links>
         </mui:ModernTab>
