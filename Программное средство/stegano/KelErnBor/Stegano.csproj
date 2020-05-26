@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -90,6 +91,7 @@
     <Compile Include="Algorithm\MD5.cs" />
     <Compile Include="Algorithm\RSA.cs" />
     <Compile Include="Algorithm\SHA512.cs" />
+    <Compile Include="Algorithm\ShifrElGamal.cs" />
     <Compile Include="Interfaces\ICrypt.cs" />
     <Compile Include="Algorithm\Polynom.cs" />
     <Compile Include="Algorithm\TwoFish.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="Model\ColorSteg\ShowColorModel.cs" />
     <Compile Include="Model\Font\ShowFontModel.cs" />
     <Compile Include="Algorithm\TextStat.cs" />
+    <Compile Include="Model\Underline\HideUnderlineModel.cs" />
+    <Compile Include="Model\Underline\ShowUnderlineModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\Aprosh\HideAproshViewModel.cs" />
     <Compile Include="ViewModel\AttributeHidingViewModel.cs" />
@@ -121,6 +125,8 @@
     <Compile Include="ViewModel\Color\ShowColorViewModel.cs" />
     <Compile Include="ViewModel\Font\ShowFontViewModel.cs" />
     <Compile Include="ViewModel\ShowWindowViewModel.cs" />
+    <Compile Include="ViewModel\Underline\HideUnderlineViewModel.cs" />
+    <Compile Include="ViewModel\Underline\ShowUnderlineViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Pages\Aprosh\HideAproshView.xaml.cs">
       <DependentUpon>HideAproshView.xaml</DependentUpon>
@@ -151,6 +157,12 @@
     </Compile>
     <Compile Include="View\Pages\Font\ShowFontView.xaml.cs">
       <DependentUpon>ShowFontView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\Underline\HideUnderlineView.xaml.cs">
+      <DependentUpon>HideUnderlineView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\Underline\ShowUnderlineView.xaml.cs">
+      <DependentUpon>ShowUnderlineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
@@ -218,6 +230,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\Underline\HideUnderlineView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\Underline\ShowUnderlineView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ShowWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -253,6 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
