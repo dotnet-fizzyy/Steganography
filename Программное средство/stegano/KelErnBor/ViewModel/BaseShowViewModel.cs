@@ -144,7 +144,8 @@ namespace Stegano.ViewModel
             {
                 new AES(),
                 new RSA(),
-                new TwoFish()
+                new TwoFish(),
+                new ShifrElGamal(),
             };
         }
 

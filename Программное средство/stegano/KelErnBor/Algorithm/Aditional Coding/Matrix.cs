@@ -113,7 +113,7 @@ namespace Stegano.Algorithm.Aditional_Coding
         }
         public string CorrectValue(string strVal, string sindrom)
         {
-            ShowMetroMessageBox(strVal, sindrom);
+            //ShowMetroMessageBox(strVal, sindrom);
             if (sindrom.Count(c => c == '1') == 0)
             {
                 return strVal;

@@ -27,7 +27,6 @@ namespace Stegano.Algorithm.Aditional_Coding
 
             while (i < wordsCount)
             {
-                ShowMetroMessageBox(Cod(message.Substring(matrix.K * i, matrix.K)),i.ToString());
                 result.Append(Cod(message.Substring(matrix.K * i++, matrix.K)));
             }
 

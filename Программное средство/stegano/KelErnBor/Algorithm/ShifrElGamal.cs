@@ -176,14 +176,12 @@ namespace Stegano.Algorithm
                 result += Converter.StringToBinary(Convert.ToString(l));
                 result += Converter.StringToBinary(Convert.ToString(" "));
             }
-            MessageBox.Show(result);
             return result;
         }
 
         public string Decrypt(string value, string pathToFile)
         {
             string[] words = value.Split(new char[] { ' ' });
-            MessageBox.Show(value);
 
             List<BigInteger> cipherASCIIElGamal = new List<BigInteger>();
 
@@ -194,7 +192,7 @@ namespace Stegano.Algorithm
             }
 
             //MessageBox.Show(Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal, pathToFile)));
-            return Converter.BinaryToString(Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal, pathToFile)));
+            return Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal, pathToFile));
         }
 
         public override string ToString() => "El-Gamal";
