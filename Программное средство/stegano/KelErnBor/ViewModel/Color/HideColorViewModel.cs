@@ -12,7 +12,7 @@ using Stegano.Model;
 
 namespace Stegano.ViewModel.ColorSteg
 {
-    public class HideColorViewModel:BaseHideViewModel
+    public class HideColorViewModel : BaseHideViewModel
     {
         #region Properties
 

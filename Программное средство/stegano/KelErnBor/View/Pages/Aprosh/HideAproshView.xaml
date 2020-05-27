@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             mc:Ignorable="d" d:DesignWidth="600" Height="502.9">
     <UserControl.DataContext>
         <Binding Path="Aprosh" Source="{StaticResource Locator}" />
     </UserControl.DataContext>
@@ -12,9 +11,10 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
 
-            <Grid>
+            <Grid Height="435">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="26*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -31,19 +31,19 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
+                <Button Grid.Column="0" Grid.Row="0" Margin="6,-2,10,20.2" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ" Grid.ColumnSpan="2"/>
 
-                <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}"/>
+                <Label Grid.Column="0" Margin="8,31,0,25.8" FontSize="16" Content="{Binding FullPathToOrigFile, Mode=TwoWay}" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
 
-                <Label Grid.Column="0" Grid.Row="2" Margin="8,0,0,0" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}"/>
+                <Label Grid.Column="0" Grid.Row="2" Margin="8,0.2,0,0.2" FontSize="16" Content="{Binding CountLettersIsCanHide, Mode=TwoWay}" Grid.ColumnSpan="2"/>
 
-                <Label Grid.Column="0" Grid.Row="3" Margin="8,0,0,0" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}"/>
+                <Label Grid.Column="0" Grid.Row="2" Margin="8,22.2,0,27.6" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
 
-                <TextBox  Grid.Column="0" Grid.Row="4" Margin="8,0" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
-                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged">
+                <TextBox  Grid.Column="0" Grid.Row="4" Margin="8,0.4,8,53.2" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
+                        TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 </TextBox>
 
-                <Grid Grid.Column="0" Grid.Row="5" Margin="0,10,0,0">
+                <Grid Grid.Column="0" Grid.Row="5" Margin="0,10.4,0,0.2" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -65,17 +65,26 @@
 
                 </Grid>
 
-                <CheckBox  Grid.Column="0" Grid.Row="6" Margin="12,8,12,0" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдолучайным образом"/>
 
-                <CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
+                <Label Grid.Column="0" Grid.Row="6" Margin="8,9.8,0,0.4" FontSize="15" Content="Криптопреобразование: " Grid.ColumnSpan="2"/>
+                <ComboBox Margin="185,9.8,8,41.4" Grid.Column="0" Grid.Row="6" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2" Grid.ColumnSpan="2"></ComboBox>
+
+                <Label Grid.Column="0" Grid.Row="7" Margin="8,9.6,0,0.4" FontSize="15" Content="Кодирование: " Grid.ColumnSpan="2"/>
+                <ComboBox Margin="185,9.6,8,10.4" Grid.Row="7" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
+
+                <Label Grid.Column="0" Grid.Row="7" Margin="8,43.6,0,0.4" FontSize="15" Content="Хэширование: " Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                <ComboBox Margin="185,0.6,8,0" Grid.Row="8" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="22" VerticalAlignment="Top" Grid.ColumnSpan="2"></ComboBox>
+                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="10,19.6,14,130.2" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдолучайным образом" Grid.RowSpan="3" Grid.ColumnSpan="2"/>
+
+                <!--<CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
                                Content="Дополнительное криптопробразование по алгоритму RSA"/>
 
                 <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
-                              Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>
-                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
-                           Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>
+                              Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>-->
+                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="10,14.8,14,99.2" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                           Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}" Grid.ColumnSpan="2"/>
 
-                <Grid  Grid.Column="0"  Grid.Row="10" Margin="8,5,8,11">
+                <Grid  Grid.Column="0"  Grid.Row="10" Margin="8,4.8,8,11.2" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -85,8 +94,8 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" FontSize="16" Margin="0,7,0,9" Content="Отступ для единичного бита:"/>
-                    <ComboBox Grid.Column="1" Grid.Row="0" FontSize="16" Margin="5,5,-5,46" SelectedItem="{Binding SoloBitSpacing}">
+                    <Label Grid.Column="0" Grid.Row="0" FontSize="16" Margin="10,44,20.8,16.2" Content="Отступ для единичного бита:"/>
+                    <ComboBox Grid.Column="1" Grid.Row="0" FontSize="16" Margin="5,42,-5,9.4" SelectedItem="{Binding SoloBitSpacing}">
                         <ComboBoxItem Content="-0.2" IsSelected="True" FontSize="15"/>
                         <ComboBoxItem Content="-0.4" FontSize="15"/>
                         <ComboBoxItem Content="-0.6" FontSize="15"/>
@@ -94,8 +103,8 @@
                         <ComboBoxItem Content="-1" FontSize="15"/>
                     </ComboBox>
 
-                    <Label Grid.Column="0" FontSize="16" Margin="0,39,0,0" Content="Отступ для нулевого бита:"/>
-                    <ComboBox Grid.Column="1" FontSize="16" Margin="5,40,-5,9" SelectedItem="{Binding ZeroBitSpacing}">
+                    <Label Grid.Column="1" FontSize="16" Margin="79,42,-263,-2" Content="Отступ для нулевого бита:" Grid.RowSpan="2"/>
+                    <ComboBox Grid.Column="1" FontSize="16" Margin="283,36,-283,16.4" SelectedItem="{Binding ZeroBitSpacing}">
                         <ComboBoxItem Content="0.2" IsSelected="True" FontSize="15"/>
                         <ComboBoxItem Content="0.4" FontSize="15"/>
                         <ComboBoxItem Content="0.6" FontSize="15"/>
@@ -104,8 +113,8 @@
                     </ComboBox>
                 </Grid>
 
-                <Button Grid.Column="0" Grid.Row="10" Margin="8,94,8,1" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
-                            IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>
+                <Button Grid.Column="0" Grid.Row="10" Margin="2,88.8,14,0" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                            IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию" Height="33" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
             </Grid>
         </ScrollViewer>

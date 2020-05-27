@@ -43,7 +43,7 @@ namespace Stegano.ViewModel.Font
                 string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
 
                 foundedBitsInDoc = messageTransformation(foundedBitsInDoc);
-
+                
                 SearchedText = Converter.BinaryToString(foundedBitsInDoc);
 
                 if (SearchedText.Length > 0)
