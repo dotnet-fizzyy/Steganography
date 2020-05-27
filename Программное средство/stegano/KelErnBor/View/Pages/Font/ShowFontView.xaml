@@ -46,7 +46,35 @@
                     
                     <DataGrid  Grid.Column="0" Grid.Row="1" ItemsSource="{Binding FontStats ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <Button Grid.Column="0"  Grid.Row="2"  Margin="8,0"  Content="Открыть файл с приватным ключом" Command="{Binding OpenPrivateKeyRelayCommand}"/>
+                    <Grid Grid.Column="0" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Margin="8" FontSize="16" Content="Путь к осажденному документу:"/>
+
+                        <Label Grid.Row="0" FontSize="15" Margin="250,12,12,4" Content="{Binding PathToDoc}" Grid.ColumnSpan="2"/>
+
+                        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"  Margin="8,0"  Content="Открыть файл с приватным ключом" Command="{Binding OpenPrivateKeyRelayCommand}"/>
+
+                        <Label Grid.Column="0" Grid.Row="2" Margin="8" FontSize="16" Content="Путь к приватному ключу:"/>
+
+                        <Label Grid.Row="2"  Margin="208,8,8,8" FontSize="16" Content="{Binding CryptFile}" Grid.ColumnSpan="2"/>
+
+                        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="8,0,8,0" Content="Открыть файл с хешем" Command="{Binding OpenHashDocument}"/>
+                        <Label Grid.Column="0" Grid.Row="5" Margin="8,8,0,0" FontSize="16" Content="Путь к файлу с хэшем:"/>
+                        <Label Grid.Row="5" Margin="180,8,8,0" FontSize="16" Content="{Binding HashFile}" Grid.ColumnSpan="2"/>
+                    </Grid>
 
                     <Label Grid.Column="0" Grid.Row="3" Margin="8" FontSize="16" Content="Путь к приватному ключу:"/>
 
