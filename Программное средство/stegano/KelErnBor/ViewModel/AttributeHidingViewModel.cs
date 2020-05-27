@@ -265,12 +265,12 @@ namespace Stegano.ViewModel
 
                 sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(TextForHide)) ?? TextForHide;
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
 
                 AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
 
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? sourceString : Converter.BinaryToString(sourceString)) ?? sourceString;
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
@@ -279,14 +279,14 @@ namespace Stegano.ViewModel
                 if (isSuccesful)
                 {
                     ShowMetroMessageBox("Информация", "Скрытие информации прошло успешно.\n\nПуть к измененному файлу: " + pathToNewFile);
-                    //KeyStatus = (RSACheckBox.IsChecked == true) ? "сгенерирован" : "выключен RSA";
-                    //KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
+                    KeyStatus = (SelectedCryptMethod != null) ? "сгенерирован" : "выключен";
+                    KeyStatusColor = (SelectedCryptMethod != null) ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
                 }
                 else
                 {
                     ShowMetroMessageBox("Информация", "Во время выполнения произошла ошибка.");
-                    //KeyStatus = (RSACheckBox.IsChecked == true) ? "ошибка генерации" : "выключен RSA";
-                    //KeyStatusColor = (RSACheckBox.IsChecked == true) ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                    KeyStatus = (SelectedCryptMethod != null) ? "ошибка генерации" : "выключен RSA";
+                    KeyStatusColor = (SelectedCryptMethod != null) ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
                 }
             }
             else

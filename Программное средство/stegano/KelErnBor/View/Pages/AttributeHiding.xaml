@@ -54,12 +54,12 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном RSA):"/>
+                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном шифровании):"/>
 
                     <Label   Grid.Column="1" Grid.Row="0"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
 
 
-                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном RSA):"/>
+                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном шифровании):"/>
 
                     <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
 
