@@ -19,14 +19,7 @@ namespace Stegano.Model.Underline
         {
             wordDoc = new Document(pathToFile);
         }
-
-        //public static string ShowUnderlineElGamal(string value)
-        //{
-
-
-        //    return  ShifrElGamal.EncryptMethod(value, FileName);
-
-        //}
+               
         public static string RemoveAdditBits(string value)
         {
             StringBuilder sb = new StringBuilder();
@@ -51,10 +44,7 @@ namespace Stegano.Model.Underline
             string foundedMessageInDocument = "";
 
             DocumentBuilder documentBuilder = new DocumentBuilder(wordDoc);
-
-            //DocumentHelper.CutParagraphToRun(ref wordDoc, ref documentBuilder);
-
-
+            
             foreach (Run run in wordDoc.GetChildNodes(NodeType.Run, true))
             {
                 if (run.Font.Underline == Aspose.Words.Underline.DotDotDashHeavy)
@@ -63,7 +53,7 @@ namespace Stegano.Model.Underline
                     foundedMessageInDocument += "0";
             }
 
-            //MessageBox.Show(foundedMessageInDocument);
+            
             return Task.FromResult(foundedMessageInDocument);
         }
     }
