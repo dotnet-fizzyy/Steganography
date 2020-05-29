@@ -67,6 +67,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Margin="8,10,0,0" FontSize="16" Content="Криптопреобразование: "/>
@@ -78,11 +79,14 @@
                     <Label Grid.Column="0" Grid.Row="2" Margin="8,0,0,3" FontSize="16" Content="Хэширование: "/>
                     <ComboBox Margin="208,0.2,8,0.2" Grid.Row="2" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="4" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="8,10,0,0" FontSize="16" Content="Время извлечения: "/>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="160,10,0,0" FontSize="16" Content="{Binding TimeForDerypting}" />
 
-                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
 
-                    <Button  Grid.Column="0" Grid.Row="3" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
+                    <TextBox Grid.Column="0" Grid.Row="6" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+
+                    <Button  Grid.Column="0" Grid.Row="4" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
                 </Grid>
             </Grid>
         </ScrollViewer>

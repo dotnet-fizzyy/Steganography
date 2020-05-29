@@ -51,14 +51,14 @@
                     <Label Grid.Row="3" Margin="188,15.6,0.2,-8" FontSize="16" Content="{Binding HashFile}" Grid.ColumnSpan="2"/>
 
 
-                    <Label Grid.Column="0" Grid.Row="3" Margin="8,51.4,0,-55" FontSize="16" Content="Криптопреобразование: "/>
-                    <ComboBox Margin="216,41.4,0,-34" Grid.Column="0" Grid.Row="3" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+                    <Label Grid.Column="0" Grid.Row="3" Margin="8,47.8,0,-41.6" FontSize="16" Content="Криптопреобразование: "/>
+                    <ComboBox Margin="216,45.8,0,-38.6" Grid.Column="0" Grid.Row="3" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 
-                    <Label Grid.Column="0" Grid.Row="3" Margin="6,72.4,2,-69.4" FontSize="16" Content="Кодирование: "/>
-                    <ComboBox Margin="216,69,0,-60.6" Grid.Row="3" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="6,75,2,-70.6" FontSize="16" Content="Кодирование: "/>
+                    <ComboBox Margin="216,77,0,-66.6" Grid.Row="3" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
 
-                    <Label Grid.Column="0" Grid.Row="3" Margin="8,96.6,0,-88" FontSize="16" Content="Хэширование: "/>
-                    <ComboBox Margin="216,96.2,0,-88.4" Grid.Row="3" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="8,105,0,-98.6" FontSize="16" Content="Хэширование: "/>
+                    <ComboBox Margin="216,106,0,-98.6" Grid.Row="3" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
 
                     <!--<CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
@@ -75,8 +75,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
+                    
+                    
+                    
                     <Label Grid.Column="1" Grid.Row="1" FontSize="16" Margin="300.6,97.2,-293.2,-82.2" Content="Отступ для единичного бита:"/>
                     <ComboBox Grid.Column="1" Grid.Row="1" FontSize="16" Margin="539.6,97.2,-359.2,-82.2" SelectedItem="{Binding SoloBitSpacing}">
                         <ComboBoxItem Content="-0.2" IsSelected="True" FontSize="15"/>

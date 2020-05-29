@@ -209,15 +209,15 @@ namespace Stegano.ViewModel
         //    }
         //}
 
-        private void OpenHashFile()
-        {
-            if (OpenFileDialog(openFileDialog) != null)
-            {
-                HashFile = openFileDialog.FileName;
-            }
-        }
+        //private void OpenHashFile()
+        //{
+        //    if (OpenFileDialog(openFileDialog) != null)
+        //    {
+        //        HashFile = openFileDialog.FileName;
+        //    }
+        //}
 
-        private async void OpenForDecode()
+        private void OpenForDecode()
         {
             try
             {
@@ -227,9 +227,11 @@ namespace Stegano.ViewModel
                     return;
                 }
 
-                CryptedText = "";
-                SearchedText = "";
+                CryptedText = string.Empty;
+                SearchedText = string.Empty;
+                TimeForDerypting = string.Empty;
 
+                Stopwatch.Start();
                 AttributeHiding attributeHiding = new AttributeHiding(PathToDoc);
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
 
@@ -279,6 +281,8 @@ namespace Stegano.ViewModel
                 else
                     ShowMetroMessageBox("Информация", "Файл " + PathToDoc.Split('\\').LastOrDefault() + " не содержит скрытой информации.");
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
             }
             catch (Exception e)
             {

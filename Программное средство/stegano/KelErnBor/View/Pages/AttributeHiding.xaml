@@ -30,6 +30,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Button Grid.Column="0" Grid.Row="0" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenDocumentRelayCommand}" Content="Открыть документ"/>
@@ -80,7 +81,10 @@
                 <Label Grid.Column="0" Grid.Row="11" Margin="8,0,0,0" FontSize="15" Content="Хэширование: "/>
                 <ComboBox Margin="185,0,8,0" Grid.Row="11" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
-                <Button Grid.Column="0" Grid.Row="13" Margin="4,10,12,-36.2" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+                <Label Grid.Column="0" Grid.Row="13" Margin="8,10,0,0" FontSize="15" Content="Время сокрытия: "/>
+                <Label Grid.Column="0" Grid.Row="13" Margin="135,10,0,0" FontSize="15" Content="{Binding TimeForCrypting}"/>
+                
+                <Button Grid.Column="0" Grid.Row="14" Margin="4,10,12,-36.2" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
                             IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию" Click="Button_Click"/>
 
             </Grid>

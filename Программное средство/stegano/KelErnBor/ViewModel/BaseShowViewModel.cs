@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Stegano.Algorithm.Aditional_Coding;
 using Stegano.Interfaces;
+using System.Diagnostics;
 
 namespace Stegano.ViewModel
 {
@@ -71,6 +72,17 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string timeForDerypting;
+        public string TimeForDerypting
+        {
+            get { return timeForDerypting; }
+            set
+            {
+                timeForDerypting = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public CheckBoxModel AdditionalBitsCheckBox { get; set; }
         public ObservableCollection<object> FontStats { get; set; }
 
@@ -83,6 +95,7 @@ namespace Stegano.ViewModel
         public ObservableCollection<IHash> HashMethods { get; set; }
         public IHash SelectedHashMethod { get; set; }
 
+        public Stopwatch Stopwatch { get; set; }
         #endregion
 
         #region RelayCommands
@@ -108,6 +121,7 @@ namespace Stegano.ViewModel
         public BaseShowViewModel()
         {
             openFileDialog = new OpenFileDialog();
+            Stopwatch = new Stopwatch();
 
             RelayInit();
             CodMethodsInit();
@@ -173,13 +187,16 @@ namespace Stegano.ViewModel
             if (OpenFileDialog(openFileDialog) != null)
             {
                 PathToDoc = openFileDialog.FileName;
-
-                FontStats?.Clear();
                 int count = TextStat.HowMuchLettersICanHide(PathToDoc);
-                var stats = await TextStat.GetFontStat(PathToDoc);
-                foreach (var st in stats)
+
+                if (FontStats != null)
                 {
-                    FontStats?.Add(new FontInfo(st.Key, st.Value, count));
+                    FontStats.Clear();
+                    var stats = await TextStat.GetFontStat(PathToDoc);
+                    foreach (var st in stats)
+                    {
+                        FontStats.Add(new FontInfo(st.Key, st.Value, count));
+                    }
                 }
             }
         }

@@ -67,21 +67,21 @@
 
 
                 <Label Grid.Column="0" Grid.Row="6" Margin="8,9.8,0,0.4" FontSize="15" Content="Криптопреобразование: " Grid.ColumnSpan="2"/>
-                <ComboBox Margin="185,9.8,8,41.4" Grid.Column="0" Grid.Row="6" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2" Grid.ColumnSpan="2"></ComboBox>
+                <ComboBox Margin="185,10.2,8,0.2" Grid.Column="0" Grid.Row="6" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
-                <Label Grid.Column="0" Grid.Row="7" Margin="8,9.6,0,0.4" FontSize="15" Content="Кодирование: " Grid.ColumnSpan="2"/>
-                <ComboBox Margin="185,9.6,8,10.4" Grid.Row="7" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
+                <Label Grid.Column="0" Grid.Row="7" Margin="6,8.5,2,36.4" FontSize="15" Content="Кодирование: " Grid.ColumnSpan="2"/>
+                <ComboBox Margin="185,9.4,8,36.6" Grid.Row="7" Name="CodMethods" ItemsSource="{Binding CodMethods}" SelectedItem="{Binding SelectedCodMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"></ComboBox>
 
-                <Label Grid.Column="0" Grid.Row="7" Margin="8,43.6,0,0.4" FontSize="15" Content="Хэширование: " Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                <ComboBox Margin="185,0.6,8,0" Grid.Row="8" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="22" VerticalAlignment="Top" Grid.ColumnSpan="2"></ComboBox>
-                <CheckBox  Grid.Column="0" Grid.Row="8" Margin="10,19.6,14,130.2" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдолучайным образом" Grid.RowSpan="3" Grid.ColumnSpan="2"/>
+                <Label Grid.Column="0" Grid.Row="7" Margin="10,38.4,-2,5.4" FontSize="15" Content="Хэширование: " Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                <ComboBox Margin="185,41.2,8,0" Grid.Row="7" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="22" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2"></ComboBox>
+                <CheckBox  Grid.Column="0" Grid.Row="9" Margin="6,3.6,18,133.6" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдолучайным образом" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
 
                 <!--<CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
                                Content="Дополнительное криптопробразование по алгоритму RSA"/>
 
                 <CheckBox  Grid.Column="0" Grid.Row="8" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" 
                               Content="Дополнительное кодирование на основе циклического кода" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked,Mode=TwoWay}"/>-->
-                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="10,14.8,14,99.2" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
+                <CheckBox  Grid.Column="0" Grid.Row="10" Margin="6,13.6,20,100.6" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}" Grid.ColumnSpan="2"/>
 
                 <Grid  Grid.Column="0"  Grid.Row="10" Margin="8,4.8,8,11.2" Grid.ColumnSpan="2">

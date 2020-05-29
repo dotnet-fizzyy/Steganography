@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using Stegano.Algorithm.Aditional_Coding;
 using Stegano.Interfaces;
+using System.Diagnostics;
 
 namespace Stegano.ViewModel
 {
@@ -109,6 +110,17 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string timeForCrypting;
+        public string TimeForCrypting
+        {
+            get { return timeForCrypting; }
+            set
+            {
+                timeForCrypting = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private string sourceString = string.Empty;
 
         public CheckBoxModel RandomCheckBox { get; set; }
@@ -141,6 +153,7 @@ namespace Stegano.ViewModel
         public ObservableCollection<IHash> HashMethods { get; set; }
         public IHash SelectedHashMethod { get; set; }
 
+        public Stopwatch Stopwatch { get; set; }
         #endregion
 
         #region RelayCommands
@@ -164,7 +177,7 @@ namespace Stegano.ViewModel
         public BaseHideViewModel()
         {
             openFileDialog = new OpenFileDialog();
-
+            Stopwatch = new Stopwatch();
 
             CodMethodsInit();
             RelayInit();
