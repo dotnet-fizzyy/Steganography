@@ -320,7 +320,7 @@ namespace Stegano.ViewModel.Underline
                     }
 
                     SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, CryptFile) ?? SearchedText;
-                    SearchedText = Converter.BinaryToString(SearchedText);
+                   // SearchedText = Converter.BinaryToString(SearchedText);
 
                     if (string.IsNullOrEmpty(SearchedText))
                     {
