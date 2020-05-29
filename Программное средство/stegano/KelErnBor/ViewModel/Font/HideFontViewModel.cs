@@ -48,8 +48,6 @@ namespace Stegano.ViewModel.Font
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
                 
-                ShowMetroMessageBox(textForHide, Converter.StringToBinary(TextForHide));
-
                 //textForHide = (RSACheckBox.IsChecked)
                 //    ? Converter.RsaCryptor(TextForHide, pathToDirOrigFile)
                 //    : Converter.StringToBinary(TextForHide);

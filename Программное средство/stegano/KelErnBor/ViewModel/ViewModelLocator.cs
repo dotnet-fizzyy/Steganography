@@ -19,6 +19,7 @@ using Stegano.ViewModel.Aprosh;
 using Stegano.ViewModel.ColorSteg;
 using Stegano.ViewModel.Font;
 using Stegano.ViewModel.Settings;
+using Stegano.ViewModel.Underline;
 
 namespace Stegano.ViewModel
 {

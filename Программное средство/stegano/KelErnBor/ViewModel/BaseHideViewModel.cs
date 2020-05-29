@@ -140,7 +140,24 @@ namespace Stegano.ViewModel
             }
         }
 
-        public int CurrentShift { get; set; }
+        private int currentShift;
+        public int CurrentShift 
+        {
+            get => currentShift;
+            set
+            {
+                if(RandomCheckBox.IsChecked)
+                {
+                    currentShift = 0;
+                    ShowMetroMessageBox("Информация", "Нежелательно изменять начало диапазона распределения бит в документе");
+                }
+                else
+                {
+                    currentShift = value;
+                }
+                RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<object> FontStats { get; set; }
 
         public ObservableCollection<ICod> CodMethods { get; set; }
@@ -258,14 +275,18 @@ namespace Stegano.ViewModel
                 FullPathToOrigFile = openFileDialog.FileName;
                 filenameOrigFile = openFileDialog.SafeFileName;
                 pathToDirOrigFile = fullPathToOrigFile.Substring(0, fullPathToOrigFile.Length - filenameOrigFile.Length);
-
-                FontStats?.Clear();
+                
                 int count = TextStat.HowMuchLettersICanHide(fullPathToOrigFile);
-                var stats = await TextStat.GetFontStat(fullPathToOrigFile);
-                foreach (var st in stats)
+                if(FontStats != null)
                 {
-                    FontStats?.Add(new FontInfo(st.Key, st.Value, count));
+                    FontStats.Clear();
+                    var stats = await TextStat.GetFontStat(fullPathToOrigFile);
+                    foreach (var st in stats)
+                    {
+                        FontStats.Add(new FontInfo(st.Key, st.Value, count));
+                    }
                 }
+
                 MaxShift = count;
                 count /= 8;
                 CountLettersIsCanHide = count.ToString();

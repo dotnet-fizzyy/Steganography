@@ -75,10 +75,6 @@
                         <Label Grid.Column="0" Grid.Row="5" Margin="8,8,0,0" FontSize="16" Content="Путь к файлу с хэшем:"/>
                         <Label Grid.Row="5" Margin="180,8,8,0" FontSize="16" Content="{Binding HashFile}" Grid.ColumnSpan="2"/>
                     </Grid>
-
-                    <Label Grid.Column="0" Grid.Row="3" Margin="8" FontSize="16" Content="Путь к приватному ключу:"/>
-
-                    <Label Grid.Row="3"  Margin="208,8,8,8" FontSize="15" Content="{Binding RsaFile}" Grid.ColumnSpan="2"/>
                    
                     <Label Grid.Column="0" Grid.Row="4" Margin="8,10,0,0" FontSize="16" Content="Криптопреобразование: "/>
                     <ComboBox Margin="208,10.4,8,42" Grid.Column="0" Grid.Row="4" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Grid.RowSpan="2" />
