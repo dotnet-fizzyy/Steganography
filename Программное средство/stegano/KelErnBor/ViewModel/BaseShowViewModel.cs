@@ -129,20 +129,6 @@ namespace Stegano.ViewModel
             HashMethodsInit();
         }
 
-        protected string messageTransformation(string message)
-        {
-            bool? isHashValid = SelectedHashMethod?.VerifyHash(message, hashFile);
-
-            if (isHashValid != null && isHashValid == false)
-            {
-                return null;
-            }
-
-            message = SelectedCodMethod?.DeCoding(message) ?? message;
-            message = SelectedCryptMethod?.Decrypt(message, CryptFile) ?? message;
-
-            return message;
-        }
 
         private void CodMethodsInit()
         {
@@ -199,6 +185,21 @@ namespace Stegano.ViewModel
                     }
                 }
             }
+        }
+
+        protected string messageTransformation(string message)
+        {
+            bool? isHashValid = SelectedHashMethod?.VerifyHash(message, hashFile);
+
+            if (isHashValid != null && isHashValid == false)
+            {
+                return null;
+            }
+
+            message = SelectedCodMethod?.DeCoding(message) ?? message;
+            message = SelectedCryptMethod?.Decrypt(message, CryptFile) ?? message;
+
+            return message;
         }
 
         protected OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)

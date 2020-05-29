@@ -5,7 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows;
 
 namespace Stegano.Algorithm
 {
@@ -13,6 +13,8 @@ namespace Stegano.Algorithm
     {
         public static string StringToBinary(string value) 
         {
+            //MessageBox.Show(value);
+
             StringBuilder stringBuilder = new StringBuilder();
 
             var tmp = Encoding.Unicode.GetBytes(value);
@@ -22,7 +24,10 @@ namespace Stegano.Algorithm
                 stringBuilder.Append(Convert.ToString(c, 2).PadLeft(8, '0'));
             }
 
+            //MessageBox.Show(stringBuilder.ToString());
+
             return stringBuilder.ToString();
+
         }
         
         public static string BinaryToString(string value) 

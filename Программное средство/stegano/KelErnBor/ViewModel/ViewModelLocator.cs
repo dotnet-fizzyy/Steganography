@@ -15,7 +15,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Stegano.Model.Underline;
 using Stegano.ViewModel.Aprosh;
 using Stegano.ViewModel.ColorSteg;
 using Stegano.ViewModel.Font;
@@ -43,9 +42,14 @@ namespace Stegano.ViewModel
             SimpleIoc.Default.Register<HideFontViewModel>();
             SimpleIoc.Default.Register<ShowFontViewModel>();
             SimpleIoc.Default.Register<AppearanceViewModel>();
-            SimpleIoc.Default.Register<AttributeHidingViewModel>();
+
+
             SimpleIoc.Default.Register<HideUnderlineViewModel>();
             SimpleIoc.Default.Register<ShowUnderlineViewModel>();
+
+
+            SimpleIoc.Default.Register<AttributeHidingViewModel>();
+
         }
 
         public MainViewModel Main
@@ -127,15 +131,8 @@ namespace Stegano.ViewModel
             }
         }
 
-        public AttributeHidingViewModel AttributeHiding
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<AttributeHidingViewModel>();
-            }
-        }
 
-        public HideUnderlineViewModel HideUnderline
+        public HideUnderlineViewModel HideKatya
         {
             get
             {
@@ -148,6 +145,15 @@ namespace Stegano.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowUnderlineViewModel>();
+            }
+        }
+
+        public AttributeHidingViewModel AttributeHiding
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AttributeHidingViewModel>();
+
             }
         }
 
