@@ -9,7 +9,7 @@
     </UserControl.DataContext>
 
     <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer Margin="0,0,0,0.4">
+        <ScrollViewer Margin="0,0,0,-34.4">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -60,6 +60,9 @@
                     <Label Grid.Column="0" Grid.Row="3" Margin="8,105,0,-98.6" FontSize="16" Content="Хэширование: "/>
                     <ComboBox Margin="216,106,0,-98.6" Grid.Row="3" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
+                    <Label Grid.Column="0" Grid.Row="3" Margin="13,141.8,511,-131" FontSize="16" Content="Время извлечения: " Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="178,140.8,498,-131" FontSize="16" Content="{Binding TimeForDerypting}" Grid.ColumnSpan="2" />
+
 
                     <!--<CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
                               IsEnabled="{Binding RsaOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RsaOpenCheckBox.IsChecked, Mode=TwoWay}"/>
@@ -80,11 +83,11 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    
-                    
-                    
-                    <Label Grid.Column="1" Grid.Row="1" FontSize="16" Margin="300.6,97.2,-293.2,-82.2" Content="Отступ для единичного бита:"/>
-                    <ComboBox Grid.Column="1" Grid.Row="1" FontSize="16" Margin="539.6,97.2,-359.2,-82.2" SelectedItem="{Binding SoloBitSpacing}">
+
+
+
+                    <Label Grid.Column="1" Grid.Row="4" FontSize="16" Margin="302.2,128.2,-294.8,-156.2" Content="Отступ для единичного бита:"/>
+                    <ComboBox Grid.Column="1" Grid.Row="4" FontSize="16" Margin="546.2,125.2,-365.8,-153.2" SelectedItem="{Binding SoloBitSpacing}">
                         <ComboBoxItem Content="-0.2" IsSelected="True" FontSize="15"/>
                         <ComboBoxItem Content="-0.4" FontSize="15"/>
                         <ComboBoxItem Content="-0.6" FontSize="15"/>
@@ -92,8 +95,8 @@
                         <ComboBoxItem Content="-1" FontSize="15"/>
                     </ComboBox>
 
-                    <Label Grid.Column="0" Grid.Row="1" FontSize="16" Margin="-1,100.2,60.4,-84.2" Content="Отступ для нулевого бита:" Grid.ColumnSpan="2"/>
-                    <ComboBox Grid.Column="1" Grid.Row="1" FontSize="16" Margin="194.6,100.2,-13.2,-84.2" SelectedItem="{Binding ZeroBitSpacing}">
+                    <Label Grid.Column="1" Grid.Row="4" FontSize="16" Margin="3.2,128.2,50.2,-156.2" Content="Отступ для нулевого бита:"/>
+                    <ComboBox Grid.Column="1" Grid.Row="4" FontSize="16" Margin="207.2,125.2,-24.8,-153.2" SelectedItem="{Binding ZeroBitSpacing}">
                         <ComboBoxItem Content="0.2" IsSelected="True" FontSize="15"/>
                         <ComboBoxItem Content="0.4" FontSize="15"/>
                         <ComboBoxItem Content="0.6" FontSize="15"/>
@@ -102,7 +105,7 @@
                     </ComboBox>
                 </Grid>
 
-                <Button  Grid.Column="0" Grid.Row="4" Margin="8,89.4,10,-9" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
+                <Button  Grid.Column="0" Grid.Row="4" Margin="10,150.8,8,-70.4" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
 
                 <Grid Grid.Column="0" Grid.Row="4" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -113,9 +116,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBox Grid.Column="0" Grid.Row="1" Margin="10,102.8,10,-40.2" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
+                    <TextBox Grid.Column="0" Grid.Row="1" Margin="10,163.8,10,-101.2" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="1" Margin="10,134.8,10,-73.2" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+                    <TextBox Grid.Column="0" Grid.Row="1" Margin="10,195.8,10,-134.2" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
                 </Grid>
             </Grid>
         </ScrollViewer>

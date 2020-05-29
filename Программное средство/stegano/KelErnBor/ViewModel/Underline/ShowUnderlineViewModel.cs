@@ -276,11 +276,11 @@ namespace Stegano.ViewModel.Underline
                     return;
                 }
 
-                CryptedText = "";
+                CryptedText = string.Empty;
+                SearchedText = string.Empty;
+                TimeForDerypting = string.Empty;
 
-               // SearchedText1 = "";
-                SearchedText = "";
-
+                Stopwatch.Start();
                 ShowUnderlineModel codeModel = new ShowUnderlineModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation();
 
@@ -338,6 +338,8 @@ namespace Stegano.ViewModel.Underline
                 else
                     ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 //if (SelectedHashMethod != null)
                 //{

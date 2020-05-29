@@ -70,6 +70,8 @@ namespace Stegano.ViewModel.Aprosh
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
+                Stopwatch.Start();
+
                 textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
 
                 textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
@@ -89,6 +91,9 @@ namespace Stegano.ViewModel.Aprosh
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); 
                 }
+
+                Stopwatch.Stop();
+                TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 if (isSuccesful)
                 {

@@ -155,9 +155,11 @@ namespace Stegano.ViewModel.Aprosh
                     return;
                 }
 
-                CryptedText = "";
-                SearchedText = "";
+                CryptedText = string.Empty;
+                SearchedText = string.Empty;
+                TimeForDerypting = string.Empty;
 
+                Stopwatch.Start();
                 ShowAproshModel codeModel = new ShowAproshModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(ZeroBitSpacing, SoloBitSpacing);
 
@@ -233,6 +235,8 @@ namespace Stegano.ViewModel.Aprosh
                 else
                     ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
             }
             catch (Exception e)
             {

@@ -186,6 +186,10 @@
                 <Label Grid.Column="0" Grid.Row="8" Margin="8,0,0,0" FontSize="15" Content="Хэширование: "/>
                 <ComboBox Margin="185,0,8,0" Grid.Row="8" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
+
+                <Label Grid.Column="0" Grid.Row="11" Margin="12,9.8,-4,-0.4" FontSize="15" Content="Время сокрытия: "/>
+                <Label Grid.Column="0" Grid.Row="13" Margin="135,10,0,0" FontSize="15" Content="{Binding TimeForCrypting}"/>
+
                 <CheckBox  Grid.Column="0" Grid.Row="9" Margin="12,8,12,0" FontSize="16"  IsEnabled="{Binding RandomCheckBox.IsEnabled,Mode=TwoWay}" IsChecked="{Binding RandomCheckBox.IsChecked,Mode=TwoWay}" Content="Cкрытие информации псевдослучайным образом"/>
 
                 <!--<CheckBox  Grid.Column="0" Grid.Row="7" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding RSACheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RSACheckBox.IsChecked,Mode=TwoWay}"
@@ -197,9 +201,9 @@
                 <CheckBox  Grid.Column="0" Grid.Row="10" Margin="12,8,12,0" FontSize="16" IsEnabled="{Binding VisibleColorCheckBox.IsEnabled, Mode=TwoWay}" 
                            Content="Подсветка символов, содержащих скрытую информацию" IsChecked="{Binding VisibleColorCheckBox.IsChecked,Mode=TwoWay}"/>
 
-               
 
-                <Button Grid.Column="0" Grid.Row="11" Margin="12,17.8,4,-9.4" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
+
+                <Button Grid.Column="0" Grid.Row="11" Margin="12,39.8,4,-31.4" FontWeight="Normal" Command="{Binding HideInformationRelayCommand}"
 IsEnabled="{Binding IsHideInformationButtonEnabled,Mode=TwoWay}" Content="Скрыть информацию"/>
 
             </Grid>

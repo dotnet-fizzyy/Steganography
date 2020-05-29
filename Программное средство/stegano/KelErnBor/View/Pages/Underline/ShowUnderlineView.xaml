@@ -185,6 +185,9 @@
                     <Label Grid.Column="0" Grid.Row="2" Margin="8,0,0,3" FontSize="16" Content="Хэширование: "/>
                     <ComboBox Margin="208,0.2,8,0.2" Grid.Row="2" Name="HashMethods" ItemsSource="{Binding HashMethods}" SelectedItem="{Binding SelectedHashMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
+                    <Label Grid.Column="0" Grid.Row="3" Margin="8,10,0,0" FontSize="16" Content="Время извлечения: "/>
+                    <Label Grid.Column="0" Grid.Row="3" Margin="160,10,0,0" FontSize="16" Content="{Binding TimeForDerypting}" />
+
                     <!--<CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Применялось умное скрытие"
                               IsEnabled="{Binding SmartHidingCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding SmartHidingCheckBox.IsChecked, Mode=TwoWay}"/>-->
 
