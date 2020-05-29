@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Aspose.Words;
 using Aspose.Words.Replacing;
 using Aspose.Words.Saving;
 using Stegano.Algorithm;
 
-namespace Stegano.Model.Font
+namespace Stegano.Model
 {
-    class HideFontModel
+    class HideUnderlineModel
     {
 
         private Document wordDoc;
         private Random rand;
         private string pathToModifiedFile;
-        public HideFontModel(string pathToFile)
+        public HideUnderlineModel(string pathToFile)
         {
             pathToModifiedFile = pathToFile;
             wordDoc = new Document(pathToFile);
             rand = new Random();
         }
 
-        public Task<bool> HideInformation(char[] messageInBits,int shiftValue, bool isRandomHiding, bool isVisibleColor, string oneFontName, string zeroFontName)
+        public Task<bool> HideInformation(char[] messageInBits, bool isRandomHiding, bool isVisibleColor, string oneFontName, string zeroFontName)
         {
             try
             {
@@ -33,7 +35,7 @@ namespace Stegano.Model.Font
 
                 DocumentHelper.CutParagraphToRun(ref wordDoc, ref documentBuilder);
 
-                SetHiding(isRandomHiding, shiftValue, isVisibleColor, documentBuilder, messageInBits, oneFontName, zeroFontName);
+                SetHiding(isRandomHiding, isVisibleColor, documentBuilder, messageInBits, oneFontName, zeroFontName);
 
 
                 wordDoc.UpdateFields();
@@ -43,14 +45,14 @@ namespace Stegano.Model.Font
 
                 return Task.FromResult(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Task.FromResult(false);
             }
         }
 
 
-        private void SetHiding(bool isRandom, int shiftValue, bool isVisibleColor, DocumentBuilder documentBuilder, char[] messageInBits, string oneFontName, string zeroFontName)
+        private void SetHiding(bool isRandom, bool isVisibleColor, DocumentBuilder documentBuilder, char[] messageInBits, string oneFontName, string zeroFontName)
         {
             if (isRandom)
             {
@@ -59,7 +61,7 @@ namespace Stegano.Model.Font
                 {
                     var randomPosition = rand.Next(part * i + 1, part * (i + 1));
 
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + randomPosition]);
+                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[randomPosition]);
 
                     setNodeOption(i);
                 }
@@ -68,7 +70,7 @@ namespace Stegano.Model.Font
             {
                 for (int i = 0; i < messageInBits.Length; i++)
                 {
-                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[shiftValue + i]);
+                    documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[i]);
 
                     setNodeOption(i);
                 }
@@ -76,7 +78,7 @@ namespace Stegano.Model.Font
 
             void setNodeOption(int i)
             {
-                
+
                 if (isVisibleColor)
                 {
                     ((Run)documentBuilder.CurrentNode).Font.Color = messageInBits[i] == '1'
@@ -84,18 +86,26 @@ namespace Stegano.Model.Font
                         : ColorTranslator.FromHtml("#ed0459");
                 }
 
-                ((Run)documentBuilder.CurrentNode).Font.Name = messageInBits[i] == '1'
-                        ? oneFontName
-                        : zeroFontName;
+                ((Run)documentBuilder.CurrentNode).Font.UnderlineColor = Color.White;
+                ((Run)documentBuilder.CurrentNode).Font.Underline = messageInBits[i] == '1'
+                        ? Underline.DotDotDashHeavy
+                        : Underline.WavyHeavy;
 
             }
+            //MessageBox.Show("aa");
+            //MessageBox.Show(Convert.ToString(Converter.StringToBinary("90")));
+
         }
 
+        //public static string HideUnderlineElGamal(string value)
+        //{
+        //    return ShifrElGamal.CoderElGamal(value);
+        //}
 
-       
+        
         public static string AddAdditionalBits(string messageInBits)
         {
-
+           
             StringBuilder sb = new StringBuilder();
             //string additionalBits = "110";
             for (int i = 0; i < messageInBits.Length; i += 4)
