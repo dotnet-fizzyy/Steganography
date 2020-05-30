@@ -132,7 +132,7 @@ namespace Stegano.ViewModel
         }
 
 
-        public HideUnderlineViewModel HideKatya
+        public HideUnderlineViewModel HideUnderline
         {
             get
             {

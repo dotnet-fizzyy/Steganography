@@ -51,7 +51,6 @@
 
                     <!--<CheckBox Grid.Column="0" Grid.Row="3" Margin="12,8,12,0" FontSize="16" Content="Использовался RSA" 
                               IsEnabled="{Binding RsaOpenCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding RsaOpenCheckBox.IsChecked, Mode=TwoWay}"/>
-
                     <CheckBox Grid.Column="0" Grid.Row="4" Margin="12,8,12,0" FontSize="16" Content="Использовался циклический код"
                               IsEnabled="{Binding AdditionalBitsCheckBox.IsEnabled, Mode=TwoWay}" IsChecked="{Binding AdditionalBitsCheckBox.IsChecked, Mode=TwoWay}"/>-->
                 </Grid>
@@ -61,6 +60,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -87,12 +87,17 @@
 
                     <Button  Grid.Column="0" Grid.Row="4" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
+                    <Label Grid.Column="0" Grid.Row="5" Margin="8,5,0,0" FontSize="16" Content="Исходное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="6" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+                    <Label Grid.Column="0" Grid.Row="6" Margin="8,5,0,0" FontSize="16" Content="Закодированное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="6" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" Text="{Binding EncodedText}" TextWrapping="Wrap"/>
+
+                    <Label Grid.Column="0" Grid.Row="7" Margin="8,5,0,0" FontSize="16" Content="Зашифрованное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="7" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+
                 </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>
 </UserControl>
-

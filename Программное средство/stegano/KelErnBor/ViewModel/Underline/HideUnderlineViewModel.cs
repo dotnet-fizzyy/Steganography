@@ -22,7 +22,7 @@ using Stegano.Model.Underline;
 namespace Stegano.ViewModel.Underline
 {
     public class HideUnderlineViewModel : BaseHideViewModel
-    {       
+    {
 
         public HideUnderlineViewModel()
         {
@@ -65,29 +65,27 @@ namespace Stegano.ViewModel.Underline
             if (textForHide.Length > 0)
             {
                 sourceString = textForHide;
+                TimeForCrypting = string.Empty;
 
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 
                 Stopwatch.Start();
-                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
+                sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? textForHide : Converter.BinaryToString(textForHide));
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? sourceString : Converter.BinaryToString(sourceString));
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
 
-                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
-
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
+               
                 if (SelectedCryptMethod == null && SelectedCodMethod == null)
                 {
-                    textForHide = Converter.StringToBinary(textForHide);
+                    sourceString = Converter.StringToBinary(sourceString);
                 }
-
-
                 HideUnderlineModel codeModel = new HideUnderlineModel(pathToNewFile);
-
                 isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
                 
                 Stopwatch.Stop();
@@ -96,28 +94,31 @@ namespace Stegano.ViewModel.Underline
                 if (isSuccesful)
                 {
                     ShowMetroMessageBox("Информация", "Скрытие информации прошло успешно.\n\nПуть к измененному файлу: " + pathToNewFile);
-
+                    KeyStatus = (SelectedCryptMethod != null) ? "сгенерирован" : "выключен";
+                    KeyStatusColor = (SelectedCryptMethod != null) ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
                 }
                 else
                 {
                     ShowMetroMessageBox("Информация", "Во время выполнения произошла ошибка.");
-                }               
+                    KeyStatus = (SelectedCryptMethod != null) ? "ошибка генерации" : "выключен RSA";
+                    KeyStatusColor = (SelectedCryptMethod != null) ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                }
 
             }
             else
             {
                 ShowMetroMessageBox("Ошибка", "Введите текст.");
             }
-           
+
         }
 
 
         #endregion
 
 
-        
 
-       
-        
+
+
+
     }
 }
