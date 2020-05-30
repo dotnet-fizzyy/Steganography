@@ -101,45 +101,7 @@ namespace Stegano.ViewModel.Underline
                 else
                 {
                     ShowMetroMessageBox("Информация", "Во время выполнения произошла ошибка.");
-                }
-                //// ShowMetroMessageBox(textForHide, Converter.StringToBinary(TextForHide));
-
-                //MessageBox.Show(textForHide);
-
-                //textForHide = messageTransformation(Converter.StringToBinary(TextForHide), out string hash);
-                //MessageBox.Show(textForHide);
-
-                ////textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile)
-                ////    ?? textForHide;
-
-
-
-                ////textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null
-                ////    ? textForHide : Converter.StringToBinary(TextForHide))
-                ////    ?? TextForHide;
-                ////MessageBox.Show(textForHide);
-
-
-
-                //HideUnderlineModel codeModel = new HideUnderlineModel(pathToNewFile);
-                //isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
-                //MessageBox.Show(textForHide);
-
-
-                ////var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
-                ////if (!string.IsNullOrWhiteSpace(hash))
-                ////{
-                ////    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
-                ////}
-
-                //if (isSuccesful)
-                //{
-                //    ShowMetroMessageBox("Информация", "Скрытие информации прошло успешно.\n\nПуть к измененному файлу: " + pathToNewFile);
-                //}
-                //else
-                //{
-                //    ShowMetroMessageBox("Информация", "Во время выполнения произошла ошибка.");
-                //}
+                }               
 
             }
             else

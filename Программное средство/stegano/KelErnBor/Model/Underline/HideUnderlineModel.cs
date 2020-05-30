@@ -88,15 +88,11 @@ namespace Stegano.Model.Underline
                         : Aspose.Words.Underline.WavyHeavy;
 
             }
-            //MessageBox.Show("aa");
-            //MessageBox.Show(Convert.ToString(Converter.StringToBinary("90")));
+            
 
         }
 
-        //public static string HideUnderlineElGamal(string value)
-        //{
-        //    return ShifrElGamal.CoderElGamal(value);
-        //}
+        
 
 
         public static string AddAdditionalBits(string messageInBits)

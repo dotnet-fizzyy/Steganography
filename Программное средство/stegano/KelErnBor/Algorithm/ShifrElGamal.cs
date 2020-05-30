@@ -18,56 +18,7 @@ namespace Stegano.Algorithm
         public const int p = 811;
         public static int x;
         private const string FileName = "privateKey.txt";
-
-        //public static string CoderElGamal(string value)
-        //{
-
-        //    string text = Converter.BinaryToString(value);
-        //    string result = "";
-        //    List<BigInteger> cipherASCIIElGamal = Encrypt(Encoding.Unicode.GetBytes(text));
-        //    foreach (long l in cipherASCIIElGamal)
-        //    {
-        //        //MessageBox.Show(Convert.ToString(l));
-
-        //        result += Converter.StringToBinary(Convert.ToString(l));
-        //        result += Converter.StringToBinary(Convert.ToString(" "));
-        //        //MessageBox.Show(Convert.ToString(result));
-        //        //MessageBox.Show(Convert.ToString(Converter.BinaryToString(result)));
-
-
-        //    }
-        //    MessageBox.Show(Convert.ToString("res" + result));
-
-
-        //    return result;
-        //}
-
-        //public static string DecoderElGamal(string value)
-        //{
-        //    string text = Convert.ToString(Converter.BinaryToString(value));
-
-
-        //    string[] words = text.Split(new char[] { ' ' });
-
-        //    List<BigInteger> cipherASCIIElGamal = new List<BigInteger>();// = Encrypt(Encoding.Unicode.GetBytes(text));
-        //    //string stringToParse = String.Empty;
-        //    //string string1, string2;
-        //    //string1 = "12347534159895123";
-        //    //string2 = "987654321357159852";
-        //    //stringToParse = string1;
-        //    //BigInteger number1 = BigInteger.Parse(stringToParse);
-        //    //MessageBox.Show(Convert.ToString(number1));
-        //    //List<BigInteger> cipherASCIIElGamal2 = new List<BigInteger>();// = Encrypt(Encoding.Unicode.GetBytes(text));
-
-        //    BigInteger helper = 0;
-        //    for (int i = 0; i < words.Length - 1; i++)
-        //    {
-        //        helper = BigInteger.Parse(words[i]);
-        //        cipherASCIIElGamal.Add(helper);
-        //    }
-
-        //    return Converter.StringToBinary(Encoding.Unicode.GetString(Decrypt(cipherASCIIElGamal)));
-        //}
+       
         private static BigInteger EvklidExtend(BigInteger firstNum, BigInteger secondNum)
         {
             BigInteger q, r, z, x1 = 0, x2 = 1, a = firstNum, b = secondNum;
@@ -195,8 +146,9 @@ namespace Stegano.Algorithm
                 cipherASCIIElGamal.Add(helper);
             }
 
+                       
+            return Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal, pathToFile));
 
-            return Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal,pathToFile));
         }
 
         public override string ToString() => "El-Gamal";
