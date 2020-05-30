@@ -80,9 +80,13 @@ namespace Stegano.ViewModel.Underline
                 }
 
                 sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
-
+               
+                if (SelectedCryptMethod == null && SelectedCodMethod == null)
+                {
+                    sourceString = Converter.StringToBinary(sourceString);
+                }
                 HideUnderlineModel codeModel = new HideUnderlineModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
+                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
                 
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
