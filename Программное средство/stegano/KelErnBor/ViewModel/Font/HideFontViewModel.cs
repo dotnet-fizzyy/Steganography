@@ -51,6 +51,9 @@ namespace Stegano.ViewModel.Font
                 sourceString = textForHide;
                 TimeForCrypting = string.Empty;
 
+                //if(RandomCheckBox.IsChecked)
+                //    CurrentShift = 0;
+
                 string pathToNewFile = DocumentHelper.CopyFile(pathToDirOrigFile, filenameOrigFile);
                 bool isSuccesful = false;
 

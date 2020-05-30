@@ -54,7 +54,7 @@ namespace Stegano.Model.Font
         {
             if (isRandom)
             {
-                int part = wordDoc.GetChildNodes(NodeType.Run, true).Count / messageInBits.Length;
+                int part = (wordDoc.GetChildNodes(NodeType.Run, true).Count - shiftValue) / messageInBits.Length;
                 for (int i = 0; i < messageInBits.Length; i++)
                 {
                     var randomPosition = rand.Next(part * i + 1, part * (i + 1));

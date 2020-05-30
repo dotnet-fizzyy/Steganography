@@ -35,7 +35,7 @@ namespace Stegano.ViewModel
         public int maxShift;
         public int MaxShift
         {
-            get => maxShift - Convert.ToInt32(countLettersForHide);
+            get => maxShift - Convert.ToInt32(countLettersForHide)*8;
             set
             {
                 maxShift = value;
@@ -144,20 +144,9 @@ namespace Stegano.ViewModel
         public int CurrentShift 
         {
             get => currentShift;
-            set
-            {
-                if(RandomCheckBox.IsChecked)
-                {
-                    currentShift = 0;
-                    ShowMetroMessageBox("Информация", "Нежелательно изменять начало диапазона распределения бит в документе");
-                }
-                else
-                {
-                    currentShift = value;
-                }
-                RaisePropertyChanged();
-            }
+            set => currentShift = value > MaxShift ? MaxShift : value;
         }
+
         public ObservableCollection<object> FontStats { get; set; }
 
         public ObservableCollection<ICod> CodMethods { get; set; }
@@ -315,6 +304,8 @@ namespace Stegano.ViewModel
             int letterWeigth = 0;
             letterWeigth = SelectedCodMethod != null ? Int32.Parse(countLettersForHide) * 4 : Int32.Parse(countLettersForHide);
             CountLettersIsCanHide = (maxLettersIsCanHide - letterWeigth).ToString();
+            if (int.TryParse(CountLettersIsCanHide,out int curMax))
+                MaxShift = curMax * 8;
         }
 
         protected OpenFileDialog OpenFileDialog(OpenFileDialog openFileDialog)
