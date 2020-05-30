@@ -7,8 +7,10 @@ using Stegano.Model;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Stegano.Interfaces;
+using System.Windows;
 using Stegano.Algorithm.Aditional_Coding;
 using System.Linq;
+
 
 namespace Stegano.ViewModel
 {
@@ -209,15 +211,15 @@ namespace Stegano.ViewModel
         //    }
         //}
 
-        //private void OpenHashFile()
-        //{
-        //    if (OpenFileDialog(openFileDialog) != null)
-        //    {
-        //        HashFile = openFileDialog.FileName;
-        //    }
-        //}
+        private void OpenHashFile()
+        {
+            if (OpenFileDialog(openFileDialog) != null)
+            {
+                HashFile = openFileDialog.FileName;
+            }
+        }
 
-        private void OpenForDecode()
+        private async void OpenForDecode()
         {
             try
             {
@@ -227,13 +229,17 @@ namespace Stegano.ViewModel
                     return;
                 }
 
-                CryptedText = string.Empty;
-                SearchedText = string.Empty;
-                TimeForDerypting = string.Empty;
+                CryptedText = "";
+                SearchedText = "";
 
-                Stopwatch.Start();
+
+               
+
+
                 AttributeHiding attributeHiding = new AttributeHiding(PathToDoc);
+
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
+                
 
                 if (SelectedHashMethod != null)
                 {
@@ -281,8 +287,6 @@ namespace Stegano.ViewModel
                 else
                     ShowMetroMessageBox("Информация", "Файл " + PathToDoc.Split('\\').LastOrDefault() + " не содержит скрытой информации.");
 
-                Stopwatch.Stop();
-                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
             }
             catch (Exception e)
             {

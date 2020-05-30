@@ -37,22 +37,67 @@ namespace Stegano.ViewModel.Font
                     return;
                 }
 
-                CryptedText = "";
-                SearchedText = "";
-                ShowFontModel codeModel = new ShowFontModel(PathToDoc);
-                string foundedBitsInDoc = await codeModel.FindInformation(OneFontName,ZeroFontName);
+                CryptedText = string.Empty;
+                SearchedText = string.Empty;
+                TimeForDerypting = string.Empty;
 
-                foundedBitsInDoc = messageTransformation(foundedBitsInDoc);
-                
-                SearchedText = Converter.BinaryToString(foundedBitsInDoc);
+                Stopwatch.Start();
+                ShowFontModel codeModel = new ShowFontModel(PathToDoc);
+                string foundedBitsInDoc = await codeModel.FindInformation(OneFontName, ZeroFontName);
+
+                SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;
+
+                if (SelectedHashMethod != null)
+                {
+                    if (string.IsNullOrEmpty(HashFile))
+                    {
+                        ShowMetroMessageBox("Информация", "Нет файла с хэшем!");
+                        return;
+                    }
+
+                    var isHashSame = SelectedHashMethod.VerifyHash(SearchedText, HashFile);
+
+                    if (!isHashSame)
+                    {
+                        ShowMetroMessageBox("Информация", "Не валидный хэш!");
+                        return;
+                    }
+                }
+
+                if (SelectedCodMethod != null)
+                {
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
+
+                if (SelectedCryptMethod != null)
+                {
+                    if (string.IsNullOrEmpty(CryptFile))
+                    {
+                        ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
+                        return;
+                    }
+
+                    SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, CryptFile) ?? SearchedText;
+                    // SearchedText = Converter.BinaryToString(SearchedText);
+
+                    if (string.IsNullOrEmpty(SearchedText))
+                    {
+                        ShowMetroMessageBox("Информация", "Ключ не подходит.");
+                        return;
+                    }
+
+
+                }
 
                 if (SearchedText.Length > 0)
                 {
-                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + openFileDialog.SafeFileName + " прошло успешно.");
+                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc + " прошло успешно.");
                 }
                 else
-                    ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
+                    ShowMetroMessageBox("Информация", "Файл " + PathToDoc + " не содержит скрытой информации.");
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
             }
             catch (Exception e)
             {
