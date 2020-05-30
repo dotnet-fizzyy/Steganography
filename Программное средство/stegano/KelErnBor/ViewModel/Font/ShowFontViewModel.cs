@@ -47,6 +47,13 @@ namespace Stegano.ViewModel.Font
 
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;
 
+                if (SelectedCodMethod != null)
+                {
+                    EncodedText = SearchedText;
+
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
+
                 if (SelectedHashMethod != null)
                 {
                     if (string.IsNullOrEmpty(HashFile))
@@ -64,13 +71,10 @@ namespace Stegano.ViewModel.Font
                     }
                 }
 
-                if (SelectedCodMethod != null)
-                {
-                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
-                }
-
                 if (SelectedCryptMethod != null)
                 {
+                    CryptedText = SearchedText;
+
                     if (string.IsNullOrEmpty(CryptFile))
                     {
                         ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
@@ -78,26 +82,23 @@ namespace Stegano.ViewModel.Font
                     }
 
                     SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, CryptFile) ?? SearchedText;
-                    // SearchedText = Converter.BinaryToString(SearchedText);
 
                     if (string.IsNullOrEmpty(SearchedText))
                     {
                         ShowMetroMessageBox("Информация", "Ключ не подходит.");
                         return;
                     }
-
-
                 }
-
-                if (SearchedText.Length > 0)
-                {
-                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc + " прошло успешно.");
-                }
-                else
-                    ShowMetroMessageBox("Информация", "Файл " + PathToDoc + " не содержит скрытой информации.");
-
                 Stopwatch.Stop();
                 TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
+                
+                if (SearchedText.Length > 0)
+                {
+                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + openFileDialog.SafeFileName + " прошло успешно.");
+                }
+                else
+                    ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
+
             }
             catch (Exception e)
             {
