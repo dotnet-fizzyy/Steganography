@@ -64,6 +64,11 @@ namespace Stegano.ViewModel.Font
                 }
 
                 sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
+                
+                if (SelectedCryptMethod == null && SelectedCodMethod == null)
+                {
+                    sourceString = Converter.StringToBinary(sourceString);
+                }
 
                 HideFontModel codeModel = new HideFontModel(pathToNewFile);
                 isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
