@@ -72,24 +72,24 @@ namespace Stegano.ViewModel.Underline
                 Stopwatch.Start();
                 textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
 
-                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? textForHide : Converter.BinaryToString(textForHide));
+                if (!string.IsNullOrWhiteSpace(hash))
+                {
+                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
+                }
 
+                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
 
                 if (SelectedCryptMethod == null && SelectedCodMethod == null)
                 {
                     textForHide = Converter.StringToBinary(textForHide);
                 }
 
+
                 HideUnderlineModel codeModel = new HideUnderlineModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
 
-
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
-                if (!string.IsNullOrWhiteSpace(hash))
-                {
-                    MD5.SaveHash(pathToDirOrigFile, hash);
-                }
-
+                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked);
+                
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
