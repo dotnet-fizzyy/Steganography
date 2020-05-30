@@ -15,9 +15,9 @@ using Stegano.Model.Underline;
 namespace Stegano.ViewModel.Underline
 {
     public class ShowUnderlineViewModel : BaseShowViewModel
-    {     
+    {
         public ShowUnderlineViewModel()
-        {          
+        {
             DecodeUIInit();
 
             openFileDialog = new OpenFileDialog();
@@ -26,17 +26,17 @@ namespace Stegano.ViewModel.Underline
         }
 
         private void RelayInit()
-        {            
+        {
             OpenForDecodeRelayCommand = new RelayCommand(OpenForDecode);
 
         }
 
         private void DecodeUIInit()
-        {            
+        {
             AdditionalBitsCheckBox = new CheckBoxModel(true, false);
-        }       
+        }
 
-       
+
         private async void OpenForDecode()
         {
             try
@@ -54,11 +54,15 @@ namespace Stegano.ViewModel.Underline
                 Stopwatch.Start();
                 ShowUnderlineModel codeModel = new ShowUnderlineModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation();
-
-
-
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;
-               
+
+                if (SelectedCodMethod != null)
+                {
+                    EncodedText = SearchedText;
+
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
+
                 if (SelectedHashMethod != null)
                 {
                     if (string.IsNullOrEmpty(HashFile))
@@ -76,13 +80,10 @@ namespace Stegano.ViewModel.Underline
                     }
                 }
 
-                if (SelectedCodMethod != null)
-                {
-                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
-                }
-
                 if (SelectedCryptMethod != null)
                 {
+                    CryptedText = SearchedText;
+
                     if (string.IsNullOrEmpty(CryptFile))
                     {
                         ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
@@ -90,16 +91,15 @@ namespace Stegano.ViewModel.Underline
                     }
 
                     SearchedText = SelectedCryptMethod?.Decrypt(SearchedText, CryptFile) ?? SearchedText;
-                  
 
                     if (string.IsNullOrEmpty(SearchedText))
                     {
                         ShowMetroMessageBox("Информация", "Ключ не подходит.");
                         return;
                     }
-
-
                 }
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 if (SearchedText.Length > 0)
                 {
@@ -108,10 +108,6 @@ namespace Stegano.ViewModel.Underline
                 else
                     ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
 
-                Stopwatch.Stop();
-                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
-
-                
 
             }
             catch (Exception e)
@@ -119,7 +115,7 @@ namespace Stegano.ViewModel.Underline
                 ShowMetroMessageBox("Информация", e.Message + "\n " + e.InnerException + "\n" + "\n" + e.Source);
             }
         }
-       
+
 
 
 

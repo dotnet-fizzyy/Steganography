@@ -18,7 +18,7 @@ namespace Stegano.Algorithm
         public const int p = 811;
         public static int x;
         private const string FileName = "privateKey.txt";
-       
+
         private static BigInteger EvklidExtend(BigInteger firstNum, BigInteger secondNum)
         {
             BigInteger q, r, z, x1 = 0, x2 = 1, a = firstNum, b = secondNum;
@@ -84,10 +84,9 @@ namespace Stegano.Algorithm
             Random random = new Random();
             x = random.Next(2, p - 1);
 
-                       
             int g = FindAtiderivativeRoot(p);
             int y = (int)(BigInteger.ModPow(g, x, p));
-            
+
             List<BigInteger> cipher = new List<BigInteger>();
             for (int i = 0; i < m.Length; i++)
             {
@@ -100,8 +99,7 @@ namespace Stegano.Algorithm
             return cipher;
         }
 
-
-        public static byte[] DecryptMethod(List<BigInteger> c,string pathToFile)
+        public static byte[] DecryptMethod(List<BigInteger> c, string pathToFile)
         {
             List<byte> m = new List<byte>();
 
@@ -129,26 +127,22 @@ namespace Stegano.Algorithm
                 result += Converter.StringToBinary(Convert.ToString(l));
                 result += Converter.StringToBinary(Convert.ToString(" "));
             }
-
             return result;
         }
 
         public string Decrypt(string value, string pathToFile)
-
-        {            
+        {
             string[] words = value.Split(new char[] { ' ' });
 
             List<BigInteger> cipherASCIIElGamal = new List<BigInteger>();
-            
+
             for (int i = 0; i < words.Length - 1; i++)
             {
                 BigInteger helper = BigInteger.Parse(words[i]);
                 cipherASCIIElGamal.Add(helper);
             }
 
-                       
             return Encoding.Unicode.GetString(DecryptMethod(cipherASCIIElGamal, pathToFile));
-
         }
 
         public override string ToString() => "El-Gamal";

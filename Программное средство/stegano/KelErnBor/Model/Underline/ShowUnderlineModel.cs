@@ -19,7 +19,7 @@ namespace Stegano.Model.Underline
         {
             wordDoc = new Document(pathToFile);
         }
-               
+
         public static string RemoveAdditBits(string value)
         {
             StringBuilder sb = new StringBuilder();
@@ -44,7 +44,7 @@ namespace Stegano.Model.Underline
             string foundedMessageInDocument = "";
 
             DocumentBuilder documentBuilder = new DocumentBuilder(wordDoc);
-            
+
             foreach (Run run in wordDoc.GetChildNodes(NodeType.Run, true))
             {
                 if (run.Font.Underline == Aspose.Words.Underline.DotDotDashHeavy)
@@ -53,7 +53,7 @@ namespace Stegano.Model.Underline
                     foundedMessageInDocument += "0";
             }
 
-            
+
             return Task.FromResult(foundedMessageInDocument);
         }
     }

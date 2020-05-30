@@ -88,11 +88,11 @@ namespace Stegano.Model.Underline
                         : Aspose.Words.Underline.WavyHeavy;
 
             }
-            
+
 
         }
 
-        
+
 
 
         public static string AddAdditionalBits(string messageInBits)
