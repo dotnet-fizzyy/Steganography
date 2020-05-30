@@ -232,14 +232,9 @@ namespace Stegano.ViewModel
                 CryptedText = "";
                 SearchedText = "";
 
-
-               
-
-
+                Stopwatch.Start();
                 AttributeHiding attributeHiding = new AttributeHiding(PathToDoc);
-
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
-                
 
                 if (SelectedHashMethod != null)
                 {
@@ -280,10 +275,12 @@ namespace Stegano.ViewModel
                     }
                 }
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
+
                 if (SearchedText.Length > 0)
                 {
-                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc.Split('\\').LastOrDefault() + " прошло успешно.");
-                }
+                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc.Split('\\').LastOrDefault() + " прошло успешно.");                }
                 else
                     ShowMetroMessageBox("Информация", "Файл " + PathToDoc.Split('\\').LastOrDefault() + " не содержит скрытой информации.");
 

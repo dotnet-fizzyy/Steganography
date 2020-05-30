@@ -31,10 +31,10 @@
                 <mui:Link DisplayName="Цвет" Source="View/Pages/ColorSteg/ShowColorView.xaml" />
                 <mui:Link DisplayName="Апрош" Source="View/Pages/Aprosh/ShowAproshView.xaml" />
                 <mui:Link DisplayName="Шрифт" Source="View/Pages/Font/ShowFontView.xaml" />
-                <mui:Link DisplayName="Дима" Source="View/Pages/ShowAttribute.xaml" />
+                <mui:Link DisplayName="Атрибуты" Source="View/Pages/ShowAttribute.xaml" />
 
-                
-                <mui:Link DisplayName="Подчеркивание" Source="View/Pages/ShowUnderlineView.xaml" />
+
+                <mui:Link DisplayName="Подчеркивание" Source="View/Pages/Underline/ShowUnderlineView.xaml" />
                 
 
                 <!-- <mui:Link DisplayName="(Катя)" Source="View/Pages/ShowColorView.xaml" /> -->
