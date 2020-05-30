@@ -56,10 +56,14 @@ namespace Stegano.ViewModel.Aprosh
                 Stopwatch.Start();
                 ShowAproshModel codeModel = new ShowAproshModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(ZeroBitSpacing, SoloBitSpacing);
-
-              
-
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;
+
+                if (SelectedCodMethod != null)
+                {
+                    EncodedText = SearchedText;
+
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
 
                 if (SelectedHashMethod != null)
                 {
@@ -78,13 +82,10 @@ namespace Stegano.ViewModel.Aprosh
                     }
                 }
 
-                if (SelectedCodMethod != null)
-                {
-                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
-                }
-
                 if (SelectedCryptMethod != null)
                 {
+                    CryptedText = SearchedText;
+
                     if (string.IsNullOrEmpty(CryptFile))
                     {
                         ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
@@ -100,6 +101,8 @@ namespace Stegano.ViewModel.Aprosh
                     }
                 }
 
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 if (SearchedText.Length > 0)
                 {
@@ -108,8 +111,7 @@ namespace Stegano.ViewModel.Aprosh
                 else
                     ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
 
-                Stopwatch.Stop();
-                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
+                
             }
             catch (Exception e)
             {

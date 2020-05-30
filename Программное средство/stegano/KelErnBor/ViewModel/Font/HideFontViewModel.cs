@@ -57,16 +57,16 @@ namespace Stegano.ViewModel.Font
                 Stopwatch.Start();
                 sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
-
-                HideFontModel codeModel = new HideFontModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
-
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? sourceString : Converter.BinaryToString(sourceString));
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? sourceString : Converter.BinaryToString(sourceString));
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
+
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
+
+                HideFontModel codeModel = new HideFontModel(pathToNewFile);
+                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), CurrentShift, RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, OneFontName, ZeroFontName);
 
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";

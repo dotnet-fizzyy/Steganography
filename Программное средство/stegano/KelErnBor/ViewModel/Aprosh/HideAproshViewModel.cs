@@ -71,26 +71,19 @@ namespace Stegano.ViewModel.Aprosh
                 bool isSuccesful = false;
 
                 Stopwatch.Start();
+                sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
-
-                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
-
-
-                if (SelectedCryptMethod == null && SelectedCodMethod == null)
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? sourceString : Converter.BinaryToString(sourceString));
+                if (!string.IsNullOrWhiteSpace(hash))
                 {
-                    textForHide = Converter.StringToBinary(textForHide);
+                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
+
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
 
                 HideAproshModel codeModel = new HideAproshModel(pathToNewFile);
                 isSuccesful = codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
 
-
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
-                if (!string.IsNullOrWhiteSpace(hash))
-                {
-                    MD5.SaveHash(pathToDirOrigFile, hash); 
-                }
 
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
