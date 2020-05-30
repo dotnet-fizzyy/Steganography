@@ -225,7 +225,14 @@ namespace Stegano.ViewModel.ColorSteg
                 //textForHide = (AdditionalBitsCheckBox.IsChecked)
                 //    ? HideColorModel.AddAdditionalBits(textForHide)
                 //    : textForHide;
+                Stopwatch.Start();
                 textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
+
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? textForHide : Converter.BinaryToString(textForHide));
+                if (!string.IsNullOrWhiteSpace(hash))
+                {
+                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
+                }
 
                 textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
 
@@ -237,11 +244,8 @@ namespace Stegano.ViewModel.ColorSteg
                 HideColorModel codeModel = new HideColorModel(pathToNewFile);
                     isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
 
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? TextForHide : Converter.BinaryToString(TextForHide)) ?? TextForHide;
-                if (!string.IsNullOrWhiteSpace(hash))
-                {
-                    MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
-                }
+                Stopwatch.Stop();
+                TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 if (isSuccesful)
                 {

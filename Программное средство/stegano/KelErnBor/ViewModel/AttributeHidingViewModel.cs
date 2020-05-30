@@ -267,16 +267,16 @@ namespace Stegano.ViewModel
                 Stopwatch.Start();
                 sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
-
-                AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
-                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
-
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null || SelectedCodMethod != null ? sourceString : Converter.BinaryToString(sourceString));
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? sourceString : Converter.BinaryToString(sourceString));
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
+
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
+
+                AttributeHidingModel codeModel = new AttributeHidingModel(pathToNewFile);
+                isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), VisibleColorCheckBox.IsChecked, SelectedCodMethod != null, SelectedCryptMethod != null);
 
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";

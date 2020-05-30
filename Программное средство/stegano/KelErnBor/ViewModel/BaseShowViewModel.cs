@@ -72,6 +72,17 @@ namespace Stegano.ViewModel
             }
         }
 
+        private string encodedText;
+        public string EncodedText
+        {
+            get { return encodedText; }
+            set
+            {
+                encodedText = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private string timeForDerypting;
         public string TimeForDerypting
         {

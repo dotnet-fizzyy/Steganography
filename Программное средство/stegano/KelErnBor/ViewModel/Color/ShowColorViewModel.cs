@@ -157,6 +157,7 @@ namespace Stegano.ViewModel.ColorSteg
                 CryptedText = "";
                 SearchedText = "";
 
+                Stopwatch.Start();
                 ShowColorModel codeModel = new ShowColorModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(SmartHidingCheckBox.IsChecked);
 
@@ -165,6 +166,13 @@ namespace Stegano.ViewModel.ColorSteg
                 //    : foundedBitsInDoc;
 
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;
+
+                if (SelectedCodMethod != null)
+                {
+                    EncodedText = SearchedText;
+
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
 
                 if (SelectedHashMethod != null)
                 {
@@ -183,13 +191,10 @@ namespace Stegano.ViewModel.ColorSteg
                     }
                 }
 
-                if (SelectedCodMethod != null)
-                {
-                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
-                }
-
                 if (SelectedCryptMethod != null)
                 {
+                    CryptedText = SearchedText;
+
                     if (string.IsNullOrEmpty(CryptFile))
                     {
                         ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
@@ -222,7 +227,8 @@ namespace Stegano.ViewModel.ColorSteg
                 //    }
                 //}
 
-
+                Stopwatch.Stop();
+                TimeForDerypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
 
                 if (SearchedText.Length > 0)
                 {

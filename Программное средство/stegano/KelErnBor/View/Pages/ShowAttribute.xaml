@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Stegano.View.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
     <UserControl.DataContext>
         <Binding Path="ShowAttribute" Source="{StaticResource Locator}" />
     </UserControl.DataContext>
@@ -68,6 +68,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Margin="8,10,0,0" FontSize="16" Content="Криптопреобразование: "/>
@@ -82,10 +83,15 @@
                     <Label Grid.Column="0" Grid.Row="3" Margin="8,10,0,0" FontSize="16" Content="Время извлечения: "/>
                     <Label Grid.Column="0" Grid.Row="3" Margin="160,10,0,0" FontSize="16" Content="{Binding TimeForDerypting}" />
 
-                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
+                    <Label Grid.Column="0" Grid.Row="5" Margin="8,5,0,0" FontSize="16" Content="Исходное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="5" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding SearchedText, Mode=OneWay}"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="6" Margin="10,7,10,0" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+                    <Label Grid.Column="0" Grid.Row="6" Margin="8,5,0,0" FontSize="16" Content="Закодированное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="6" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" Text="{Binding EncodedText}" TextWrapping="Wrap"/>
 
+                    <Label Grid.Column="0" Grid.Row="7" Margin="8,5,0,0" FontSize="16" Content="Зашифрованное сообщение: "/>
+                    <TextBox Grid.Column="0" Grid.Row="7" Margin="10,30,10,0" Height="30" FontSize="16" IsReadOnly="True" Text="{Binding CryptedText}" TextWrapping="Wrap"/>
+                    
                     <Button  Grid.Column="0" Grid.Row="4" Margin="8,8,8,0" FontWeight="Normal" Command="{Binding OpenForDecodeRelayCommand}" Content="Выполнить извлечение информации"/>
                 </Grid>
             </Grid>

@@ -236,6 +236,13 @@ namespace Stegano.ViewModel
                 AttributeHiding attributeHiding = new AttributeHiding(PathToDoc);
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
 
+                if (SelectedCodMethod != null)
+                {
+                    EncodedText = SearchedText;
+
+                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
+                }
+
                 if (SelectedHashMethod != null)
                 {
                     if (string.IsNullOrEmpty(HashFile))
@@ -253,13 +260,10 @@ namespace Stegano.ViewModel
                     }
                 }
 
-                if (SelectedCodMethod != null)
-                {
-                    SearchedText = Converter.BinaryToString(SelectedCodMethod.DeCoding(SearchedText));
-                }
-
                 if (SelectedCryptMethod != null)
                 {
+                    CryptedText = SearchedText;
+
                     if (string.IsNullOrEmpty(CryptFile))
                     {
                         ShowMetroMessageBox("Информация", "Нет файла с приватным ключом!");
