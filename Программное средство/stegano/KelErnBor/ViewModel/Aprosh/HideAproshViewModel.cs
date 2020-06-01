@@ -82,7 +82,7 @@ namespace Stegano.ViewModel.Aprosh
                 sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
 
                 HideAproshModel codeModel = new HideAproshModel(pathToNewFile);
-                isSuccesful = codeModel.HideInformation(textForHide.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
+                isSuccesful = codeModel.HideInformation(sourceString.ToCharArray(), VisibleColorCheckBox.IsChecked, RandomCheckBox.IsChecked, ZeroBitSpacing, SoloBitSpacing);
 
 
                 Stopwatch.Stop();

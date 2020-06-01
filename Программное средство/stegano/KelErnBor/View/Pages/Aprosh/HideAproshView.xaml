@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" d:DesignWidth="600" Height="432.825">
+             mc:Ignorable="d" d:DesignWidth="600" Height="500">
     <UserControl.DataContext>
         <Binding Path="Aprosh" Source="{StaticResource Locator}" />
     </UserControl.DataContext>
@@ -39,32 +39,9 @@
 
                 <Label Grid.Column="0" Grid.Row="2" Margin="8,22.2,0,27.6" FontSize="16" Content="{Binding CountLettersForHide, Mode=TwoWay}" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
 
-                <TextBox  Grid.Column="0" Grid.Row="4" Margin="8,0.4,8,53.2" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
+                <TextBox  Grid.Column="0" Grid.Row="4" Margin="8,0.4,8,0" IsEnabled="{Binding IsTextForHideEnabled,Mode=TwoWay}" FontSize="16" 
                         TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 </TextBox>
-
-                <Grid Grid.Column="0" Grid.Row="5" Margin="0,10.4,0,0.2" Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном RSA):"/>
-
-                    <Label   Grid.Column="1" Grid.Row="0"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
-
-
-                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном RSA):"/>
-
-                    <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
-
-
-                </Grid>
-
 
                 <Label Grid.Column="0" Grid.Row="6" Margin="8,9.8,0,0.4" FontSize="15" Content="Криптопреобразование: " Grid.ColumnSpan="2"/>
                 <ComboBox Margin="185,10.2,8,0.2" Grid.Column="0" Grid.Row="6" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>

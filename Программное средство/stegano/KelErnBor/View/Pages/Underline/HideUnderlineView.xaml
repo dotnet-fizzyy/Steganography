@@ -42,28 +42,6 @@
                         TextWrapping="Wrap" TextBlock.BaselineOffset="7" Text="{Binding TextForHide, Mode=TwoWay}"  TextChanged="HidenTextChanged">
                 </TextBox>
 
-                <Grid Grid.Column="0" Grid.Row="5" Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Column="0" Grid.Row="0" Margin="8,0,0,0" FontSize="16" Content="Статус публичного ключа (при включенном RSA):"/>
-
-                    <Label   Grid.Column="1" Grid.Row="0"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
-
-
-                    <Label Grid.Column="0" Grid.Row="1" Margin="8,0,0,0" FontSize="16" Content="Статус приватного ключа (при включенном RSA):"/>
-
-                    <Label  Grid.Column="1" Grid.Row="1"  FontSize="15" Content="{Binding KeyStatus}" Foreground="{Binding KeyStatusColor,Mode=TwoWay}"/>
-
-
-                </Grid>
-
                 <Label Grid.Column="0" Grid.Row="6" Margin="8,10,0,0" FontSize="15" Content="Криптопреобразование: "/>
                 <ComboBox Margin="185,10,8,0" Grid.Column="0" Grid.Row="6" Name="CryptMethods" ItemsSource="{Binding CryptMethods}" SelectedItem="{Binding SelectedCryptMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
 
