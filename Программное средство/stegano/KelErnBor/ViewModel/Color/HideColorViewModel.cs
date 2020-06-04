@@ -225,7 +225,7 @@ namespace Stegano.ViewModel.ColorSteg
                 //textForHide = (AdditionalBitsCheckBox.IsChecked)
                 //    ? HideColorModel.AddAdditionalBits(textForHide)
                 //    : textForHide;
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
 
                 var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? textForHide : Converter.BinaryToString(textForHide));

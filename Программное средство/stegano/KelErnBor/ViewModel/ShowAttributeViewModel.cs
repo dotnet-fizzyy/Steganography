@@ -232,7 +232,7 @@ namespace Stegano.ViewModel
                 CryptedText = "";
                 SearchedText = "";
 
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 AttributeHiding attributeHiding = new AttributeHiding(PathToDoc);
                 SearchedText = attributeHiding.GetHiddenInfoInAttribute();
 

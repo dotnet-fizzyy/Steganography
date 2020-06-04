@@ -157,7 +157,7 @@ namespace Stegano.ViewModel.ColorSteg
                 CryptedText = "";
                 SearchedText = "";
 
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 ShowColorModel codeModel = new ShowColorModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(SmartHidingCheckBox.IsChecked);
 

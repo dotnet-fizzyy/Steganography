@@ -41,7 +41,7 @@ namespace Stegano.ViewModel.Font
                 SearchedText = string.Empty;
                 TimeForDerypting = string.Empty;
 
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 ShowFontModel codeModel = new ShowFontModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(OneFontName, ZeroFontName);
 

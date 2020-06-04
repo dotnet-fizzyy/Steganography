@@ -53,7 +53,7 @@ namespace Stegano.ViewModel.Aprosh
                 SearchedText = string.Empty;
                 TimeForDerypting = string.Empty;
 
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 ShowAproshModel codeModel = new ShowAproshModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation(ZeroBitSpacing, SoloBitSpacing);
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;

@@ -51,7 +51,7 @@ namespace Stegano.ViewModel.Underline
                 SearchedText = string.Empty;
                 TimeForDerypting = string.Empty;
 
-                Stopwatch.Start();
+                Stopwatch.Restart();
                 ShowUnderlineModel codeModel = new ShowUnderlineModel(PathToDoc);
                 string foundedBitsInDoc = await codeModel.FindInformation();
                 SearchedText = SelectedCodMethod == null ? SearchedText = Converter.BinaryToString(foundedBitsInDoc) : foundedBitsInDoc;

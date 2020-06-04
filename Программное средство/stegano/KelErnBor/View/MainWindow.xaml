@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
 
         <Button Click="Close" Grid.Row="0">
-            Перейти к извдечению информации 
+            Перейти к извлечению информации 
         </Button>
         <mui:ModernTab Grid.Row="1" Layout="Tab" SelectedSource="View/Pages/ColorSteg/HideColorView.xaml" Margin="10,30,10,10">
             <mui:ModernTab.Links>
