@@ -11,6 +11,7 @@ using Stegano.Interfaces;
 using Stegano.Algorithm.Aditional_Coding;
 using Stegano.Model.Font;
 using Stegano.Model.Underline;
+using System.Linq;
 
 namespace Stegano.ViewModel.Underline
 {
@@ -103,10 +104,10 @@ namespace Stegano.ViewModel.Underline
 
                 if (SearchedText.Length > 0)
                 {
-                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + openFileDialog.SafeFileName + " прошло успешно.");
+                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc.Split('\\').LastOrDefault() + " прошло успешно.");
                 }
                 else
-                    ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
+                    ShowMetroMessageBox("Информация", "Файл " + PathToDoc.Split('\\').LastOrDefault() + " не содержит скрытой информации.");
 
 
             }

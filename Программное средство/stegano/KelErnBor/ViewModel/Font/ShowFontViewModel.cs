@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Stegano.Algorithm;
 using Stegano.Model.Font;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Stegano.ViewModel.Font
 {
@@ -94,10 +95,10 @@ namespace Stegano.ViewModel.Font
                 
                 if (SearchedText.Length > 0)
                 {
-                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + openFileDialog.SafeFileName + " прошло успешно.");
+                    ShowMetroMessageBox("Информация", "Извлечение информации из файла " + PathToDoc.Split('\\').LastOrDefault() + " прошло успешно.");
                 }
                 else
-                    ShowMetroMessageBox("Информация", "Файл " + openFileDialog.SafeFileName + " не содержит скрытой информации.");
+                    ShowMetroMessageBox("Информация", "Файл " + PathToDoc.Split('\\').LastOrDefault() + " не содержит скрытой информации.");
 
             }
             catch (Exception e)

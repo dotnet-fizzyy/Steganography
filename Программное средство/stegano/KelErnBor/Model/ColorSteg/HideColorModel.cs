@@ -55,9 +55,17 @@ namespace Stegano.Model.ColorSteg
             if (isRandom)
             {
                 int part = wordDoc.GetChildNodes(NodeType.Run, true).Count / messageInBits.Length;
+                List<int> repeatedNodes = new List<int>();
+
                 for (int i = 0; i < messageInBits.Length; i++)
                 {
-                    var randomPosition = rand.Next(part * i + 1, part * (i + 1));
+                    int randomPosition;
+                    do
+                    {
+                       randomPosition = rand.Next(part * i + 1, part * (i + 1));
+                    }
+                    while (repeatedNodes.Contains(randomPosition));
+                    repeatedNodes.Add(randomPosition);
                     
                     documentBuilder.MoveTo(wordDoc.GetChildNodes(NodeType.Run, true)[randomPosition]);
                   

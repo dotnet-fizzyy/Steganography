@@ -226,23 +226,23 @@ namespace Stegano.ViewModel.ColorSteg
                 //    ? HideColorModel.AddAdditionalBits(textForHide)
                 //    : textForHide;
                 Stopwatch.Restart();
-                textForHide = SelectedCryptMethod?.Encrypt(textForHide, pathToDirOrigFile) ?? textForHide;
+                sourceString = SelectedCryptMethod?.Encrypt(sourceString, pathToDirOrigFile) ?? sourceString;
 
-                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? textForHide : Converter.BinaryToString(textForHide));
+                var hash = SelectedHashMethod?.GetHash(SelectedCryptMethod == null ? sourceString : Converter.BinaryToString(sourceString));
                 if (!string.IsNullOrWhiteSpace(hash))
                 {
                     MD5.SaveHash(pathToDirOrigFile, hash); //Mocked until base class will not be implemented
                 }
 
-                textForHide = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? textForHide : Converter.StringToBinary(TextForHide)) ?? TextForHide;
+                sourceString = SelectedCodMethod?.Coding(SelectedCryptMethod != null ? sourceString : Converter.StringToBinary(sourceString)) ?? sourceString;
 
                 if (SelectedCryptMethod == null && SelectedCodMethod == null)
                 {
-                    textForHide = Converter.StringToBinary(textForHide);
+                    sourceString = Converter.StringToBinary(sourceString);
                 }
 
                 HideColorModel codeModel = new HideColorModel(pathToNewFile);
-                    isSuccesful = await codeModel.HideInformation(textForHide.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
+                    isSuccesful = await codeModel.HideInformation(sourceString.ToCharArray(), RandomCheckBox.IsChecked, VisibleColorCheckBox.IsChecked, SmartHidingCheckBox.IsChecked);
 
                 Stopwatch.Stop();
                 TimeForCrypting = Math.Round(Stopwatch.Elapsed.TotalSeconds, 2).ToString() + " сек.";
